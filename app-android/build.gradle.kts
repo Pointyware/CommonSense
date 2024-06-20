@@ -1,6 +1,8 @@
 plugins {
-    alias(libs.plugins.androidApplication)
     alias(libs.plugins.kotlinAndroid)
+    alias(libs.plugins.androidApplication)
+    alias(libs.plugins.composeMultiplatform)
+    alias(libs.plugins.compose.compiler)
 }
 
 android {
@@ -12,12 +14,6 @@ android {
         targetSdk = 34
         versionCode = 1
         versionName = "1.0"
-    }
-    buildFeatures {
-        compose = true
-    }
-    composeOptions {
-        kotlinCompilerExtensionVersion = libs.versions.compose.compiler.get()
     }
     packaging {
         resources {
@@ -39,10 +35,19 @@ android {
 }
 
 dependencies {
+    implementation(project(":core:entities"))
+    implementation(project(":core:ui"))
+
     implementation(projects.appShared)
-    implementation(libs.compose.ui)
-    implementation(libs.compose.ui.tooling.preview)
-    implementation(libs.compose.material3)
-    implementation(libs.androidx.activity.compose)
-    debugImplementation(libs.compose.ui.tooling)
+    implementation(project(":app-shared"))
+
+    implementation(libs.androidx.activityCompose)
+    implementation(libs.androidx.composeMaterial3)
+    debugImplementation(libs.androidx.composeTooling)
+    implementation(libs.androidx.composePreview)
+
+    androidTestDebugImplementation(libs.androidx.composeManifest)
+    implementation(libs.kotlinx.coroutinesAndroid)
+    implementation(libs.koin.core)
+    implementation(libs.koin.android)
 }

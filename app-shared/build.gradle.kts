@@ -1,46 +1,91 @@
+import org.jetbrains.kotlin.gradle.ExperimentalKotlinGradlePluginApi
+import org.jetbrains.kotlin.gradle.dsl.KotlinVersion
+import org.jetbrains.kotlin.gradle.plugin.mpp.apple.XCFramework
+
 plugins {
     alias(libs.plugins.kotlinMultiplatform)
     alias(libs.plugins.androidLibrary)
+    alias(libs.plugins.composeMultiplatform)
+    alias(libs.plugins.compose.compiler)
+    alias(libs.plugins.commonsense.koin)
+    alias(libs.plugins.commonsense.kmp)
 }
 
 kotlin {
-    androidTarget {
-        compilations.all {
-            kotlinOptions {
-                jvmTarget = "1.8"
-            }
-        }
+    @OptIn(ExperimentalKotlinGradlePluginApi::class)
+    compilerOptions {
+        apiVersion = KotlinVersion.KOTLIN_2_0
     }
-    
+    jvm {
+
+    }
+    androidTarget {
+
+    }
+    val framework = XCFramework()
     listOf(
         iosX64(),
         iosArm64(),
-        iosSimulatorArm64()
+        iosSimulatorArm64(),
     ).forEach {
         it.binaries.framework {
-            baseName = "app-shared"
+            baseName = "app_shared"
             isStatic = true
+            framework.add(this)
         }
     }
 
+    applyDefaultHierarchyTemplate()
     sourceSets {
-        commonMain.dependencies {
-            //put your multiplatform dependencies here
+        val commonMain by getting {
+            dependencies {
+                implementation(project(":core:common"))
+                implementation(project(":core:data"))
+                implementation(project(":core:entities"))
+                implementation(project(":core:interactors"))
+                implementation(project(":core:local"))
+                implementation(project(":core:navigation"))
+                implementation(project(":core:remote"))
+                implementation(project(":core:ui"))
+                implementation(project(":core:view-models"))
+
+                implementation(project(":feature:foo"))
+                implementation(project(":feature:bar"))
+
+                implementation(compose.ui)
+                implementation(compose.material3)
+                implementation(compose.components.resources)
+                implementation(compose.components.uiToolingPreview) // fleet support
+
+                implementation(libs.kotlinx.dateTime)
+                implementation(libs.kotlinx.coroutines)
+                implementation(libs.koin.core)
+            }
         }
-        commonTest.dependencies {
-            implementation(libs.kotlin.test)
+        val commonTest by getting {
+            dependencies {
+                implementation(libs.kotlin.test)
+            }
+        }
+
+        val jvmMain by getting {
+            dependencies {
+                implementation(compose.desktop.common)
+                implementation(libs.kotlinx.coroutinesSwing)
+            }
         }
     }
 }
+compose.resources {
+    publicResClass = true
+    packageOfResClass = "org.pointyware.commonsense.shared"
+    generateResClass = always
+}
 
 android {
-    namespace = "org.pointyware.commonsense"
+    namespace = "org.pointyware.commonsense.shared"
     compileSdk = 34
     defaultConfig {
-        minSdk = 24
-    }
-    compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_1_8
-        targetCompatibility = JavaVersion.VERSION_1_8
+        minSdk = 21
     }
 }
