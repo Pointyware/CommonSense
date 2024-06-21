@@ -36,7 +36,7 @@ kotlin {
         iosSimulatorArm64(),
     ).forEach {
         it.binaries.framework {
-            baseName = "feature_rides"
+            baseName = "feature_epistemology"
             isStatic = true
             framework.add(this)
         }
@@ -137,7 +137,7 @@ dependencies {
 }
 
 android {
-    namespace = "org.pointyware.commonsense.feature.rides"
+    namespace = "org.pointyware.commonsense.feature.epistemology"
     compileSdk = 34
     defaultConfig {
         minSdk = 21

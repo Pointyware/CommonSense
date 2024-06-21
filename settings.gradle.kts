@@ -28,8 +28,8 @@ include(":core:remote")
 include(":core:ui")
 include(":core:view-models")
 
-include(":feature:foo")
-include(":feature:bar")
+include(":feature:ontology")
+include(":feature:epistemology")
 
 include(":api")
 include(":app-shared")

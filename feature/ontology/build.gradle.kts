@@ -36,7 +36,7 @@ kotlin {
         iosSimulatorArm64(),
     ).forEach {
         it.binaries.framework {
-            baseName = "feature_funds"
+            baseName = "feature_ontology"
             isStatic = true
             framework.add(this)
         }
@@ -137,7 +137,7 @@ dependencies {
 }
 
 android {
-    namespace = "org.pointyware.commonsense.feature.foo"
+    namespace = "org.pointyware.commonsense.feature.ontology"
     compileSdk = 34
     defaultConfig {
         minSdk = 21
