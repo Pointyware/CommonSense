@@ -4,8 +4,8 @@ import io.ktor.server.engine.embeddedServer
 import io.ktor.server.netty.Netty
 import io.ktor.server.routing.routing
 import org.pointyware.commonsense.api.routes.auth
-import org.pointyware.commonsense.api.routes.bar
-import org.pointyware.commonsense.api.routes.foo
+import org.pointyware.commonsense.api.routes.ontology
+import org.pointyware.commonsense.api.routes.epistemology
 
 fun main() {
     val port = System.getenv("PORT")?.toInt() ?: 8080
@@ -13,8 +13,8 @@ fun main() {
         routing {
             auth()
 
-            foo()
-            bar()
+            epistemology()
+            ontology()
 
 //            ads()
 //            analytics()

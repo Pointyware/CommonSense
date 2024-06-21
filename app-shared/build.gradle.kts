@@ -49,8 +49,8 @@ kotlin {
                 implementation(project(":core:ui"))
                 implementation(project(":core:view-models"))
 
-                implementation(project(":feature:foo"))
-                implementation(project(":feature:bar"))
+                implementation(project(":feature:epistemology"))
+                implementation(project(":feature:ontology"))
 
                 implementation(compose.ui)
                 implementation(compose.material3)
