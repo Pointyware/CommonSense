@@ -15,6 +15,7 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
 import org.pointyware.commonsense.core.navigation.LocationRoot
 import org.pointyware.commonsense.core.ui.design.CommonSenseTheme
+import org.pointyware.commonsense.ontology.navigation.ontologyRouting
 import org.pointyware.commonsense.shared.di.AppDependencies
 import org.pointyware.commonsense.shared.home.homeRouting
 
@@ -69,14 +70,10 @@ fun CommonSenseApp(
                 modifier = Modifier.padding(paddingValues),
             ) {
                 homeRouting()
-                
+
+                ontologyRouting()
                 // Add more routing here
             }
         }
     }
-}
-
-fun logout() {
-    println("Logging out")
-    println("Logged out")
 }
