@@ -4,6 +4,8 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import org.pointyware.commonsense.core.viewmodels.ViewModel
+import org.pointyware.commonsense.ontology.data.ArrangementController
+import org.pointyware.commonsense.ontology.interactors.AddNewNodeUseCase
 import org.pointyware.commonsense.ontology.interactors.LoadConceptSpaceUseCase
 
 /**
@@ -11,6 +13,8 @@ import org.pointyware.commonsense.ontology.interactors.LoadConceptSpaceUseCase
  */
 class ConceptSpaceViewModel(
     private val loadConceptSpaceUseCase: LoadConceptSpaceUseCase,
+    private val addNewNodeUseCase: AddNewNodeUseCase,
+    private val arrangementController: ArrangementController
 ): ViewModel() {
 
     private val mutableState = MutableStateFlow<ConceptSpaceUiState>(ConceptSpaceUiState.Empty)
@@ -25,9 +29,12 @@ class ConceptSpaceViewModel(
                             OntologyUiState(
                                 id = conceptSpace.id,
                                 nodes = conceptSpace.focus.concepts.map { concept ->
+                                    val position = arrangementController.getConceptPositionOrPut(concept, 0f, 0f)
                                     InfoNodeUiState(
                                         concept.id,
-                                        concept.name
+                                        concept.name,
+                                        position.x,
+                                        position.y
                                     )
                                 },
                                 edges = conceptSpace.focus.relations.map { relation ->
@@ -54,6 +61,12 @@ class ConceptSpaceViewModel(
     fun onModifyNode(id: String) {
 
     }
+
+    fun onCreateNode(x: Float, y: Float) {
+        viewModelScope.launch {
+            addNewNodeUseCase(x, y)
+        }
+    }
 }
 
 sealed class ConceptSpaceUiState(
@@ -73,7 +86,9 @@ sealed class ConceptSpaceUiState(
 
 data class InfoNodeUiState(
     val conceptId: String,
-    val title: String
+    val title: String,
+    val x: Float,
+    val y: Float
 )
 
 data class InfoEdgeUiState(
