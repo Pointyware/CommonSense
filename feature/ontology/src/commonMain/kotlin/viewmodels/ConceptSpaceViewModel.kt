@@ -33,7 +33,9 @@ class ConceptSpaceViewModel(
                                 edges = conceptSpace.focus.relations.map { relation ->
                                     InfoEdgeUiState(
                                         relation.id,
-                                        relation.type
+                                        relation.type,
+                                        relation.source.id,
+                                        relation.target.id
                                     )
                                 }
                             )
@@ -76,7 +78,9 @@ data class InfoNodeUiState(
 
 data class InfoEdgeUiState(
     val relationId: String,
-    val label: String
+    val label: String,
+    val sourceId: String,
+    val targetId: String,
 )
 
 class OntologyUiState(
