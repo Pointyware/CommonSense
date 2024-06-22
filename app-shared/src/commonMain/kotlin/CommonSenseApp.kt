@@ -69,7 +69,7 @@ fun CommonSenseApp(
                 navController = navController,
                 modifier = Modifier.padding(paddingValues),
             ) {
-                homeRouting()
+//                homeRouting()
 
                 ontologyRouting()
                 // Add more routing here
