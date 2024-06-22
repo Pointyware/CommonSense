@@ -10,6 +10,7 @@ import org.pointyware.commonsense.core.navigation.di.coreNavigationModule
 import org.pointyware.commonsense.core.remote.di.coreRemoteModule
 import org.pointyware.commonsense.core.ui.di.coreUiModule
 import org.pointyware.commonsense.core.viewmodels.di.coreViewModelsModule
+import org.pointyware.commonsense.ontology.di.ontologyModule
 
 
 fun appModule(): Module = module {
@@ -35,6 +36,6 @@ fun coreModule() = module {
 
 fun featureModule() = module {
     includes(
-        
+        ontologyModule()
     )
 }
