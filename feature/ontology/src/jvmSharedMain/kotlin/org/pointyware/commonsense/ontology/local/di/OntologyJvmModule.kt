@@ -12,7 +12,7 @@ import java.io.File
 fun ontologyJvmModule() = module {
     single<Json> { Json.Default }
     single<ConceptSpaceDataSource> {
-        val currentDirectory = File("").parentFile
+        val currentDirectory = File("spaces")
         ConceptSpaceJsonDataSource(currentDirectory, get())
     }
 }
