@@ -20,6 +20,7 @@ fun ConceptSpaceScreen(
         state = ConceptSpaceUiStateMapper.map(state.value),
         modifier = modifier,
         onDeleteNode = viewModel::onDeleteNode,
-        onModifyNode = viewModel::onModifyNode
+        onModifyNode = viewModel::onModifyNode,
+        onCreateNode = viewModel::onCreateNode,
     )
 }

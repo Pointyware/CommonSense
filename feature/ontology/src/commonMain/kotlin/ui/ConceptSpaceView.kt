@@ -1,8 +1,10 @@
 package org.pointyware.commonsense.ontology.ui
 
+import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.Box
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.input.pointer.pointerInput
 import org.pointyware.commonsense.core.common.Mapper
 import org.pointyware.commonsense.core.ui.components.InfoNode
 import org.pointyware.commonsense.core.ui.components.InfoNodeState
@@ -31,10 +33,16 @@ fun ConceptSpaceView(
     state: ConceptSpaceViewState,
     modifier: Modifier = Modifier,
     onDeleteNode: (String) -> Unit,
-    onModifyNode: (String) -> Unit
+    onModifyNode: (String) -> Unit,
+    onCreateNode: (Float,Float) -> Unit,
 ) {
     Box(
         modifier = modifier
+            .pointerInput(Unit) {
+                detectTapGestures { offset ->
+                    onCreateNode(offset.x, offset.y)
+                }
+            }
     ) {
         state.infoNodes.forEach {
             InfoNode(
