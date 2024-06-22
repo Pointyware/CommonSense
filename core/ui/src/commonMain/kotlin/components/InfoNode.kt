@@ -12,7 +12,7 @@ import androidx.compose.ui.unit.dp
 /**
  *
  */
-data class InfoNodeState(
+data class InfoNodeState( // TODO: add modification state
     val id: String,
     val title: String,
 )
@@ -24,7 +24,9 @@ data class InfoNodeState(
 fun InfoNode(
     state: InfoNodeState,
     modifier: Modifier = Modifier,
-) {
+    onModify: (String) -> Unit,
+    onDelete: (String) -> Unit,
+) { // TODO: add modification/deletion buttons and reflect modification state with TextInput
     Box(
         modifier = modifier
             .border(
