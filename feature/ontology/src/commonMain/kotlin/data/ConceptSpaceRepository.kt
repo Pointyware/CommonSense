@@ -1,5 +1,6 @@
 package org.pointyware.commonsense.ontology.data
 
+import org.pointyware.commonsense.ontology.Concept
 import org.pointyware.commonsense.ontology.ConceptSpace
 import org.pointyware.commonsense.ontology.local.ConceptSpaceDataSource
 
@@ -9,6 +10,7 @@ import org.pointyware.commonsense.ontology.local.ConceptSpaceDataSource
 interface ConceptSpaceRepository {
     suspend fun loadConceptSpace(id: String): Result<ConceptSpace>
     suspend fun saveConceptSpace(space: ConceptSpace): Result<Unit>
+    suspend fun createNode(name: String): Result<Concept>
 }
 
 /**
@@ -24,5 +26,9 @@ class ConceptSpaceRepositoryImpl(
 
     override suspend fun saveConceptSpace(space: ConceptSpace): Result<Unit> {
         return dataSource.saveConceptSpace(space)
+    }
+
+    override suspend fun createNode(name: String): Result<Concept> {
+        return dataSource.createNode(name)
     }
 }
