@@ -4,11 +4,9 @@ import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 import org.pointyware.commonsense.ontology.Concept
 import org.pointyware.commonsense.ontology.ConceptSpace
+import org.pointyware.commonsense.ontology.IndependentConcept
+import org.pointyware.commonsense.ontology.mutableOntology
 import java.io.File
-
-private fun generateRandomId(): String {
-    return (0..5).map { ('a'..'z').random() }.joinToString("") // TODO: replace with UUIDs?
-}
 
 class ConceptSpaceJsonDataSource(
     private val spaceDirectory: File,
@@ -20,15 +18,61 @@ class ConceptSpaceJsonDataSource(
 
         val spaceJson = json.decodeFromString<ConceptSpaceJson>(spaceFile.readText())
 
-        val space = TODO("map ConceptSpaceJson to ConceptSpace")
+        val ontology = mutableOntology(spaceJson.focus.id) {
 
-        return space
+        }
+//        val decodedConcepts = spaceJson.focus.concepts.map { conceptJson ->
+//            Concept(
+//                id = conceptJson.id,
+//                name = conceptJson.name,
+//                description = conceptJson.description,
+//                relations = conceptJson.relations
+//            )
+//        }.toSet()
+//        val decodedRelations = spaceJson.focus.relations.map { relationJson ->
+//            Relation(
+//                id = relationJson.id,
+//                name = relationJson.name,
+//                description = relationJson.description,
+//                source = relationJson.source,
+//                target = relationJson.target
+//            )
+//        }.toSet()
+
+        val space = ConceptSpace(
+            id = spaceJson.id,
+            focus = ontology,
+        )
+
+        return Result.success(space)
     }
 
     override suspend fun saveConceptSpace(space: ConceptSpace): Result<Unit> {
         val spaceFile = File(spaceDirectory, "${space.id}.json")
 
-        val spaceJson = TODO("map ConceptSpace to ConceptSpaceJson")
+        val spaceJson = ConceptSpaceJson(
+            id = space.id,
+            focus = OntologyJson(
+                id = space.focus.id,
+                concepts = space.focus.concepts.map { concept ->
+                    ConceptJson(
+                        id = concept.id,
+                        name = concept.name,
+                        description = concept.description,
+                        relations = concept.relations.map { relation -> relation.id }.toSet()
+                    )
+                }.toSet(),
+                relations = space.focus.relations.map { relation ->
+                    RelationJson(
+                        id = relation.id,
+                        name = relation.type,
+                        source = relation.source.id,
+                        target = relation.target.id,
+                        weight = relation.weight
+                    )
+                }.toSet()
+            )
+        )
 
         spaceFile.writeText(json.encodeToString<ConceptSpaceJson>(spaceJson))
 
@@ -37,7 +81,7 @@ class ConceptSpaceJsonDataSource(
 
     override suspend fun createNode(name: String): Result<Concept> {
         val id = generateRandomId()
-        val newNode = Concept(id, name, description = null, relations = emptySet())
+        val newNode = IndependentConcept(id, name, description = null, relations = emptySet())
         return Result.success(newNode)
     }
 }
