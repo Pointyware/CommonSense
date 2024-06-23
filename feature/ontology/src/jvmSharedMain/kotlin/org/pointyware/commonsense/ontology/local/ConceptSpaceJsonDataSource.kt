@@ -11,8 +11,8 @@ private fun generateRandomId(): String {
 }
 
 class ConceptSpaceJsonDataSource(
-    val spaceDirectory: File,
-    val json: Json
+    private val spaceDirectory: File,
+    private val json: Json
 ): ConceptSpaceDataSource {
 
     override suspend fun loadConceptSpace(id: String): Result<ConceptSpace> {
@@ -35,7 +35,7 @@ class ConceptSpaceJsonDataSource(
         return Result.success(Unit)
     }
 
-    override fun createNode(name: String): Result<Concept> {
+    override suspend fun createNode(name: String): Result<Concept> {
         val id = generateRandomId()
         val newNode = Concept(id, name, description = null, relations = emptySet())
         return Result.success(newNode)
