@@ -52,6 +52,7 @@ fun ConceptSpaceView(
             )
         }
         state.infoEdges.forEach {
+            // TODO: draw each edge
 
         }
     }
