@@ -7,6 +7,7 @@ import org.pointyware.commonsense.core.viewmodels.ViewModel
 import org.pointyware.commonsense.ontology.data.ArrangementController
 import org.pointyware.commonsense.ontology.interactors.AddNewNodeUseCase
 import org.pointyware.commonsense.ontology.interactors.LoadConceptSpaceUseCase
+import org.pointyware.commonsense.ontology.interactors.RemoveNodeUseCase
 
 /**
  *
@@ -14,6 +15,7 @@ import org.pointyware.commonsense.ontology.interactors.LoadConceptSpaceUseCase
 class ConceptSpaceViewModel(
     private val loadConceptSpaceUseCase: LoadConceptSpaceUseCase,
     private val addNewNodeUseCase: AddNewNodeUseCase,
+    private val removeNodeUseCase: RemoveNodeUseCase,
     private val arrangementController: ArrangementController
 ): ViewModel() {
 
@@ -55,11 +57,16 @@ class ConceptSpaceViewModel(
     }
 
     fun onDeleteNode(id: String) {
-
+        viewModelScope.launch {
+            removeNodeUseCase(id)
+        }
     }
 
     fun onModifyNode(id: String) {
-
+        viewModelScope.launch {
+            // TODO: update state of ui to reflect modification
+            arrangementController.freeze(id)
+        }
     }
 
     fun onCreateNode(x: Float, y: Float) {
