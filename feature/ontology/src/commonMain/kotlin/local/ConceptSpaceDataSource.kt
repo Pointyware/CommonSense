@@ -13,3 +13,7 @@ interface ConceptSpaceDataSource {
 }
 
 class ConceptSpaceNotFoundException(id: String) : Exception("Concept space with id $id not found")
+
+fun generateRandomId(): String {
+    return (0..5).map { ('a'..'z').random() }.joinToString("") // TODO: replace with UUIDs?
+}
