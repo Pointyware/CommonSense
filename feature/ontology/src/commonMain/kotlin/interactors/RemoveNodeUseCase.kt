@@ -10,7 +10,7 @@ class RemoveNodeUseCase(
     private val conceptSpaceRepository: ConceptSpaceRepository,
     private val arrangementController: ArrangementController
 ) {
-    suspend fun invoke(id: String): Result<Unit> {
+    suspend operator fun invoke(id: String): Result<Unit> {
         return conceptSpaceRepository.removeNode(id).onSuccess {
             arrangementController.removeNode(id)
         }
