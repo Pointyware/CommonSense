@@ -11,6 +11,7 @@ interface ConceptSpaceRepository {
     suspend fun loadConceptSpace(id: String): Result<ConceptSpace>
     suspend fun saveConceptSpace(space: ConceptSpace): Result<Unit>
     suspend fun createNode(name: String): Result<Concept>
+    suspend fun removeNode(id: String): Result<Unit>
 }
 
 /**
@@ -20,8 +21,13 @@ class ConceptSpaceRepositoryImpl(
     private val dataSource: ConceptSpaceDataSource
 ): ConceptSpaceRepository {
 
+    private var activeSpace: ConceptSpace? = null
+
     override suspend fun loadConceptSpace(id: String): Result<ConceptSpace> {
-        return dataSource.loadConceptSpace(id)
+        activeSpace = null
+        return dataSource.loadConceptSpace(id).onSuccess {
+            activeSpace = it
+        }
     }
 
     override suspend fun saveConceptSpace(space: ConceptSpace): Result<Unit> {
@@ -30,5 +36,8 @@ class ConceptSpaceRepositoryImpl(
 
     override suspend fun createNode(name: String): Result<Concept> {
         return dataSource.createNode(name)
+    }
+    override suspend fun removeNode(id: String): Result<Unit> {
+        return Result.failure(NotImplementedError("Not yet implemented"))
     }
 }
