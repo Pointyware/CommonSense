@@ -1,11 +1,15 @@
 package org.pointyware.commonsense.ontology.viewmodels
 
-import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.mapLatest
+import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import org.pointyware.commonsense.core.viewmodels.ViewModel
 import org.pointyware.commonsense.ontology.data.ArrangementController
 import org.pointyware.commonsense.ontology.interactors.AddNewNodeUseCase
+import org.pointyware.commonsense.ontology.interactors.GetActiveConceptSpaceUseCase
 import org.pointyware.commonsense.ontology.interactors.LoadConceptSpaceUseCase
 import org.pointyware.commonsense.ontology.interactors.RemoveNodeUseCase
 
@@ -13,47 +17,57 @@ import org.pointyware.commonsense.ontology.interactors.RemoveNodeUseCase
  *
  */
 class ConceptSpaceViewModel(
+    private val getActiveConceptSpaceUseCase: GetActiveConceptSpaceUseCase,
     private val loadConceptSpaceUseCase: LoadConceptSpaceUseCase,
     private val addNewNodeUseCase: AddNewNodeUseCase,
     private val removeNodeUseCase: RemoveNodeUseCase,
     private val arrangementController: ArrangementController
 ): ViewModel() {
 
-    private val mutableState = MutableStateFlow<ConceptSpaceUiState>(ConceptSpaceUiState.Empty)
-    val state: StateFlow<ConceptSpaceUiState> get() = mutableState
+    @OptIn(ExperimentalCoroutinesApi::class)
+    val state: StateFlow<ConceptSpaceUiState> get() = getActiveConceptSpaceUseCase().mapLatest { conceptSpace ->
+        ConceptSpaceUiState(
+            OntologyUiState(
+                id = conceptSpace.id,
+                nodes = conceptSpace.focus.concepts.map { concept ->
+                    val position = arrangementController.getConceptPositionOrPut(concept, 0f, 0f)
+                    InfoNodeUiState(
+                        concept.id,
+                        concept.name,
+                        position.x,
+                        position.y
+                    )
+                },
+                edges = conceptSpace.focus.relations.map { relation ->
+                    InfoEdgeUiState(
+                        relation.id,
+                        relation.type,
+                        relation.source.id,
+                        relation.target.id
+                    )
+                }
+            )
+        )
+    }.stateIn(
+        scope = viewModelScope,
+        started = SharingStarted.WhileSubscribed(),
+        initialValue = emptySpace()
+    )
 
     fun onLoadConceptSpace(id: String) {
         viewModelScope.launch {
             loadConceptSpaceUseCase(id)
                 .onSuccess { conceptSpace ->
-                    mutableState.value =
-                        ConceptSpaceUiState.Loaded(
-                            OntologyUiState(
-                                id = conceptSpace.id,
-                                nodes = conceptSpace.focus.concepts.map { concept ->
-                                    val position = arrangementController.getConceptPositionOrPut(concept, 0f, 0f)
-                                    InfoNodeUiState(
-                                        concept.id,
-                                        concept.name,
-                                        position.x,
-                                        position.y
-                                    )
-                                },
-                                edges = conceptSpace.focus.relations.map { relation ->
-                                    InfoEdgeUiState(
-                                        relation.id,
-                                        relation.type,
-                                        relation.source.id,
-                                        relation.target.id
-                                    )
-                                }
-                            )
-                        )
+                    println("Loaded concept space: $conceptSpace")
                 }
                 .onFailure { error ->
-                    mutableState.value = ConceptSpaceUiState.Error(error)
+                    println("Failed to load concept space: $error")
                 }
         }
+    }
+
+    fun onSaveConceptSpace() {
+
     }
 
     fun onDeleteNode(id: String) {

@@ -1,19 +1,10 @@
 package org.pointyware.commonsense.ontology.viewmodels
 
-sealed class ConceptSpaceUiState(
-    val ontology: OntologyUiState?,
-    val error: Throwable? = null
-) {
-    data object Empty : ConceptSpaceUiState(null)
+class ConceptSpaceUiState(
+    val ontology: OntologyUiState?
+)
 
-    class Loaded(
-        ontology: OntologyUiState,
-    ): ConceptSpaceUiState(ontology)
-
-    class Error(
-        error: Throwable
-    ): ConceptSpaceUiState(null, error)
-}
+fun emptySpace() = ConceptSpaceUiState(null)
 
 data class InfoNodeUiState(
     val conceptId: String,
