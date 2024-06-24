@@ -3,7 +3,9 @@ package org.pointyware.commonsense.ontology
 import kotlinx.serialization.Serializable
 
 /**
- *
+ * A relation between two concepts in an ontology. A relation is an edge in the ontology graph.
+ * `Relation => Edge<ConceptInfo, ConceptInfo, RelationInfo>`
+ * `RelationInfo => <Id, Type, Weight>`
  */
 interface Relation {
     val id: String

@@ -3,7 +3,10 @@ package org.pointyware.commonsense.ontology
 import org.pointyware.commonsense.ontology.local.generateRandomId
 
 /**
- * A collection of concepts and their relations, which usually form a hierarchy of concepts.
+ * A collection of concepts and their relations, which usually form a rough hierarchy of concepts,
+ * but more generally a graph of concepts.
+ *
+ * `Ontology => Graph<ConceptInfo, RelationInfo>`
  */
 interface Ontology {
     val id: String
@@ -13,6 +16,7 @@ interface Ontology {
 
 interface MutableOntology: Ontology {
     fun addConcept(concept: Concept)
+    fun removeConcept(id: String)
     fun addRelation(conceptSource: String, conceptTarget: String)
 }
 
@@ -31,6 +35,12 @@ internal class SimpleMutableOntology(
             throw IllegalArgumentException("Concept ${tenant.id} already exists in Ontology $id")
         } ?: run {
             conceptMap[concept.id] = concept
+        }
+    }
+
+    override fun removeConcept(id: String) {
+        conceptMap.remove(id)?.let {
+            relationMap.remove(it.id)
         }
     }
 
