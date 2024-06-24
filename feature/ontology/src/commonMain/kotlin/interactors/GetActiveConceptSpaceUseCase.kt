@@ -1,6 +1,7 @@
 package org.pointyware.commonsense.ontology.interactors
 
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.onEach
 import org.pointyware.commonsense.ontology.ConceptSpace
 import org.pointyware.commonsense.ontology.data.ConceptSpaceRepository
 
@@ -12,5 +13,7 @@ class GetActiveConceptSpaceUseCase(
 ) {
 
     operator fun invoke(): Flow<ConceptSpace> =
-        repository.activeSpace
+        repository.activeSpace.onEach {
+            println("GetActiveConceptSpaceUseCase: $it")
+        }
 }
