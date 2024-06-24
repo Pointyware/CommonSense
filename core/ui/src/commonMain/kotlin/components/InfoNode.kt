@@ -31,6 +31,7 @@ fun InfoNode(
     onModify: (String) -> Unit,
     onDelete: (String) -> Unit,
 ) { // TODO: add modification/deletion buttons and reflect modification state with TextInput
+    println("InfoNode")
     Box(
         modifier = modifier
             .border(

@@ -19,6 +19,7 @@ fun LocationRootScope<Any, Any>.ontologyRouting() {
         key = ontologyRoute,
     ) {
 
+        println("OntologyRouting")
         val koin = remember { getKoin() }
         val viewModel = remember { koin.get<ConceptSpaceViewModel>() }
         ConceptSpaceScreen(

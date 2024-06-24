@@ -32,6 +32,7 @@ fun CommonSenseTheme(
     isDark: Boolean = false,
     content: @Composable ()->Unit,
 ) {
+    println("CommonSenseTheme")
     CompositionLocalProvider(
         DateFormat provides SimpleDateFormatter
     ) {
