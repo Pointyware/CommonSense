@@ -13,6 +13,7 @@ import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.compositionLocalOf
 import kotlinx.datetime.Instant
 import org.jetbrains.compose.ui.tooling.preview.Preview
+import org.pointyware.commonsense.core.common.Log
 
 interface XPDateFormatter {
     fun format(date: Instant): String
@@ -32,7 +33,7 @@ fun CommonSenseTheme(
     isDark: Boolean = false,
     content: @Composable ()->Unit,
 ) {
-    println("CommonSenseTheme")
+    Log.v("CommonSenseTheme")
     CompositionLocalProvider(
         DateFormat provides SimpleDateFormatter
     ) {
@@ -51,7 +52,7 @@ fun CommonSenseThemePreview() {
     CommonSenseTheme {
         Surface {
             Text("ooh, a button")
-            Button(onClick = { println("Click") }) {
+            Button(onClick = { Log.v("Click") }) {
                 Text("Click me!")
             }
         }

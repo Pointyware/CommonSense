@@ -7,6 +7,7 @@ import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import org.pointyware.commonsense.core.common.Log
 import org.pointyware.commonsense.core.viewmodels.ViewModel
 import org.pointyware.commonsense.ontology.data.ArrangementController
 import org.pointyware.commonsense.ontology.data.Position
@@ -27,7 +28,7 @@ class ConceptSpaceViewModel(
 ): ViewModel() {
 
     init {
-        println("ConceptSpaceViewModel created")
+        Log.v("ConceptSpaceViewModel created")
     }
 
     private val testSpace = ConceptSpaceUiState(
@@ -43,7 +44,7 @@ class ConceptSpaceViewModel(
     )
 
     val state: StateFlow<ConceptSpaceUiState> = getActiveConceptSpaceUseCase().map { conceptSpace ->
-        println("Mapping concept space: $conceptSpace")
+        Log.v("Mapping concept space: $conceptSpace")
         ConceptSpaceUiState(
             OntologyUiState(
                 id = conceptSpace.id,
@@ -76,10 +77,10 @@ class ConceptSpaceViewModel(
         viewModelScope.launch {
             loadConceptSpaceUseCase(id)
                 .onSuccess { conceptSpace ->
-                    println("Loaded concept space: $conceptSpace")
+                    Log.v("Loaded concept space: $conceptSpace")
                 }
                 .onFailure { error ->
-                    println("Failed to load concept space: $error")
+                    Log.v("Failed to load concept space: $error")
                 }
         }
     }

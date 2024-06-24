@@ -9,6 +9,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import org.pointyware.commonsense.core.common.Log
 
 /**
  *
@@ -31,7 +32,7 @@ fun InfoNode(
     onModify: (String) -> Unit,
     onDelete: (String) -> Unit,
 ) { // TODO: add modification/deletion buttons and reflect modification state with TextInput
-    println("InfoNode")
+    Log.v("InfoNode")
     Box(
         modifier = modifier
             .border(

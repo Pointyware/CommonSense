@@ -8,6 +8,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.dp
+import org.pointyware.commonsense.core.common.Log
 import org.pointyware.commonsense.core.common.Mapper
 import org.pointyware.commonsense.core.ui.components.InfoNode
 import org.pointyware.commonsense.core.ui.components.InfoNodeState
@@ -39,7 +40,7 @@ fun ConceptSpaceView(
     onModifyNode: (String) -> Unit,
     onCreateNode: (Float,Float) -> Unit,
 ) {
-    println("ConceptSpaceView")
+    Log.v("ConceptSpaceView")
     val density = LocalDensity.current
     Box(
         modifier = modifier
@@ -70,7 +71,7 @@ fun ConceptSpaceView(
 object ConceptSpaceUiStateMapper: Mapper<ConceptSpaceUiState, ConceptSpaceViewState> {
 
     override fun map(input: ConceptSpaceUiState): ConceptSpaceViewState {
-        println("Mapping concept space ui state: $input")
+        Log.v("Mapping concept space ui state: $input")
         val infoNodes = input.ontology?.nodes?.map { node ->
             InfoNodeState(
                 id = node.conceptId,

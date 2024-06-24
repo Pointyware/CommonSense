@@ -5,6 +5,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import org.pointyware.commonsense.core.common.Log
 
 /**
  * A composable that provides a location-based navigation root.
@@ -16,7 +17,7 @@ fun <K, V> LocationRoot(
     modifier: Modifier = Modifier,
     content: @Composable LocationRootScope<K, V>.() -> Unit,
 ) {
-    println("LocationRoot")
+    Log.v("LocationRoot")
     // TODO: remove navigation callbacks in "routing" functions when type-safe navigation is implemented
     val locationRootScope = LocationRootScopeImpl<K, V>()
     locationRootScope.content()
