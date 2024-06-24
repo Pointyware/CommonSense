@@ -32,8 +32,19 @@ class ConceptSpaceViewModel(
         println("ConceptSpaceViewModel created")
     }
 
-    @OptIn(ExperimentalCoroutinesApi::class)
-    val state: StateFlow<ConceptSpaceUiState> get() = getActiveConceptSpaceUseCase().map { conceptSpace ->
+    private val testSpace = ConceptSpaceUiState(
+        OntologyUiState(
+            id = "test",
+            nodes = listOf(
+                InfoNodeUiState("1", "Node 1", 100f, 100f),
+                InfoNodeUiState("2", "Node 2", 200f, 200f),
+                InfoNodeUiState("3", "Node 3", 300f, 300f),
+            ),
+            edges = emptyList()
+        )
+    )
+
+    val state: StateFlow<ConceptSpaceUiState> = getActiveConceptSpaceUseCase().map { conceptSpace ->
         println("Mapping concept space: $conceptSpace")
         ConceptSpaceUiState(
             OntologyUiState(
@@ -61,18 +72,6 @@ class ConceptSpaceViewModel(
         scope = viewModelScope,
         started = SharingStarted.Lazily,
         initialValue = testSpace
-    )
-
-    private val testSpace = ConceptSpaceUiState(
-        OntologyUiState(
-            id = "test",
-            nodes = listOf(
-                InfoNodeUiState("1", "Node 1", 100f, 100f),
-                InfoNodeUiState("2", "Node 2", 200f, 200f),
-                InfoNodeUiState("3", "Node 3", 300f, 300f),
-            ),
-            edges = emptyList()
-        )
     )
 
     fun onLoadConceptSpace(id: String) {
