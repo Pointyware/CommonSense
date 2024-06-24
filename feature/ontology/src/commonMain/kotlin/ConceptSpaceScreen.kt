@@ -16,9 +16,9 @@ fun ConceptSpaceScreen(
     viewModel: ConceptSpaceViewModel,
     modifier: Modifier = Modifier,
 ) {
-    val state = viewModel.state.collectAsState()
+    val uiState = viewModel.state.collectAsState()
     ConceptSpaceView(
-        state = ConceptSpaceUiStateMapper.map(state.value),
+        state = ConceptSpaceUiStateMapper.map(uiState.value),
         modifier = modifier.fillMaxSize(),
         onDeleteNode = viewModel::onDeleteNode,
         onModifyNode = viewModel::onModifyNode,
