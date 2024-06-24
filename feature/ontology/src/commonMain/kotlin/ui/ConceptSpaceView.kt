@@ -67,28 +67,10 @@ object ConceptSpaceUiStateMapper: Mapper<ConceptSpaceUiState, ConceptSpaceViewSt
                 title = node.title
             )
         } ?: emptyList()
-        val nodeViewList = input.ontology?.nodes?.map { node ->
-            InfoNodeState(
-                id = node.conceptId,
-                title = node.title
-            )
-        } ?: emptyList()
-        val nodeMap = nodeViewList.associateBy { it.id }
-
-        val infoEdges = input.ontology?.edges?.map { edge ->
-            val from = nodeMap[edge.sourceId] ?: error("Node not found: ${edge.sourceId}")
-            val to = nodeMap[edge.targetId] ?: error("Node not found: ${edge.targetId}")
-            InfoEdgeState(
-                id = edge.relationId,
-                from = from,
-                to = to
-            )
-        } ?: emptyList()
-
 
         return ConceptSpaceViewState(
             infoNodes = infoNodes,
-            infoEdges = infoEdges
+            infoEdges = emptyList()
         )
     }
 }
