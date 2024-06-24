@@ -6,6 +6,7 @@ import org.pointyware.commonsense.ontology.data.ConceptSpaceRepository
 import org.pointyware.commonsense.ontology.data.ConceptSpaceRepositoryImpl
 import org.pointyware.commonsense.ontology.data.SimpleArrangementController
 import org.pointyware.commonsense.ontology.interactors.AddNewNodeUseCase
+import org.pointyware.commonsense.ontology.interactors.GetActiveConceptSpaceUseCase
 import org.pointyware.commonsense.ontology.interactors.LoadConceptSpaceUseCase
 import org.pointyware.commonsense.ontology.interactors.RemoveNodeUseCase
 import org.pointyware.commonsense.ontology.local.ConceptSpaceDataSource
@@ -30,6 +31,7 @@ fun ontologyDataModule() = module {
 }
 
 fun ontologyInteractorModule() = module {
+    single<GetActiveConceptSpaceUseCase> { GetActiveConceptSpaceUseCase(get<ConceptSpaceRepository>()) }
     single<LoadConceptSpaceUseCase> { LoadConceptSpaceUseCase(get<ConceptSpaceRepository>()) }
     single<AddNewNodeUseCase> { AddNewNodeUseCase(get<ConceptSpaceRepository>(), get<ArrangementController>()) }
     single<RemoveNodeUseCase> { RemoveNodeUseCase(get<ConceptSpaceRepository>(), get<ArrangementController>()) }
@@ -41,6 +43,7 @@ fun ontologyViewModelModule() = module {
     ) }
     single<ConceptSpaceViewModel> {
         ConceptSpaceViewModel(
+            get<GetActiveConceptSpaceUseCase>(),
             get<LoadConceptSpaceUseCase>(),
             get<AddNewNodeUseCase>(),
             get<RemoveNodeUseCase>(),
