@@ -3,7 +3,7 @@ package org.pointyware.commonsense.core.common
 /**
  * A logger than can be used by all targets to log messages and errors at different levels.
  */
-class CommonLogger: Logger<String> {
+open class CommonLogger: Logger<String> {
 
     override fun verbose(data: String, error: Throwable?) {
         println("VERBOSE: $data")
@@ -39,4 +39,15 @@ class CommonLogger: Logger<String> {
             println("ERROR-ERROR: ${it.message}")
         }
     }
+}
+
+/**
+ * A globally accessible logger that can be set to a specific implementation.
+ */
+var Log = object: CommonLogger() {
+    fun v(data: String, error: Throwable? = null) = verbose(data, error)
+    fun d(data: String, error: Throwable? = null) = debug(data, error)
+    fun i(data: String, error: Throwable? = null) = info(data, error)
+    fun w(data: String, error: Throwable? = null) = warn(data, error)
+    fun e(data: String, error: Throwable? = null) = error(data, error)
 }
