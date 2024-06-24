@@ -12,6 +12,7 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import org.pointyware.commonsense.core.navigation.LocationRoot
 import org.pointyware.commonsense.core.ui.design.CommonSenseTheme
@@ -29,7 +30,7 @@ fun CommonSenseApp(
     isDarkTheme: Boolean,
     modifier: Modifier = Modifier,
 ) {
-    val navController = dependencies.getNavigationDependencies().getNavController()
+    val navController = remember { dependencies.getNavigationDependencies().getNavController() }
 
     CommonSenseTheme(
         isDark = isDarkTheme
