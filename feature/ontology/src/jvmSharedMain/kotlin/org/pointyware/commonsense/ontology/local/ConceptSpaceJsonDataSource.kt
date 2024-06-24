@@ -93,6 +93,7 @@ class ConceptSpaceJsonDataSource(
         val id = generateRandomId()
         val newNode = IndependentConcept(id, name, description = null)
         workSpace.focus.addConcept(newNode)
+        mutableActiveSpace.emit(workSpace)
         return Result.success(newNode)
     }
 
