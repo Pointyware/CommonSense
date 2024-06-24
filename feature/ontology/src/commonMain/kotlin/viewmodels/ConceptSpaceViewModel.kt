@@ -1,13 +1,16 @@
 package org.pointyware.commonsense.ontology.viewmodels
 
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.mapLatest
 import kotlinx.coroutines.flow.stateIn
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import org.pointyware.commonsense.core.viewmodels.ViewModel
 import org.pointyware.commonsense.ontology.data.ArrangementController
+import org.pointyware.commonsense.ontology.data.Position
 import org.pointyware.commonsense.ontology.interactors.AddNewNodeUseCase
 import org.pointyware.commonsense.ontology.interactors.GetActiveConceptSpaceUseCase
 import org.pointyware.commonsense.ontology.interactors.LoadConceptSpaceUseCase
@@ -87,6 +90,12 @@ class ConceptSpaceViewModel(
     fun onCreateNode(x: Float, y: Float) {
         viewModelScope.launch {
             addNewNodeUseCase(x, y)
+            mutablePointSet.update {
+                it + Position(x, y)
+            }
         }
     }
+
+    private val mutablePointSet = MutableStateFlow<Set<Position>>(emptySet())
+    val pointSet: StateFlow<Set<Position>> get() = mutablePointSet
 }
