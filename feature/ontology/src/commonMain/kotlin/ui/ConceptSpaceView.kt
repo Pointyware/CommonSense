@@ -61,53 +61,34 @@ fun ConceptSpaceView(
 object ConceptSpaceUiStateMapper: Mapper<ConceptSpaceUiState, ConceptSpaceViewState> {
 
     override fun map(input: ConceptSpaceUiState): ConceptSpaceViewState {
-        when (input) {
-            is ConceptSpaceUiState.Empty -> {
-                return ConceptSpaceViewState(
-                    infoNodes = emptyList(),
-                    infoEdges = emptyList()
-                )
-            }
-            is ConceptSpaceUiState.Loaded -> {
-                val infoNodes = input.ontology?.nodes?.map { node ->
-                    InfoNodeState(
-                        id = node.conceptId,
-                        title = node.title
-                    )
-                } ?: emptyList()
+        val infoNodes = input.ontology?.nodes?.map { node ->
+            InfoNodeState(
+                id = node.conceptId,
+                title = node.title
+            )
+        } ?: emptyList()
+        val nodeViewList = input.ontology?.nodes?.map { node ->
+            InfoNodeState(
+                id = node.conceptId,
+                title = node.title
+            )
+        } ?: emptyList()
+        val nodeMap = nodeViewList.associateBy { it.id }
 
-                // Convert InfoNodeUiState to InfoNodeViewState
-                val nodeViewList = input.ontology?.nodes?.map { node ->
-                    InfoNodeState(
-                        id = node.conceptId,
-                        title = node.title
-                    )
-                } ?: emptyList()
-                val nodeMap = nodeViewList.associateBy { it.id }
-
-                val infoEdges = input.ontology?.edges?.map { edge ->
-                    val from = nodeMap[edge.sourceId] ?: error("Node not found: ${edge.sourceId}")
-                    val to = nodeMap[edge.targetId] ?: error("Node not found: ${edge.targetId}")
-                    InfoEdgeState(
-                        id = edge.relationId,
-                        from = from,
-                        to = to
-                    )
-                } ?: emptyList()
+        val infoEdges = input.ontology?.edges?.map { edge ->
+            val from = nodeMap[edge.sourceId] ?: error("Node not found: ${edge.sourceId}")
+            val to = nodeMap[edge.targetId] ?: error("Node not found: ${edge.targetId}")
+            InfoEdgeState(
+                id = edge.relationId,
+                from = from,
+                to = to
+            )
+        } ?: emptyList()
 
 
-                return ConceptSpaceViewState(
-                    infoNodes = infoNodes,
-                    infoEdges = infoEdges
-                )
-            }
-            is ConceptSpaceUiState.Error -> {
-                return ConceptSpaceViewState(
-                    errorMessage = input.error.toString(),
-                    infoNodes = emptyList(),
-                    infoEdges = emptyList()
-                )
-            }
-        }
+        return ConceptSpaceViewState(
+            infoNodes = infoNodes,
+            infoEdges = infoEdges
+        )
     }
 }
