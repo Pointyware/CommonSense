@@ -17,8 +17,24 @@ fun ConceptSpaceScreen(
     modifier: Modifier = Modifier,
 ) {
     val uiState = viewModel.state.collectAsState()
+//    val pointSet = viewModel.pointSet.collectAsState()
     ConceptSpaceView(
         state = ConceptSpaceUiStateMapper.map(uiState.value),
+//        state = ConceptSpaceViewState(
+//            errorMessage = null,
+//            infoEdges = emptyList(),
+//            infoNodes = pointSet.value.mapIndexed { index, it ->
+//                val title = remember(it) {
+//                    "${it.x},${it.y}"
+//                }
+//                InfoNodeState(
+//                    id = index.toString(),
+//                    title = title,
+//                    x = it.x.dp,
+//                    y = it.y.dp,
+//                )
+//            }
+//        ),
         modifier = modifier.fillMaxSize(),
         onDeleteNode = viewModel::onDeleteNode,
         onModifyNode = viewModel::onModifyNode,
