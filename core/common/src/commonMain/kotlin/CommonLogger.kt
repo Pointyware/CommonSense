@@ -44,10 +44,4 @@ open class CommonLogger: Logger<String> {
 /**
  * A globally accessible logger that can be set to a specific implementation.
  */
-var Log = object: CommonLogger() {
-    fun v(data: String, error: Throwable? = null) = verbose(data, error)
-    fun d(data: String, error: Throwable? = null) = debug(data, error)
-    fun i(data: String, error: Throwable? = null) = info(data, error)
-    fun w(data: String, error: Throwable? = null) = warn(data, error)
-    fun e(data: String, error: Throwable? = null) = error(data, error)
-}
+var Log = CommonLogger()
