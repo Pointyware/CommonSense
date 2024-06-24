@@ -7,6 +7,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 
 /**
@@ -15,7 +16,10 @@ import androidx.compose.ui.unit.dp
 data class InfoNodeState( // TODO: add modification state
     val id: String,
     val title: String,
-)
+    val x: Dp,
+    val y: Dp
+) {
+}
 
 /**
  * Displays some content with a slot in the default appearance.
