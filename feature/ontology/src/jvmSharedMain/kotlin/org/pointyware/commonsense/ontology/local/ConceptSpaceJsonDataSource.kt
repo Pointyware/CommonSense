@@ -5,6 +5,7 @@ import kotlinx.serialization.json.Json
 import org.pointyware.commonsense.ontology.Concept
 import org.pointyware.commonsense.ontology.ConceptSpace
 import org.pointyware.commonsense.ontology.IndependentConcept
+import org.pointyware.commonsense.ontology.MutableConceptSpace
 import org.pointyware.commonsense.ontology.mutableOntology
 import java.io.File
 
@@ -12,6 +13,8 @@ class ConceptSpaceJsonDataSource(
     private val spaceDirectory: File,
     private val json: Json
 ): ConceptSpaceDataSource {
+
+    private var activeSpace: MutableConceptSpace? = null
 
     override suspend fun loadConceptSpace(id: String): Result<ConceptSpace> {
         val spaceFile = File(spaceDirectory, "$id.json")
@@ -39,7 +42,7 @@ class ConceptSpaceJsonDataSource(
 //            )
 //        }.toSet()
 
-        val space = ConceptSpace(
+        val space = MutableConceptSpace(
             id = spaceJson.id,
             focus = ontology,
         )
@@ -82,5 +85,10 @@ class ConceptSpaceJsonDataSource(
         val id = generateRandomId()
         val newNode = IndependentConcept(id, name, description = null)
         return Result.success(newNode)
+    }
+
+    override suspend fun removeNode(id: String): Result<Unit> {
+        activeSpace?.focus?.removeConcept(id)
+        return Result.success(Unit)
     }
 }
