@@ -61,6 +61,7 @@ fun ConceptSpaceView(
 object ConceptSpaceUiStateMapper: Mapper<ConceptSpaceUiState, ConceptSpaceViewState> {
 
     override fun map(input: ConceptSpaceUiState): ConceptSpaceViewState {
+        println("Mapping concept space ui state: $input")
         val infoNodes = input.ontology?.nodes?.map { node ->
             InfoNodeState(
                 id = node.conceptId,
