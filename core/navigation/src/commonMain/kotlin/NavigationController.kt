@@ -81,14 +81,14 @@ class StackNavigationControllerImpl<K: Any?, A: Any?>(
     override val currentLocation: StateFlow<K>
         get() = mutableState.value.frame.location.let { currentValue ->
             mutableState.map { it.frame.location }
-                .stateIn(stateScope, SharingStarted.WhileSubscribed(), currentValue)
+                .stateIn(stateScope, SharingStarted.Lazily, currentValue)
         }
 
 
     override val backList: StateFlow<List<K>>
         get() = mutableState.value.let { currentValue ->
             mutableState.map { it.backList.map { it.location } }
-                .stateIn(stateScope, SharingStarted.WhileSubscribed(), currentValue.backList.map { it.location })
+                .stateIn(stateScope, SharingStarted.Lazily, currentValue.backList.map { it.location })
         }
 
     override fun goBack() {
@@ -107,7 +107,7 @@ class StackNavigationControllerImpl<K: Any?, A: Any?>(
     override val forwardList: StateFlow<List<K>>
         get() = mutableState.value.let { currentValue ->
             mutableState.map { it.forwardList.map { it.location } }
-                .stateIn(stateScope, SharingStarted.WhileSubscribed(), currentValue.forwardList.map { it.location })
+                .stateIn(stateScope, SharingStarted.Lazily, currentValue.forwardList.map { it.location })
         }
 
     override fun goForward() {
@@ -126,7 +126,7 @@ class StackNavigationControllerImpl<K: Any?, A: Any?>(
     override val currentFrame: StateFlow<StackNavigationController.Frame<K, A>>
         get() = mutableState.value.frame.let { currentValue ->
             mutableState.map { it.frame }
-                .stateIn(stateScope, SharingStarted.WhileSubscribed(), currentValue)
+                .stateIn(stateScope, SharingStarted.Lazily, currentValue)
         }
 
     override fun navigateTo(location: K, arguments: A?) {

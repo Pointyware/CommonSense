@@ -4,6 +4,7 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.mapLatest
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
@@ -27,8 +28,12 @@ class ConceptSpaceViewModel(
     private val arrangementController: ArrangementController
 ): ViewModel() {
 
+    init {
+        println("ConceptSpaceViewModel created")
+    }
+
     @OptIn(ExperimentalCoroutinesApi::class)
-    val state: StateFlow<ConceptSpaceUiState> get() = getActiveConceptSpaceUseCase().mapLatest { conceptSpace ->
+    val state: StateFlow<ConceptSpaceUiState> get() = getActiveConceptSpaceUseCase().map { conceptSpace ->
         println("Mapping concept space: $conceptSpace")
         ConceptSpaceUiState(
             OntologyUiState(
@@ -54,8 +59,20 @@ class ConceptSpaceViewModel(
         )
     }.stateIn(
         scope = viewModelScope,
-        started = SharingStarted.WhileSubscribed(),
-        initialValue = emptySpace()
+        started = SharingStarted.Lazily,
+        initialValue = testSpace
+    )
+
+    private val testSpace = ConceptSpaceUiState(
+        OntologyUiState(
+            id = "test",
+            nodes = listOf(
+                InfoNodeUiState("1", "Node 1", 100f, 100f),
+                InfoNodeUiState("2", "Node 2", 200f, 200f),
+                InfoNodeUiState("3", "Node 3", 300f, 300f),
+            ),
+            edges = emptyList()
+        )
     )
 
     fun onLoadConceptSpace(id: String) {
