@@ -2,9 +2,12 @@ package org.pointyware.commonsense.ontology.ui
 
 import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.offset
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.pointer.pointerInput
+import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.unit.dp
 import org.pointyware.commonsense.core.common.Mapper
 import org.pointyware.commonsense.core.ui.components.InfoNode
 import org.pointyware.commonsense.core.ui.components.InfoNodeState
@@ -36,17 +39,22 @@ fun ConceptSpaceView(
     onModifyNode: (String) -> Unit,
     onCreateNode: (Float,Float) -> Unit,
 ) {
+    val density = LocalDensity.current
     Box(
         modifier = modifier
             .pointerInput(Unit) {
                 detectTapGestures { offset ->
-                    onCreateNode(offset.x, offset.y)
+                    onCreateNode(
+                        offset.x / density.density,
+                        offset.y / density.density
+                    )
                 }
             }
     ) {
         state.infoNodes.forEach {
             InfoNode(
                 state = it,
+                modifier = Modifier.offset(it.x, it.y),
                 onModify = onModifyNode,
                 onDelete = onDeleteNode
             )
@@ -65,7 +73,9 @@ object ConceptSpaceUiStateMapper: Mapper<ConceptSpaceUiState, ConceptSpaceViewSt
         val infoNodes = input.ontology?.nodes?.map { node ->
             InfoNodeState(
                 id = node.conceptId,
-                title = node.title
+                title = node.title,
+                x = node.x.dp,
+                y = node.y.dp,
             )
         } ?: emptyList()
 
