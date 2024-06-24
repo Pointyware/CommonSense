@@ -15,7 +15,7 @@ class ConceptSpaceJsonDataSource(
     private val spaceDirectory: File,
     private val json: Json
 ): ConceptSpaceDataSource {
-    private val mutableActiveSpace = MutableSharedFlow<ConceptSpace>()
+    private val mutableActiveSpace = MutableSharedFlow<ConceptSpace>(replay = 1)
     override val activeSpace: Flow<ConceptSpace>
         get() = mutableActiveSpace
 
