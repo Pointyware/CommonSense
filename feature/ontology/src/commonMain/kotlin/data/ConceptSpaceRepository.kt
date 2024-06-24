@@ -1,5 +1,6 @@
 package org.pointyware.commonsense.ontology.data
 
+import kotlinx.coroutines.flow.Flow
 import org.pointyware.commonsense.ontology.Concept
 import org.pointyware.commonsense.ontology.ConceptSpace
 import org.pointyware.commonsense.ontology.local.ConceptSpaceDataSource
@@ -8,6 +9,7 @@ import org.pointyware.commonsense.ontology.local.ConceptSpaceDataSource
  * Separates data mediation from the rest of the application.
  */
 interface ConceptSpaceRepository {
+    val activeSpace: Flow<ConceptSpace>
     suspend fun loadConceptSpace(id: String): Result<ConceptSpace>
     suspend fun saveConceptSpace(space: ConceptSpace): Result<Unit>
     suspend fun createNode(name: String): Result<Concept>
@@ -20,6 +22,9 @@ interface ConceptSpaceRepository {
 class ConceptSpaceRepositoryImpl(
     private val dataSource: ConceptSpaceDataSource
 ): ConceptSpaceRepository {
+
+    override val activeSpace: Flow<ConceptSpace>
+        get() = dataSource.activeSpace
 
     override suspend fun loadConceptSpace(id: String): Result<ConceptSpace> {
         return dataSource.loadConceptSpace(id)
