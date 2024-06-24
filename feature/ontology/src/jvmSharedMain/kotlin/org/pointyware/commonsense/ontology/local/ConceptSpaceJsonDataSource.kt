@@ -59,7 +59,6 @@ class ConceptSpaceJsonDataSource(
                         id = concept.id,
                         name = concept.name,
                         description = concept.description,
-                        relations = concept.relations.map { relation -> relation.id }.toSet()
                     )
                 }.toSet(),
                 relations = space.focus.relations.map { relation ->
@@ -81,7 +80,7 @@ class ConceptSpaceJsonDataSource(
 
     override suspend fun createNode(name: String): Result<Concept> {
         val id = generateRandomId()
-        val newNode = IndependentConcept(id, name, description = null, relations = emptySet())
+        val newNode = IndependentConcept(id, name, description = null)
         return Result.success(newNode)
     }
 }

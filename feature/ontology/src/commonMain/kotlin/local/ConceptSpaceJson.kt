@@ -31,7 +31,6 @@ data class ConceptJson(
     val id: String,
     val name: String,
     val description: String?,
-    val relations: Set<String>
 )
 
 /**
@@ -41,7 +40,7 @@ data class ConceptJson(
 data class RelationJson(
     val id: String,
     val name: String,
+    val weight: RelationWeight,
     val source: String,
     val target: String,
-    val weight: RelationWeight,
 )
