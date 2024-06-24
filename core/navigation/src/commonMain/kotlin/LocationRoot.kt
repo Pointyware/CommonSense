@@ -16,6 +16,7 @@ fun <K, V> LocationRoot(
     modifier: Modifier = Modifier,
     content: @Composable LocationRootScope<K, V>.() -> Unit,
 ) {
+    println("LocationRoot")
     // TODO: remove navigation callbacks in "routing" functions when type-safe navigation is implemented
     val locationRootScope = LocationRootScopeImpl<K, V>()
     locationRootScope.content()

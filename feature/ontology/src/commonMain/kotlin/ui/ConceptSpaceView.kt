@@ -39,6 +39,7 @@ fun ConceptSpaceView(
     onModifyNode: (String) -> Unit,
     onCreateNode: (Float,Float) -> Unit,
 ) {
+    println("ConceptSpaceView")
     val density = LocalDensity.current
     Box(
         modifier = modifier

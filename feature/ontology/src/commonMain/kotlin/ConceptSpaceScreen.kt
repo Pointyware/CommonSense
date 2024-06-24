@@ -16,6 +16,7 @@ fun ConceptSpaceScreen(
     viewModel: ConceptSpaceViewModel,
     modifier: Modifier = Modifier,
 ) {
+    println("ConceptSpaceScreen")
     val uiState = viewModel.state.collectAsState()
 //    val pointSet = viewModel.pointSet.collectAsState()
     ConceptSpaceView(

@@ -30,6 +30,7 @@ fun CommonSenseApp(
     isDarkTheme: Boolean,
     modifier: Modifier = Modifier,
 ) {
+    println("CommonSenseApp")
     val navController = remember { dependencies.getNavigationDependencies().getNavController() }
 
     CommonSenseTheme(
