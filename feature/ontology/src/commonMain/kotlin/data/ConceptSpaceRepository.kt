@@ -21,13 +21,8 @@ class ConceptSpaceRepositoryImpl(
     private val dataSource: ConceptSpaceDataSource
 ): ConceptSpaceRepository {
 
-    private var activeSpace: ConceptSpace? = null
-
     override suspend fun loadConceptSpace(id: String): Result<ConceptSpace> {
-        activeSpace = null
-        return dataSource.loadConceptSpace(id).onSuccess {
-            activeSpace = it
-        }
+        return dataSource.loadConceptSpace(id)
     }
 
     override suspend fun saveConceptSpace(space: ConceptSpace): Result<Unit> {
@@ -38,6 +33,6 @@ class ConceptSpaceRepositoryImpl(
         return dataSource.createNode(name)
     }
     override suspend fun removeNode(id: String): Result<Unit> {
-        return Result.failure(NotImplementedError("Not yet implemented"))
+        return dataSource.removeNode(id)
     }
 }
