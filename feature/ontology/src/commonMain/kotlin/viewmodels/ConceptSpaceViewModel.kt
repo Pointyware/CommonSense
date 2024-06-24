@@ -26,6 +26,7 @@ class ConceptSpaceViewModel(
 
     @OptIn(ExperimentalCoroutinesApi::class)
     val state: StateFlow<ConceptSpaceUiState> get() = getActiveConceptSpaceUseCase().mapLatest { conceptSpace ->
+        println("Mapping concept space: $conceptSpace")
         ConceptSpaceUiState(
             OntologyUiState(
                 id = conceptSpace.id,
