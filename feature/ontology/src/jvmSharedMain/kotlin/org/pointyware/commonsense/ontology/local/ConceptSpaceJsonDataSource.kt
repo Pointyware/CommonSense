@@ -92,6 +92,7 @@ class ConceptSpaceJsonDataSource(
     override suspend fun createNode(name: String): Result<Concept> {
         val id = generateRandomId()
         val newNode = IndependentConcept(id, name, description = null)
+        workSpace.focus.addConcept(newNode)
         return Result.success(newNode)
     }
 
