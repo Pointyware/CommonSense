@@ -10,6 +10,7 @@ interface ConceptSpaceDataSource {
     suspend fun loadConceptSpace(id: String): Result<ConceptSpace>
     suspend fun saveConceptSpace(space: ConceptSpace): Result<Unit>
     suspend fun createNode(name: String): Result<Concept>
+    suspend fun removeNode(id: String): Result<Unit>
 }
 
 class ConceptSpaceNotFoundException(id: String) : Exception("Concept space with id $id not found")
