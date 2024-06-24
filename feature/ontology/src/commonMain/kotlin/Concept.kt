@@ -2,19 +2,19 @@ package org.pointyware.commonsense.ontology
 
 /**
  * A singular concept in an ontology. A concept is a node in the ontology graph.
+ * `Concept => Node<ConceptInfo>`
+ * `ConceptInfo => <Id, Name, Description>`
  */
 interface Concept {
     val id: String
     val name: String
     val description: String?
-    val relations: Set<Relation>
 }
 
 class IndependentConcept(
     override val id: String,
     override val name: String,
     override val description: String?,
-    override val relations: Set<Relation>,
 ): Concept
 
 class MemberConcept(
@@ -28,6 +28,4 @@ class MemberConcept(
         get() = self.name
     override val description: String?
         get() = self.description
-    override val relations: Set<Relation>
-        get() = self.relations
 }
