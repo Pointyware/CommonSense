@@ -1,5 +1,6 @@
 package org.pointyware.commonsense.ontology
 
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
@@ -18,7 +19,8 @@ fun ConceptSpaceScreen(
     val state = viewModel.state.collectAsState()
     ConceptSpaceView(
         state = ConceptSpaceUiStateMapper.map(state.value),
-        modifier = modifier,
+        modifier = modifier
+            .fillMaxSize(),
         onDeleteNode = viewModel::onDeleteNode,
         onModifyNode = viewModel::onModifyNode,
         onCreateNode = viewModel::onCreateNode,
