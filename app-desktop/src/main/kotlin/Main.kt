@@ -23,6 +23,7 @@ fun main() = application {
     }
 
     val appDependencies = remember { getDependencies() }
+    val drawableResources = remember { appDependencies.getDrawableResources() }
 
     val state = rememberWindowState()
     Window(
@@ -55,7 +56,7 @@ fun main() = application {
 
 
     Tray(
-        icon = painterResource(Res.drawable.tray_icon),
+        icon = painterResource(drawableResources.appIconSmall),
         menu = {
             Menu("File") {
             }
