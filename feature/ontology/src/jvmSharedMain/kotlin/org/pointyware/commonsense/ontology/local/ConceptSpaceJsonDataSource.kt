@@ -4,6 +4,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
+import org.pointyware.commonsense.core.local.KmpFile
 import org.pointyware.commonsense.ontology.Concept
 import org.pointyware.commonsense.ontology.ConceptSpace
 import org.pointyware.commonsense.ontology.IndependentConcept
@@ -24,8 +25,8 @@ class ConceptSpaceJsonDataSource(
         mutableOntology(id = generateRandomId())
     )
 
-    override suspend fun loadConceptSpace(id: String): Result<ConceptSpace> {
-        val spaceFile = File(spaceDirectory, "$id.json")
+    override suspend fun loadConceptSpace(file: KmpFile): Result<ConceptSpace> {
+        val spaceFile = File(spaceDirectory, "$file.json")
 
         val spaceJson = json.decodeFromString<ConceptSpaceJson>(spaceFile.readText())
 
@@ -58,7 +59,8 @@ class ConceptSpaceJsonDataSource(
         return Result.success(space)
     }
 
-    override suspend fun saveConceptSpace(space: ConceptSpace): Result<Unit> {
+    override suspend fun saveConceptSpace(file: KmpFile): Result<Unit> {
+        val space = workSpace
         val spaceFile = File(spaceDirectory, "${space.id}.json")
 
         val spaceJson = ConceptSpaceJson(

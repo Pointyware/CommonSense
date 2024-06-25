@@ -1,6 +1,7 @@
 package org.pointyware.commonsense.ontology.local
 
 import kotlinx.coroutines.flow.Flow
+import org.pointyware.commonsense.core.local.KmpFile
 import org.pointyware.commonsense.ontology.Concept
 import org.pointyware.commonsense.ontology.ConceptSpace
 
@@ -9,8 +10,8 @@ import org.pointyware.commonsense.ontology.ConceptSpace
  */
 interface ConceptSpaceDataSource {
     val activeSpace: Flow<ConceptSpace>
-    suspend fun loadConceptSpace(id: String): Result<ConceptSpace>
-    suspend fun saveConceptSpace(space: ConceptSpace): Result<Unit>
+    suspend fun loadConceptSpace(file: KmpFile): Result<ConceptSpace>
+    suspend fun saveConceptSpace(file: KmpFile): Result<Unit>
     suspend fun createNode(name: String): Result<Concept>
     suspend fun removeNode(id: String): Result<Unit>
 }

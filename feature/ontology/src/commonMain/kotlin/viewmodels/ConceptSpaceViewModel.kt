@@ -8,6 +8,7 @@ import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import org.pointyware.commonsense.core.common.Log
+import org.pointyware.commonsense.core.local.KmpFile
 import org.pointyware.commonsense.core.viewmodels.ViewModel
 import org.pointyware.commonsense.ontology.data.ArrangementController
 import org.pointyware.commonsense.ontology.data.Position
@@ -73,9 +74,9 @@ class ConceptSpaceViewModel(
         initialValue = testSpace
     )
 
-    fun onLoadConceptSpace(id: String) {
+    fun onLoadConceptSpace(file: KmpFile) {
         viewModelScope.launch {
-            loadConceptSpaceUseCase(id)
+            loadConceptSpaceUseCase(file)
                 .onSuccess { conceptSpace ->
                     Log.v("Loaded concept space: $conceptSpace")
                 }
