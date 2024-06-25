@@ -6,6 +6,6 @@ class JvmFile(
 
 }
 
-actual fun file(path: String): KmpFile {
-    return JvmFile(path)
-}
+//actual fun file(path: String): KmpFile {
+//    return JvmFile(path)
+//}

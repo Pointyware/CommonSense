@@ -7,4 +7,4 @@ interface KmpFile {
     val path: String
 }
 
-expect fun file(path: String): KmpFile
+//expect fun file(path: String): KmpFile
