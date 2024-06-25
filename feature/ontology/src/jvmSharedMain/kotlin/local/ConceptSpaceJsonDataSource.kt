@@ -9,17 +9,10 @@ import org.pointyware.commonsense.ontology.Concept
 import org.pointyware.commonsense.ontology.ConceptSpace
 import org.pointyware.commonsense.ontology.IndependentConcept
 import org.pointyware.commonsense.ontology.MutableConceptSpace
-import org.pointyware.commonsense.ontology.local.ConceptJson
-import org.pointyware.commonsense.ontology.local.ConceptSpaceDataSource
-import org.pointyware.commonsense.ontology.local.ConceptSpaceJson
-import org.pointyware.commonsense.ontology.local.OntologyJson
-import org.pointyware.commonsense.ontology.local.RelationJson
-import org.pointyware.commonsense.ontology.local.generateRandomId
 import org.pointyware.commonsense.ontology.mutableOntology
 import java.io.File
 
 class ConceptSpaceJsonDataSource(
-    private val spaceDirectory: File,
     private val json: Json
 ): ConceptSpaceDataSource {
     private val mutableActiveSpace = MutableSharedFlow<ConceptSpace>(replay = 1)
@@ -32,7 +25,7 @@ class ConceptSpaceJsonDataSource(
     )
 
     override suspend fun loadConceptSpace(file: KmpFile): Result<ConceptSpace> {
-        val spaceFile = File(spaceDirectory, "$file.json")
+        val spaceFile = File(file.path)
 
         val spaceJson = json.decodeFromString<ConceptSpaceJson>(spaceFile.readText())
 
@@ -67,7 +60,7 @@ class ConceptSpaceJsonDataSource(
 
     override suspend fun saveConceptSpace(file: KmpFile): Result<Unit> {
         val space = workSpace
-        val spaceFile = File(spaceDirectory, "${space.id}.json")
+        val spaceFile = File(file.path)
 
         val spaceJson = ConceptSpaceJson(
             id = space.id,
