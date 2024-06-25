@@ -10,9 +10,5 @@ import java.io.File
  * Provides JVM-specific ontology dependencies
  */
 fun ontologyJvmModule() = module {
-    single<Json> { Json.Default }
-    single<ConceptSpaceDataSource> {
-        val currentDirectory = File("spaces")
-        ConceptSpaceJsonDataSource(currentDirectory, get())
-    }
+    single<ConceptSpaceDataSource> { ConceptSpaceJsonDataSource(get<Json>()) }
 }
