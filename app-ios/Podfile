@@ -1,5 +1,0 @@
-target 'app-ios' do
-  use_frameworks!
-  platform :ios, '16.0'
-  pod 'core', :path => '../core'
-end
