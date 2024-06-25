@@ -1,7 +1,9 @@
 package org.pointyware.commonsense.desktop
 
+import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.window.MenuBar
+import androidx.compose.ui.window.MenuScope
 import androidx.compose.ui.window.Tray
 import androidx.compose.ui.window.Window
 import androidx.compose.ui.window.application
@@ -10,6 +12,7 @@ import org.jetbrains.compose.resources.painterResource
 import org.koin.core.context.startKoin
 import org.pointyware.commonsense.desktop.di.desktopModule
 import org.pointyware.commonsense.shared.CommonSenseApp
+import org.pointyware.commonsense.shared.FileViewModel
 import org.pointyware.commonsense.shared.di.appModule
 import org.pointyware.commonsense.shared.di.getDependencies
 
@@ -38,19 +41,7 @@ fun main() = application {
 
         MenuBar {
             Menu("File") {
-                val fileViewModel = appDependencies.getFileViewModel()
-                Item(
-                    text = "Save",
-                    onClick = fileViewModel::save
-                )
-                Item(
-                    text = "Save As",
-                    onClick = fileViewModel::saveAs
-                )
-                Item(
-                    text = "Load",
-                    onClick = fileViewModel::load
-                )
+                fileMenuItems(appDependencies.getFileViewModel())
             }
         }
     }
@@ -60,7 +51,24 @@ fun main() = application {
         icon = painterResource(drawableResources.appIconSmall),
         menu = {
             Menu("File") {
+                fileMenuItems(appDependencies.getFileViewModel())
             }
         }
+    )
+}
+
+@Composable
+fun MenuScope.fileMenuItems(fileViewModel: FileViewModel) {
+    Item(
+        text = "Save",
+        onClick = fileViewModel::save
+    )
+    Item(
+        text = "Save As",
+        onClick = fileViewModel::saveAs
+    )
+    Item(
+        text = "Load",
+        onClick = fileViewModel::load
     )
 }
