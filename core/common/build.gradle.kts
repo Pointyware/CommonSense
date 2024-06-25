@@ -47,10 +47,29 @@ kotlin {
             }
         }
 
+        val jvmSharedMain by creating {
+            dependsOn(commonMain)
+        }
+        val jvmSharedTest by creating {
+            dependsOn(commonTest)
+        }
+
         val jvmMain by getting {
+            dependsOn(jvmSharedMain)
+
             dependencies {
                 implementation(libs.kotlinx.coroutinesSwing)
             }
+        }
+        val jvmTest by getting {
+            dependsOn(jvmSharedTest)
+        }
+
+        val androidMain by getting {
+            dependsOn(jvmSharedMain)
+        }
+        val androidUnitTest by getting {
+            dependsOn(jvmSharedTest)
         }
     }
 }
