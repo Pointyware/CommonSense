@@ -14,6 +14,7 @@ kotlin {
     compilerOptions {
         apiVersion = KotlinVersion.KOTLIN_2_0
     }
+    jvmToolchain(17)
     jvm {
 
     }

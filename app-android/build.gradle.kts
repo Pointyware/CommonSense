@@ -39,7 +39,6 @@ dependencies {
     implementation(project(":core:ui"))
 
     implementation(projects.appShared)
-    implementation(project(":app-shared"))
 
     implementation(libs.androidx.activityCompose)
     implementation(libs.androidx.composeMaterial3)
