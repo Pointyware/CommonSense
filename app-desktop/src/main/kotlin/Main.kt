@@ -38,17 +38,18 @@ fun main() = application {
 
         MenuBar {
             Menu("File") {
+                val fileViewModel = appDependencies.getFileViewModel()
                 Item(
                     text = "Save",
-                    onClick = { /* Handle save action */ }
+                    onClick = fileViewModel::save
                 )
                 Item(
                     text = "Save As",
-                    onClick = { /* Handle save as action */ }
+                    onClick = fileViewModel::saveAs
                 )
                 Item(
                     text = "Load",
-                    onClick = { /* Handle load action */ }
+                    onClick = fileViewModel::load
                 )
             }
         }
