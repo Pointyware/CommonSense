@@ -18,7 +18,8 @@ fun desktopModule() = module {
 
     includes(
         ontologyJvmModule(),
-        desktopResourcesModule()
+        desktopResourcesModule(),
+        desktopViewModelsModule()
     )
 }
 
@@ -27,4 +28,8 @@ fun desktopResourcesModule() = module {
     single<SharedFontResources> { DesktopFontResources() }
     single<SharedDrawableResources> { DesktopDrawableResources() }
     single<SharedFileResources> { DesktopFileResources() }
+}
+
+fun desktopViewModelsModule() = module {
+
 }
