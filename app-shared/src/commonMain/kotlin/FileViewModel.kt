@@ -1,4 +1,4 @@
-package org.pointyware.commonsense.desktop.ui
+package org.pointyware.commonsense.shared
 
 import kotlinx.coroutines.launch
 import org.pointyware.commonsense.core.common.Log
@@ -8,13 +8,13 @@ import org.pointyware.commonsense.ontology.interactors.SaveConceptSpaceUseCase
 import org.pointyware.commonsense.ontology.interactors.SelectFileUseCase
 
 /**
+ * Manages file operations for the application.
  */
-class MenuBarViewModel(
+class FileViewModel(
     private val selectFileUseCase: SelectFileUseCase,
     private val saveConceptSpaceUseCase: SaveConceptSpaceUseCase,
     private val loadConceptSpaceUseCase: LoadConceptSpaceUseCase,
 ): ViewModel() {
-
     fun save() {
         viewModelScope.launch {
             saveConceptSpaceUseCase()
