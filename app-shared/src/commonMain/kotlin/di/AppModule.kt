@@ -11,13 +11,15 @@ import org.pointyware.commonsense.core.remote.di.coreRemoteModule
 import org.pointyware.commonsense.core.ui.di.coreUiModule
 import org.pointyware.commonsense.core.viewmodels.di.coreViewModelsModule
 import org.pointyware.commonsense.ontology.di.ontologyModule
+import org.pointyware.commonsense.shared.FileViewModel
 
 
 fun appModule(): Module = module {
     includes(
         coreModule(),
         featureModule(),
-        homeModule()
+        homeModule(),
+        sharedViewModelsModule()
     )
 }
 
@@ -38,4 +40,8 @@ fun featureModule() = module {
     includes(
         ontologyModule()
     )
+}
+
+fun sharedViewModelsModule() = module {
+    factory<FileViewModel> { FileViewModel(get(), get(), get()) }
 }
