@@ -1,4 +1,4 @@
-package org.pointyware.commonsense.ontology.local.di
+package org.pointyware.commonsense.ontology.di
 
 import kotlinx.serialization.json.Json
 import org.koin.dsl.module
