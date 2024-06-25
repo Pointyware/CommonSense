@@ -44,6 +44,7 @@ dependencies {
     implementation(libs.androidx.composeMaterial3)
     debugImplementation(libs.androidx.composeTooling)
     implementation(libs.androidx.composePreview)
+    implementation(compose.components.resources)
 
     androidTestDebugImplementation(libs.androidx.composeManifest)
     implementation(libs.kotlinx.coroutinesAndroid)
