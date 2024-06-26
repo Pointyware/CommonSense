@@ -2,6 +2,7 @@ package org.pointyware.commonsense.desktop.di
 
 import org.koin.dsl.module
 import org.pointyware.commonsense.ontology.di.ontologyJvmModule
+import org.pointyware.commonsense.ontology.di.ontologyJvmSharedModule
 import org.pointyware.commonsense.shared.entities.SharedFileResources
 import org.pointyware.commonsense.shared.entities.SharedStringResources
 import org.pointyware.commonsense.shared.ui.SharedDrawableResources
@@ -17,6 +18,7 @@ fun desktopModule() = module {
     single<SharedFileResources> { DesktopFileResources() }
 
     includes(
+        ontologyJvmSharedModule(),
         ontologyJvmModule(),
         desktopResourcesModule(),
         desktopViewModelsModule()
