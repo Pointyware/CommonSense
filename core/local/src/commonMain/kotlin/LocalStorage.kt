@@ -1,9 +1,8 @@
 package org.pointyware.commonsense.core.local
 
 /**
- * A Kotlin-Multiplatform file.
+ * Multiplatform local data storage. Usually implemented as a file on most targets, but for web it could be localStorage.
  *
- * TODO: rename/rework as LocalStorage
  * ```kotlin
  * class LocalStorage(path) {
  *
@@ -14,7 +13,7 @@ package org.pointyware.commonsense.core.local
  * }
  * ```
  */
-interface KmpFile {
+interface LocalStorage {
     val path: String
 }
 

@@ -1,12 +1,11 @@
 package org.pointyware.commonsense.core.local
 
-
-class NativeFile(
+class JvmFile(
     override val path: String
-): KmpFile {
+): LocalStorage {
 
 }
 
 //actual fun file(path: String): KmpFile {
-//    TODO("Not yet implemented")
+//    return JvmFile(path)
 //}

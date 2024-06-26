@@ -1,13 +1,12 @@
 package org.pointyware.commonsense.feature.ontology.interactors
 
-import org.pointyware.commonsense.core.local.KmpFile
-import org.pointyware.commonsense.feature.ontology.interactors.SelectFileUseCase
+import org.pointyware.commonsense.core.local.LocalStorage
 
 /**
  *
  */
 class NativeSelectFileUseCase(): SelectFileUseCase {
-    override suspend operator fun invoke(): Result<KmpFile> {
+    override suspend operator fun invoke(): Result<LocalStorage> {
         TODO("Not yet implemented")
     }
 }
