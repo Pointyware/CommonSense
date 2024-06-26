@@ -1,14 +1,15 @@
 package org.pointyware.commonsense.feature.ontology.local
 
 import kotlinx.serialization.Serializable
-import RelationWeight
+import org.pointyware.commonsense.core.common.Uuid
+import org.pointyware.commonsense.feature.ontology.RelationWeight
 
 /**
  * A JSON representation of the [org.pointyware.commonsense.feature.ontology.ConceptSpace] entity.
  */
 @Serializable
 data class ConceptSpaceJson(
-    val id: String,
+    val id: Uuid,
     val focus: OntologyJson
 )
 
@@ -18,7 +19,7 @@ data class ConceptSpaceJson(
  */
 @Serializable
 data class OntologyJson(
-    val id: String,
+    val id: Uuid,
     val concepts: Set<ConceptJson>,
     val relations: Set<RelationJson>
 )
@@ -28,7 +29,7 @@ data class OntologyJson(
  */
 @Serializable
 data class ConceptJson(
-    val id: String,
+    val id: Uuid,
     val name: String,
     val description: String?,
 )
@@ -38,9 +39,9 @@ data class ConceptJson(
  */
 @Serializable
 data class RelationJson(
-    val id: String,
+    val id: Uuid,
     val name: String,
     val weight: RelationWeight,
-    val source: String,
-    val target: String,
+    val source: Uuid,
+    val target: Uuid,
 )

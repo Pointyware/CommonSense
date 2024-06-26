@@ -8,6 +8,7 @@ import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import org.pointyware.commonsense.core.common.Log
+import org.pointyware.commonsense.core.common.Uuid
 import org.pointyware.commonsense.core.local.LocalStorage
 import org.pointyware.commonsense.core.viewmodels.ViewModel
 import org.pointyware.commonsense.feature.ontology.data.ArrangementController
@@ -34,11 +35,11 @@ class ConceptSpaceViewModel(
 
     private val testSpace = ConceptSpaceUiState(
         OntologyUiState(
-            id = "test",
+            id = Uuid.v4(),
             nodes = listOf(
-                InfoNodeUiState("1", "Node 1", 100f, 100f),
-                InfoNodeUiState("2", "Node 2", 200f, 200f),
-                InfoNodeUiState("3", "Node 3", 300f, 300f),
+                InfoNodeUiState(Uuid.v4(), "Node 1", 100f, 100f),
+                InfoNodeUiState(Uuid.v4(), "Node 2", 200f, 200f),
+                InfoNodeUiState(Uuid.v4(), "Node 3", 300f, 300f),
             ),
             edges = emptyList()
         )

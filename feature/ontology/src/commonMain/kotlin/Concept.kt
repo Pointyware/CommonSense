@@ -1,24 +1,26 @@
 package org.pointyware.commonsense.feature.ontology
 
+import org.pointyware.commonsense.core.common.Uuid
+
 /**
  * A singular concept in an ontology. A concept is a node in the ontology graph.
  * `Concept => Node<ConceptInfo>`
  * `ConceptInfo => <Id, Name, Description>`
  */
 interface Concept {
-    val id: String
+    val id: Uuid
     val name: String
     val description: String?
 }
 
 class IndependentConcept(
-    override val id: String,
+    override val id: Uuid,
     override val name: String,
     override val description: String?,
 ): Concept
 
 class MemberConcept(
-    override val id: String,
+    override val id: Uuid,
     val owner: Ontology,
 ): Concept {
     private val self by lazy {

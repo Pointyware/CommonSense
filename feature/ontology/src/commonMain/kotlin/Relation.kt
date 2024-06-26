@@ -1,6 +1,7 @@
 package org.pointyware.commonsense.feature.ontology
 
 import kotlinx.serialization.Serializable
+import org.pointyware.commonsense.core.common.Uuid
 
 /**
  * A relation between two concepts in an ontology. A relation is an edge in the ontology graph.
@@ -8,7 +9,7 @@ import kotlinx.serialization.Serializable
  * `RelationInfo => <Id, Type, Weight>`
  */
 interface Relation {
-    val id: String
+    val id: Uuid
     val source: Concept
     val target: Concept
     val type: String
@@ -22,7 +23,7 @@ sealed interface RelationWeight {
 }
 
 class MemberRelation(
-    override val id: String,
+    override val id: Uuid,
     val owner: Ontology,
 ): Relation {
     private val self by lazy {
