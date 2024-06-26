@@ -1,6 +1,6 @@
 package org.pointyware.commonsense.feature.ontology.interactors
 
-import JvmFile
+import org.pointyware.commonsense.core.local.JvmFile
 import org.pointyware.commonsense.core.local.KmpFile
 
 /**
