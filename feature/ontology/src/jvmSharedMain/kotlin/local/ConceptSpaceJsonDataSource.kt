@@ -99,6 +99,16 @@ class ConceptSpaceJsonDataSource(
         return Result.success(newNode)
     }
 
+    override suspend fun updateNode(id: Uuid, name: String, description: String?): Result<Unit> {
+        val newNode = IndependentConcept(id, name, description)
+        return try {
+            workSpace.focus.updateConcept(newNode)
+            Result.success(Unit)
+        } catch (e: Throwable) {
+            Result.failure(e)
+        }
+    }
+
     override suspend fun removeNode(id: Uuid): Result<Unit> {
         workSpace.focus.removeConcept(id)
         mutableActiveSpace.emit(workSpace)
