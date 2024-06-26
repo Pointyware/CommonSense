@@ -20,5 +20,5 @@ abstract class ViewModel() {
 }
 
 private fun createViewModelScope(): CoroutineScope {
-    return CoroutineScope(Dispatchers.Main + SupervisorJob())
+    return CoroutineScope(Dispatchers.Main.immediate + SupervisorJob())
 }
