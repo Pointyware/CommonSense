@@ -1,5 +1,7 @@
 package org.pointyware.commonsense.feature.ontology.data
 
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 import org.pointyware.commonsense.core.common.Uuid
 import org.pointyware.commonsense.feature.ontology.Concept
 
@@ -22,7 +24,10 @@ interface ArrangementController {
         return getConceptPosition(concept.id) ?: Position(x, y).also { addNode(concept, x, y)}
     }
 
+    val frozenIds: StateFlow<Set<Uuid>>
+
     fun freeze(id: Uuid)
+    fun unfreeze(id: Uuid)
 }
 
 
@@ -44,7 +49,15 @@ class SimpleArrangementController(
         return concepts.entries.find { it.key.id == id }?.value
     }
 
+    private val mutableFrozenIds = MutableStateFlow(emptySet<Uuid>())
+    override val frozenIds: StateFlow<Set<Uuid>>
+        get() = mutableFrozenIds
+
     override fun freeze(id: Uuid) {
-        TODO("Not yet implemented")
+        mutableFrozenIds.value += id
+    }
+
+    override fun unfreeze(id: Uuid) {
+        mutableFrozenIds.value -= id
     }
 }
