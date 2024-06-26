@@ -19,6 +19,7 @@ interface MutableOntology: Ontology {
     fun addConcept(concept: Concept)
     fun removeConcept(id: Uuid)
     fun addRelation(conceptSource: Uuid, conceptTarget: Uuid)
+    fun updateConcept(concept: Concept)
 }
 
 internal class SimpleMutableOntology(
@@ -55,6 +56,12 @@ internal class SimpleMutableOntology(
                 relationMap[newRelation.id] = newRelation
             } ?: throw IllegalArgumentException("Concept target $conceptTarget not found in Ontology $id")
         } ?: throw IllegalArgumentException("Concept source $conceptSource not found in Ontology $id")
+    }
+
+    override fun updateConcept(concept: Concept) {
+         conceptMap[id]?.also {
+            conceptMap[id] = concept
+        } ?: throw IllegalArgumentException("Concept $id not found in Ontology $id")
     }
 }
 

@@ -3,7 +3,7 @@ package org.pointyware.commonsense.feature.ontology.viewmodels
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
@@ -11,12 +11,15 @@ import org.pointyware.commonsense.core.common.Log
 import org.pointyware.commonsense.core.common.Uuid
 import org.pointyware.commonsense.core.local.LocalStorage
 import org.pointyware.commonsense.core.viewmodels.ViewModel
+import org.pointyware.commonsense.feature.ontology.ConceptSpace
 import org.pointyware.commonsense.feature.ontology.data.ArrangementController
 import org.pointyware.commonsense.feature.ontology.data.Position
 import org.pointyware.commonsense.feature.ontology.interactors.AddNewNodeUseCase
 import org.pointyware.commonsense.feature.ontology.interactors.GetActiveConceptSpaceUseCase
 import org.pointyware.commonsense.feature.ontology.interactors.LoadConceptSpaceUseCase
 import org.pointyware.commonsense.feature.ontology.interactors.RemoveNodeUseCase
+import org.pointyware.commonsense.feature.ontology.interactors.SaveConceptSpaceUseCase
+import org.pointyware.commonsense.feature.ontology.interactors.UpdateNodeUseCase
 
 /**
  *
@@ -24,7 +27,9 @@ import org.pointyware.commonsense.feature.ontology.interactors.RemoveNodeUseCase
 class ConceptSpaceViewModel(
     private val getActiveConceptSpaceUseCase: GetActiveConceptSpaceUseCase,
     private val loadConceptSpaceUseCase: LoadConceptSpaceUseCase,
+    private val saveConceptSpaceUseCase: SaveConceptSpaceUseCase,
     private val addNewNodeUseCase: AddNewNodeUseCase,
+    private val updateNodeUseCase: UpdateNodeUseCase,
     private val removeNodeUseCase: RemoveNodeUseCase,
     private val arrangementController: ArrangementController
 ): ViewModel() {
@@ -33,19 +38,21 @@ class ConceptSpaceViewModel(
         Log.v("ConceptSpaceViewModel created")
     }
 
-    private val testSpace = ConceptSpaceUiState(
+    private val emptySpace = ConceptSpaceUiState(
         OntologyUiState(
             id = Uuid.v4(),
-            nodes = listOf(
-                InfoNodeUiState(Uuid.v4(), "Node 1", 100f, 100f),
-                InfoNodeUiState(Uuid.v4(), "Node 2", 200f, 200f),
-                InfoNodeUiState(Uuid.v4(), "Node 3", 300f, 300f),
-            ),
+            nodes = emptyList(),
             edges = emptyList()
         )
     )
 
-    val state: StateFlow<ConceptSpaceUiState> = getActiveConceptSpaceUseCase().map { conceptSpace ->
+    val state: StateFlow<ConceptSpaceUiState> = combine(
+        getActiveConceptSpaceUseCase(),
+        arrangementController.frozenIds
+    ) { flows ->
+        val conceptSpace = flows[0] as ConceptSpace
+        val frozenIds = flows[1] as Set<Uuid>
+
         Log.v("Mapping concept space: $conceptSpace")
         ConceptSpaceUiState(
             OntologyUiState(
@@ -55,6 +62,7 @@ class ConceptSpaceViewModel(
                     InfoNodeUiState(
                         concept.id,
                         concept.name,
+                        concept.id in frozenIds,
                         position.x,
                         position.y
                     )
@@ -72,7 +80,7 @@ class ConceptSpaceViewModel(
     }.stateIn(
         scope = viewModelScope,
         started = SharingStarted.Lazily,
-        initialValue = testSpace
+        initialValue = emptySpace
     )
 
     fun onLoadConceptSpace(file: LocalStorage) {
@@ -87,8 +95,10 @@ class ConceptSpaceViewModel(
         }
     }
 
-    fun onSaveConceptSpace() {
-
+    fun onSaveConceptSpace(selectFile: Boolean = false) {
+        viewModelScope.launch {
+            saveConceptSpaceUseCase(selectFile)
+        }
     }
 
     fun onDeleteNode(id: Uuid) {
@@ -99,7 +109,7 @@ class ConceptSpaceViewModel(
 
     fun onModifyNode(id: Uuid) {
         viewModelScope.launch {
-            // TODO: update state of ui to reflect modification
+
             arrangementController.freeze(id)
         }
     }
@@ -113,8 +123,11 @@ class ConceptSpaceViewModel(
         }
     }
 
-    fun onCompleteNode(uuid: Uuid, newValue: String) {
-        TODO("Not yet implemented")
+    fun onCompleteNode(id: Uuid, newValue: String) {
+        viewModelScope.launch {
+            updateNodeUseCase(id, newValue)
+            arrangementController.unfreeze(id)
+        }
     }
 
     private val mutablePointSet = MutableStateFlow<Set<Position>>(emptySet())

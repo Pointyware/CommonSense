@@ -17,6 +17,7 @@ interface ConceptSpaceRepository {
     suspend fun saveConceptSpace(file: LocalStorage): Result<Unit>
     suspend fun createNode(name: String): Result<Concept>
     suspend fun removeNode(id: Uuid): Result<Unit>
+    suspend fun updateNode(id: Uuid, title: String, description: String? = null): Result<Unit>
 }
 
 /**
@@ -43,6 +44,11 @@ class ConceptSpaceRepositoryImpl(
     override suspend fun createNode(name: String): Result<Concept> {
         return dataSource.createNode(name)
     }
+
+    override suspend fun updateNode(id: Uuid, title: String, description: String?): Result<Unit> {
+        return dataSource.updateNode(id, title, description)
+    }
+
     override suspend fun removeNode(id: Uuid): Result<Unit> {
         return dataSource.removeNode(id)
     }
