@@ -1,5 +1,6 @@
 package org.pointyware.commonsense.feature.ontology.interactors
 
+import org.pointyware.commonsense.core.common.Uuid
 import org.pointyware.commonsense.feature.ontology.data.ArrangementController
 import org.pointyware.commonsense.feature.ontology.data.ConceptSpaceRepository
 
@@ -10,7 +11,7 @@ class RemoveNodeUseCase(
     private val conceptSpaceRepository: ConceptSpaceRepository,
     private val arrangementController: ArrangementController
 ) {
-    suspend operator fun invoke(id: String): Result<Unit> {
+    suspend operator fun invoke(id: Uuid): Result<Unit> {
         return conceptSpaceRepository.removeNode(id).onSuccess {
             arrangementController.removeNode(id)
         }

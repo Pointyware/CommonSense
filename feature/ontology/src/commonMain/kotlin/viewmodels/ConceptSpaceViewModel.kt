@@ -91,13 +91,13 @@ class ConceptSpaceViewModel(
 
     }
 
-    fun onDeleteNode(id: String) {
+    fun onDeleteNode(id: Uuid) {
         viewModelScope.launch {
             removeNodeUseCase(id)
         }
     }
 
-    fun onModifyNode(id: String) {
+    fun onModifyNode(id: Uuid) {
         viewModelScope.launch {
             // TODO: update state of ui to reflect modification
             arrangementController.freeze(id)
@@ -111,6 +111,10 @@ class ConceptSpaceViewModel(
                 it + Position(x, y)
             }
         }
+    }
+
+    fun onCompleteNode(uuid: Uuid, newValue: String) {
+        TODO("Not yet implemented")
     }
 
     private val mutablePointSet = MutableStateFlow<Set<Position>>(emptySet())
