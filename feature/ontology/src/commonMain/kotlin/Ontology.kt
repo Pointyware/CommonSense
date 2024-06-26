@@ -1,6 +1,6 @@
-package org.pointyware.commonsense.ontology
+package org.pointyware.commonsense.feature.ontology
 
-import org.pointyware.commonsense.ontology.local.generateRandomId
+import org.pointyware.commonsense.feature.ontology.local.generateRandomId
 
 /**
  * A collection of concepts and their relations, which usually form a rough hierarchy of concepts,

@@ -1,6 +1,6 @@
-package org.pointyware.commonsense.ontology.data
+package org.pointyware.commonsense.feature.ontology.data
 
-import org.pointyware.commonsense.ontology.Concept
+import org.pointyware.commonsense.feature.ontology.Concept
 
 
 data class Position(

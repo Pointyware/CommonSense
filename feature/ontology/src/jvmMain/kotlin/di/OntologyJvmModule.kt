@@ -1,8 +1,8 @@
-package org.pointyware.commonsense.ontology.di
+package org.pointyware.commonsense.feature.ontology.di
 
 import org.koin.dsl.module
-import org.pointyware.commonsense.ontology.interactors.JvmSelectFileUseCase
-import org.pointyware.commonsense.ontology.interactors.SelectFileUseCase
+import org.pointyware.commonsense.feature.ontology.interactors.JvmSelectFileUseCase
+import org.pointyware.commonsense.feature.ontology.interactors.SelectFileUseCase
 
 /**
  * Provides JVM-specific ontology dependencies

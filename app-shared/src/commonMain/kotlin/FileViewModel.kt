@@ -3,9 +3,9 @@ package org.pointyware.commonsense.shared
 import kotlinx.coroutines.launch
 import org.pointyware.commonsense.core.common.Log
 import org.pointyware.commonsense.core.viewmodels.ViewModel
-import org.pointyware.commonsense.ontology.interactors.LoadConceptSpaceUseCase
-import org.pointyware.commonsense.ontology.interactors.SaveConceptSpaceUseCase
-import org.pointyware.commonsense.ontology.interactors.SelectFileUseCase
+import org.pointyware.commonsense.feature.ontology.interactors.LoadConceptSpaceUseCase
+import org.pointyware.commonsense.feature.ontology.interactors.SaveConceptSpaceUseCase
+import org.pointyware.commonsense.feature.ontology.interactors.SelectFileUseCase
 
 /**
  * Manages file operations for the application.

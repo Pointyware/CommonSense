@@ -1,4 +1,4 @@
-package org.pointyware.commonsense.ontology.viewmodels
+package org.pointyware.commonsense.feature.ontology.viewmodels
 
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
@@ -10,12 +10,12 @@ import kotlinx.coroutines.launch
 import org.pointyware.commonsense.core.common.Log
 import org.pointyware.commonsense.core.local.KmpFile
 import org.pointyware.commonsense.core.viewmodels.ViewModel
-import org.pointyware.commonsense.ontology.data.ArrangementController
-import org.pointyware.commonsense.ontology.data.Position
-import org.pointyware.commonsense.ontology.interactors.AddNewNodeUseCase
-import org.pointyware.commonsense.ontology.interactors.GetActiveConceptSpaceUseCase
-import org.pointyware.commonsense.ontology.interactors.LoadConceptSpaceUseCase
-import org.pointyware.commonsense.ontology.interactors.RemoveNodeUseCase
+import org.pointyware.commonsense.feature.ontology.data.ArrangementController
+import org.pointyware.commonsense.feature.ontology.data.Position
+import org.pointyware.commonsense.feature.ontology.interactors.AddNewNodeUseCase
+import org.pointyware.commonsense.feature.ontology.interactors.GetActiveConceptSpaceUseCase
+import org.pointyware.commonsense.feature.ontology.interactors.LoadConceptSpaceUseCase
+import org.pointyware.commonsense.feature.ontology.interactors.RemoveNodeUseCase
 
 /**
  *

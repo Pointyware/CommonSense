@@ -1,4 +1,4 @@
-package org.pointyware.commonsense.ontology
+package org.pointyware.commonsense.feature.ontology
 
 import kotlinx.serialization.Serializable
 

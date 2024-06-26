@@ -5,17 +5,11 @@ import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 import org.pointyware.commonsense.core.local.KmpFile
-import org.pointyware.commonsense.ontology.Concept
-import org.pointyware.commonsense.ontology.ConceptSpace
-import org.pointyware.commonsense.ontology.IndependentConcept
-import org.pointyware.commonsense.ontology.MutableConceptSpace
-import org.pointyware.commonsense.ontology.local.ConceptJson
-import org.pointyware.commonsense.ontology.local.ConceptSpaceDataSource
-import org.pointyware.commonsense.ontology.local.ConceptSpaceJson
-import org.pointyware.commonsense.ontology.local.OntologyJson
-import org.pointyware.commonsense.ontology.local.RelationJson
-import org.pointyware.commonsense.ontology.local.generateRandomId
-import org.pointyware.commonsense.ontology.mutableOntology
+import org.pointyware.commonsense.feature.ontology.Concept
+import org.pointyware.commonsense.feature.ontology.ConceptSpace
+import org.pointyware.commonsense.feature.ontology.IndependentConcept
+import org.pointyware.commonsense.feature.ontology.MutableConceptSpace
+import org.pointyware.commonsense.feature.ontology.mutableOntology
 import java.io.File
 
 class ConceptSpaceJsonDataSource(

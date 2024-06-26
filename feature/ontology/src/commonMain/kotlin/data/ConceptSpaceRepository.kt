@@ -1,10 +1,10 @@
-package org.pointyware.commonsense.ontology.data
+package org.pointyware.commonsense.feature.ontology.data
 
 import kotlinx.coroutines.flow.Flow
 import org.pointyware.commonsense.core.local.KmpFile
-import org.pointyware.commonsense.ontology.Concept
-import org.pointyware.commonsense.ontology.ConceptSpace
-import org.pointyware.commonsense.ontology.local.ConceptSpaceDataSource
+import org.pointyware.commonsense.feature.ontology.Concept
+import org.pointyware.commonsense.feature.ontology.ConceptSpace
+import org.pointyware.commonsense.feature.ontology.local.ConceptSpaceDataSource
 
 /**
  * Separates data mediation from the rest of the application.

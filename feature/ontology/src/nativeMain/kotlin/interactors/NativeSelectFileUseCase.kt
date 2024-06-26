@@ -1,7 +1,7 @@
 package org.pointyware.commonsense.feature.ontology.interactors
 
 import org.pointyware.commonsense.core.local.KmpFile
-import org.pointyware.commonsense.ontology.interactors.SelectFileUseCase
+import org.pointyware.commonsense.feature.ontology.interactors.SelectFileUseCase
 
 /**
  *
