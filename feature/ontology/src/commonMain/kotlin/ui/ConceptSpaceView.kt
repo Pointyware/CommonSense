@@ -10,6 +10,7 @@ import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.dp
 import org.pointyware.commonsense.core.common.Log
 import org.pointyware.commonsense.core.common.Mapper
+import org.pointyware.commonsense.core.common.Uuid
 import org.pointyware.commonsense.core.ui.components.InfoNode
 import org.pointyware.commonsense.core.ui.components.InfoNodeState
 import org.pointyware.commonsense.feature.ontology.viewmodels.ConceptSpaceUiState
@@ -36,8 +37,9 @@ data class InfoEdgeState(
 fun ConceptSpaceView(
     state: ConceptSpaceViewState,
     modifier: Modifier = Modifier,
-    onDeleteNode: (String) -> Unit,
-    onModifyNode: (String) -> Unit,
+    onDeleteNode: (Uuid) -> Unit,
+    onModifyNode: (Uuid) -> Unit,
+    onCompleteNode: (Uuid,String) -> Unit,
     onCreateNode: (Float,Float) -> Unit,
 ) {
     Log.v("ConceptSpaceView")
@@ -53,12 +55,15 @@ fun ConceptSpaceView(
                 }
             }
     ) {
-        state.infoNodes.forEach {
+        state.infoNodes.forEach { nodeState ->
             InfoNode(
-                state = it,
-                modifier = Modifier.offset(it.x, it.y),
+                state = nodeState,
+                modifier = Modifier.offset(nodeState.x, nodeState.y),
                 onModify = onModifyNode,
-                onDelete = onDeleteNode
+                onDelete = onDeleteNode,
+                onComplete = {
+                    onCompleteNode(nodeState.id, it)
+                }
             )
         }
         state.infoEdges.forEach {
