@@ -1,7 +1,9 @@
 package org.pointyware.commonsense.feature.ontology.ui
 
+import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.offset
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -24,12 +26,6 @@ data class ConceptSpaceViewState(
     val infoEdges: List<InfoEdgeState>
 )
 
-data class InfoEdgeState(
-    val id: String,
-    val from: InfoNodeState,
-    val to: InfoNodeState
-)
-
 /**
  *
  */
@@ -44,6 +40,12 @@ fun ConceptSpaceView(
 ) {
     Log.v("ConceptSpaceView")
     val density = LocalDensity.current
+    /*
+    TODO: Create GraphView
+      1. Create a GraphView composable that takes Node and Edge states
+      2. Create an internal Node composable that takes a Node state and geometry cache for writing
+      3. Create an internal Edge composable that takes an Edge state and geometry cache for reading
+     */
     Box(
         modifier = modifier
             .pointerInput(Unit) {
@@ -63,12 +65,8 @@ fun ConceptSpaceView(
                 onDelete = onDeleteNode,
                 onComplete = {
                     onCompleteNode(nodeState.id, it)
-                }
+                },
             )
-        }
-        state.infoEdges.forEach {
-            // TODO: draw each edge
-
         }
     }
 }
