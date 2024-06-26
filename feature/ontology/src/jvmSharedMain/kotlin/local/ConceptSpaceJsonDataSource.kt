@@ -1,4 +1,4 @@
-package org.pointyware.commonsense.ontology.local
+package org.pointyware.commonsense.feature.ontology.local
 
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableSharedFlow
@@ -9,6 +9,12 @@ import org.pointyware.commonsense.ontology.Concept
 import org.pointyware.commonsense.ontology.ConceptSpace
 import org.pointyware.commonsense.ontology.IndependentConcept
 import org.pointyware.commonsense.ontology.MutableConceptSpace
+import org.pointyware.commonsense.ontology.local.ConceptJson
+import org.pointyware.commonsense.ontology.local.ConceptSpaceDataSource
+import org.pointyware.commonsense.ontology.local.ConceptSpaceJson
+import org.pointyware.commonsense.ontology.local.OntologyJson
+import org.pointyware.commonsense.ontology.local.RelationJson
+import org.pointyware.commonsense.ontology.local.generateRandomId
 import org.pointyware.commonsense.ontology.mutableOntology
 import java.io.File
 
