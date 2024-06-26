@@ -41,5 +41,6 @@ fun ConceptSpaceScreen(
         onDeleteNode = viewModel::onDeleteNode,
         onModifyNode = viewModel::onModifyNode,
         onCreateNode = viewModel::onCreateNode,
+        onCompleteNode = viewModel::onCompleteNode,
     )
 }

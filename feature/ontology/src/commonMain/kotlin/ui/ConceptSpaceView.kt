@@ -1,10 +1,6 @@
 package org.pointyware.commonsense.feature.ontology.ui
 
-import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.gestures.detectTapGestures
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.offset
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.pointer.pointerInput
@@ -13,7 +9,7 @@ import androidx.compose.ui.unit.dp
 import org.pointyware.commonsense.core.common.Log
 import org.pointyware.commonsense.core.common.Mapper
 import org.pointyware.commonsense.core.common.Uuid
-import org.pointyware.commonsense.core.ui.components.InfoNode
+import org.pointyware.commonsense.core.ui.components.InfoEdgeState
 import org.pointyware.commonsense.core.ui.components.InfoNodeState
 import org.pointyware.commonsense.feature.ontology.viewmodels.ConceptSpaceUiState
 
@@ -27,7 +23,7 @@ data class ConceptSpaceViewState(
 )
 
 /**
- *
+ * Uses a [GraphView] and adds interaction to modify the represented graph.
  */
 @Composable
 fun ConceptSpaceView(
@@ -40,13 +36,9 @@ fun ConceptSpaceView(
 ) {
     Log.v("ConceptSpaceView")
     val density = LocalDensity.current
-    /*
-    TODO: Create GraphView
-      1. Create a GraphView composable that takes Node and Edge states
-      2. Create an internal Node composable that takes a Node state and geometry cache for writing
-      3. Create an internal Edge composable that takes an Edge state and geometry cache for reading
-     */
-    Box(
+    GraphView(
+        infoNodes = state.infoNodes,
+        infoEdges = state.infoEdges,
         modifier = modifier
             .pointerInput(Unit) {
                 detectTapGestures { offset ->
@@ -55,20 +47,11 @@ fun ConceptSpaceView(
                         offset.y / density.density
                     )
                 }
-            }
-    ) {
-        state.infoNodes.forEach { nodeState ->
-            InfoNode(
-                state = nodeState,
-                modifier = Modifier.offset(nodeState.x, nodeState.y),
-                onModify = onModifyNode,
-                onDelete = onDeleteNode,
-                onComplete = {
-                    onCompleteNode(nodeState.id, it)
-                },
-            )
-        }
-    }
+            },
+        onModifyNode = onModifyNode,
+        onDeleteNode = onDeleteNode,
+        onCompleteNode = onCompleteNode,
+    )
 }
 
 object ConceptSpaceUiStateMapper: Mapper<ConceptSpaceUiState, ConceptSpaceViewState> {
