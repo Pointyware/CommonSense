@@ -1,4 +1,4 @@
-import org.pointyware.commonsense.core.local.KmpFile
+package org.pointyware.commonsense.core.local
 
 class JvmFile(
     override val path: String
