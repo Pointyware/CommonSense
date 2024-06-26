@@ -1,7 +1,7 @@
-package org.pointyware.commonsense.ontology.interactors
+package org.pointyware.commonsense.feature.ontology.interactors
 
 import org.pointyware.commonsense.core.local.KmpFile
-import org.pointyware.commonsense.ontology.data.ConceptSpaceRepository
+import org.pointyware.commonsense.feature.ontology.data.ConceptSpaceRepository
 
 /**
  *

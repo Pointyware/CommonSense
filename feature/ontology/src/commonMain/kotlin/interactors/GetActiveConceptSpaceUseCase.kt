@@ -1,10 +1,10 @@
-package org.pointyware.commonsense.ontology.interactors
+package org.pointyware.commonsense.feature.ontology.interactors
 
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.onEach
 import org.pointyware.commonsense.core.common.Log
-import org.pointyware.commonsense.ontology.ConceptSpace
-import org.pointyware.commonsense.ontology.data.ConceptSpaceRepository
+import org.pointyware.commonsense.feature.ontology.ConceptSpace
+import org.pointyware.commonsense.feature.ontology.data.ConceptSpaceRepository
 
 /**
  * Passes along the active concept space.

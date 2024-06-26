@@ -1,9 +1,9 @@
-package org.pointyware.commonsense.ontology.local
+package org.pointyware.commonsense.feature.ontology.local
 
 import kotlinx.coroutines.flow.Flow
 import org.pointyware.commonsense.core.local.KmpFile
-import org.pointyware.commonsense.ontology.Concept
-import org.pointyware.commonsense.ontology.ConceptSpace
+import org.pointyware.commonsense.feature.ontology.Concept
+import org.pointyware.commonsense.feature.ontology.ConceptSpace
 
 /**
  *

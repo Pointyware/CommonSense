@@ -1,4 +1,4 @@
-package org.pointyware.commonsense.ontology
+package org.pointyware.commonsense.feature.ontology
 
 /**
  * A space to explore concepts and document relationships between them to create an ontology.

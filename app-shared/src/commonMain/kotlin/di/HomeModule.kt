@@ -2,7 +2,7 @@ package org.pointyware.commonsense.shared.di
 
 import org.koin.core.qualifier.named
 import org.koin.dsl.module
-import org.pointyware.commonsense.ontology.navigation.ontologyRoute
+import org.pointyware.commonsense.feature.ontology.navigation.ontologyRoute
 import org.pointyware.commonsense.shared.home.HomeUiStateMapper
 import org.pointyware.commonsense.shared.home.HomeViewModel
 import org.pointyware.commonsense.shared.home.HomeViewModelImpl

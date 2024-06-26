@@ -1,10 +1,10 @@
-package org.pointyware.commonsense.ontology.local
+package org.pointyware.commonsense.feature.ontology.local
 
 import kotlinx.serialization.Serializable
-import org.pointyware.commonsense.ontology.RelationWeight
+import RelationWeight
 
 /**
- * A JSON representation of the [org.pointyware.commonsense.ontology.ConceptSpace] entity.
+ * A JSON representation of the [org.pointyware.commonsense.feature.ontology.ConceptSpace] entity.
  */
 @Serializable
 data class ConceptSpaceJson(
@@ -14,7 +14,7 @@ data class ConceptSpaceJson(
 
 
 /**
- * A JSON representation of the [org.pointyware.commonsense.ontology.Ontology] entity.
+ * A JSON representation of the [org.pointyware.commonsense.feature.ontology.Ontology] entity.
  */
 @Serializable
 data class OntologyJson(
@@ -24,7 +24,7 @@ data class OntologyJson(
 )
 
 /**
- * A JSON representation of the [org.pointyware.commonsense.ontology.Concept] entity.
+ * A JSON representation of the [org.pointyware.commonsense.feature.ontology.Concept] entity.
  */
 @Serializable
 data class ConceptJson(
@@ -34,7 +34,7 @@ data class ConceptJson(
 )
 
 /**
- * A JSON representation of the [org.pointyware.commonsense.ontology.Relation] entity.
+ * A JSON representation of the [org.pointyware.commonsense.feature.ontology.Relation] entity.
  */
 @Serializable
 data class RelationJson(

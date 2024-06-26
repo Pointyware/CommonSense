@@ -1,4 +1,4 @@
-package org.pointyware.commonsense.ontology
+package org.pointyware.commonsense.feature.ontology
 
 /**
  * A singular concept in an ontology. A concept is a node in the ontology graph.

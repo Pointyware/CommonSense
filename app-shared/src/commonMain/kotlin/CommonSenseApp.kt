@@ -17,7 +17,7 @@ import androidx.compose.ui.Modifier
 import org.pointyware.commonsense.core.common.Log
 import org.pointyware.commonsense.core.navigation.LocationRoot
 import org.pointyware.commonsense.core.ui.design.CommonSenseTheme
-import org.pointyware.commonsense.ontology.navigation.ontologyRouting
+import org.pointyware.commonsense.feature.ontology.navigation.ontologyRouting
 import org.pointyware.commonsense.shared.di.AppDependencies
 import org.pointyware.commonsense.shared.home.homeRouting
 

@@ -1,18 +1,18 @@
-package org.pointyware.commonsense.ontology.di
+package org.pointyware.commonsense.feature.ontology.di
 
 import kotlinx.serialization.json.Json
 import org.koin.dsl.module
-import org.pointyware.commonsense.ontology.data.ArrangementController
-import org.pointyware.commonsense.ontology.data.ConceptSpaceRepository
-import org.pointyware.commonsense.ontology.data.ConceptSpaceRepositoryImpl
-import org.pointyware.commonsense.ontology.data.SimpleArrangementController
-import org.pointyware.commonsense.ontology.interactors.AddNewNodeUseCase
-import org.pointyware.commonsense.ontology.interactors.GetActiveConceptSpaceUseCase
-import org.pointyware.commonsense.ontology.interactors.LoadConceptSpaceUseCase
-import org.pointyware.commonsense.ontology.interactors.RemoveNodeUseCase
-import org.pointyware.commonsense.ontology.local.ConceptSpaceDataSource
-import org.pointyware.commonsense.ontology.ui.ConceptSpaceUiStateMapper
-import org.pointyware.commonsense.ontology.viewmodels.ConceptSpaceViewModel
+import org.pointyware.commonsense.feature.ontology.data.ArrangementController
+import org.pointyware.commonsense.feature.ontology.data.ConceptSpaceRepository
+import org.pointyware.commonsense.feature.ontology.data.ConceptSpaceRepositoryImpl
+import org.pointyware.commonsense.feature.ontology.data.SimpleArrangementController
+import org.pointyware.commonsense.feature.ontology.interactors.AddNewNodeUseCase
+import org.pointyware.commonsense.feature.ontology.interactors.GetActiveConceptSpaceUseCase
+import org.pointyware.commonsense.feature.ontology.interactors.LoadConceptSpaceUseCase
+import org.pointyware.commonsense.feature.ontology.interactors.RemoveNodeUseCase
+import org.pointyware.commonsense.feature.ontology.local.ConceptSpaceDataSource
+import org.pointyware.commonsense.feature.ontology.ui.ConceptSpaceUiStateMapper
+import org.pointyware.commonsense.feature.ontology.viewmodels.ConceptSpaceViewModel
 
 /**
  *

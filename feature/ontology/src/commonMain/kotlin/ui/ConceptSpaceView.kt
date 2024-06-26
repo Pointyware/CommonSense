@@ -1,4 +1,4 @@
-package org.pointyware.commonsense.ontology.ui
+package org.pointyware.commonsense.feature.ontology.ui
 
 import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.Box
@@ -12,7 +12,7 @@ import org.pointyware.commonsense.core.common.Log
 import org.pointyware.commonsense.core.common.Mapper
 import org.pointyware.commonsense.core.ui.components.InfoNode
 import org.pointyware.commonsense.core.ui.components.InfoNodeState
-import org.pointyware.commonsense.ontology.viewmodels.ConceptSpaceUiState
+import org.pointyware.commonsense.feature.ontology.viewmodels.ConceptSpaceUiState
 
 /**
  *

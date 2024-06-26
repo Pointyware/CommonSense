@@ -1,8 +1,8 @@
-package org.pointyware.commonsense.ontology.interactors
+package org.pointyware.commonsense.feature.ontology.interactors
 
-import org.pointyware.commonsense.ontology.Concept
-import org.pointyware.commonsense.ontology.data.ArrangementController
-import org.pointyware.commonsense.ontology.data.ConceptSpaceRepository
+import org.pointyware.commonsense.feature.ontology.Concept
+import org.pointyware.commonsense.feature.ontology.data.ArrangementController
+import org.pointyware.commonsense.feature.ontology.data.ConceptSpaceRepository
 
 /**
  *

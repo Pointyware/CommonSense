@@ -1,4 +1,4 @@
-package org.pointyware.commonsense.ontology.viewmodels
+package org.pointyware.commonsense.feature.ontology.viewmodels
 
 class ConceptSpaceUiState(
     val ontology: OntologyUiState?

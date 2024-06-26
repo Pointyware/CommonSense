@@ -10,7 +10,7 @@ import org.pointyware.commonsense.core.navigation.di.coreNavigationModule
 import org.pointyware.commonsense.core.remote.di.coreRemoteModule
 import org.pointyware.commonsense.core.ui.di.coreUiModule
 import org.pointyware.commonsense.core.viewmodels.di.coreViewModelsModule
-import org.pointyware.commonsense.ontology.di.ontologyModule
+import org.pointyware.commonsense.feature.ontology.di.ontologyModule
 import org.pointyware.commonsense.shared.FileViewModel
 
 
