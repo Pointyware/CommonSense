@@ -7,6 +7,6 @@ class NativeFile(
 
 }
 
-//actual fun file(path: String): KmpFile {
-//    TODO("Not yet implemented")
-//}
+actual fun file(path: String): LocalStorage {
+    return NativeFile(path)
+}
