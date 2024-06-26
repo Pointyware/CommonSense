@@ -4,6 +4,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
+import org.pointyware.commonsense.core.common.Uuid
 import org.pointyware.commonsense.core.local.LocalStorage
 import org.pointyware.commonsense.feature.ontology.Concept
 import org.pointyware.commonsense.feature.ontology.ConceptSpace
@@ -98,7 +99,7 @@ class ConceptSpaceJsonDataSource(
         return Result.success(newNode)
     }
 
-    override suspend fun removeNode(id: String): Result<Unit> {
+    override suspend fun removeNode(id: Uuid): Result<Unit> {
         workSpace.focus.removeConcept(id)
         mutableActiveSpace.emit(workSpace)
         return Result.success(Unit)

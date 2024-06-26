@@ -1,5 +1,7 @@
 package org.pointyware.commonsense.feature.ontology.viewmodels
 
+import org.pointyware.commonsense.core.common.Uuid
+
 class ConceptSpaceUiState(
     val ontology: OntologyUiState?
 )
@@ -7,21 +9,21 @@ class ConceptSpaceUiState(
 fun emptySpace() = ConceptSpaceUiState(null)
 
 data class InfoNodeUiState(
-    val conceptId: String,
+    val conceptId: Uuid,
     val title: String,
     val x: Float,
     val y: Float
 )
 
 data class InfoEdgeUiState(
-    val relationId: String,
+    val relationId: Uuid,
     val label: String,
-    val sourceId: String,
-    val targetId: String,
+    val sourceId: Uuid,
+    val targetId: Uuid,
 )
 
 class OntologyUiState(
-    val id: String,
+    val id: Uuid,
     val nodes: List<InfoNodeUiState>,
     val edges: List<InfoEdgeUiState>
 ) {

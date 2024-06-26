@@ -1,5 +1,6 @@
 package org.pointyware.commonsense.feature.ontology
 
+import org.pointyware.commonsense.core.common.Uuid
 import org.pointyware.commonsense.feature.ontology.local.generateRandomId
 
 /**
@@ -9,25 +10,25 @@ import org.pointyware.commonsense.feature.ontology.local.generateRandomId
  * `Ontology => Graph<ConceptInfo, RelationInfo>`
  */
 interface Ontology {
-    val id: String
+    val id: Uuid
     val concepts: Set<Concept>
     val relations: Set<Relation>
 }
 
 interface MutableOntology: Ontology {
     fun addConcept(concept: Concept)
-    fun removeConcept(id: String)
-    fun addRelation(conceptSource: String, conceptTarget: String)
+    fun removeConcept(id: Uuid)
+    fun addRelation(conceptSource: Uuid, conceptTarget: Uuid)
 }
 
 internal class SimpleMutableOntology(
-    override val id: String,
+    override val id: Uuid,
 ): MutableOntology {
 
-    private val conceptMap: MutableMap<String, Concept> = mutableMapOf()
+    private val conceptMap: MutableMap<Uuid, Concept> = mutableMapOf()
     override val concepts: Set<Concept> get() = conceptMap.values.toSet()
 
-    private val relationMap: MutableMap<String, Relation> = mutableMapOf()
+    private val relationMap: MutableMap<Uuid, Relation> = mutableMapOf()
     override val relations: Set<Relation> get() = relationMap.values.toSet()
 
     override fun addConcept(concept: Concept) {
@@ -38,13 +39,13 @@ internal class SimpleMutableOntology(
         }
     }
 
-    override fun removeConcept(id: String) {
+    override fun removeConcept(id: Uuid) {
         conceptMap.remove(id)?.let {
             relationMap.remove(it.id)
         }
     }
 
-    override fun addRelation(conceptSource: String, conceptTarget: String) {
+    override fun addRelation(conceptSource: Uuid, conceptTarget: Uuid) {
         conceptMap[conceptSource]?.let { source ->
             conceptMap[conceptTarget]?.let { target ->
                 val newRelation = MemberRelation(
@@ -60,7 +61,7 @@ internal class SimpleMutableOntology(
 /**
  * Create a new mutable ontology with the given [id] and apply the [init] block to it.
  */
-fun mutableOntology(id: String, init: MutableOntology.() -> Unit = {}): MutableOntology {
+fun mutableOntology(id: Uuid, init: MutableOntology.() -> Unit = {}): MutableOntology {
     val ontology = SimpleMutableOntology(id)
     ontology.init()
     return ontology
