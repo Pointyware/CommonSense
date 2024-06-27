@@ -12,6 +12,7 @@ import org.pointyware.commonsense.core.ui.di.coreUiModule
 import org.pointyware.commonsense.core.viewmodels.di.coreViewModelsModule
 import org.pointyware.commonsense.feature.ontology.di.ontologyModule
 import org.pointyware.commonsense.shared.FileViewModel
+import org.pointyware.commonsense.shared.home.di.homeModule
 
 
 fun appModule(): Module = module {

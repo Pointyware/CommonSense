@@ -1,4 +1,4 @@
-package org.pointyware.commonsense.shared.di
+package org.pointyware.commonsense.shared.home.di
 
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.get

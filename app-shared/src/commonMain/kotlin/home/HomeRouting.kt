@@ -6,7 +6,7 @@ import androidx.compose.runtime.remember
 import org.koin.mp.KoinPlatform.getKoin
 import org.pointyware.commonsense.core.navigation.LocationRootScope
 import org.pointyware.commonsense.core.navigation.StaticRoute
-import org.pointyware.commonsense.shared.di.HomeDependencies
+import org.pointyware.commonsense.shared.home.di.HomeDependencies
 
 val homeRoute = StaticRoute("", Unit)
 /**
