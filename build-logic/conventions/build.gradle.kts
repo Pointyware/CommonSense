@@ -26,5 +26,11 @@ gradlePlugin {
             version = "0.1.0"
             implementationClass = "org.pointyware.commonsense.buildlogic.KmpTargetsConventionPlugin"
         }
+
+        create("compose-convention") {
+            id = "org.pointyware.commonsense.compose-convention"
+            version = "0.1.0"
+            implementationClass = "org.pointyware.commonsense.buildlogic.ComposeTargetsConventionPlugin"
+        }
     }
 }
