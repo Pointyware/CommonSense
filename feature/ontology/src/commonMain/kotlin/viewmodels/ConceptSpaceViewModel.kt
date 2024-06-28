@@ -11,7 +11,6 @@ import org.pointyware.commonsense.core.common.Log
 import org.pointyware.commonsense.core.common.Uuid
 import org.pointyware.commonsense.core.local.LocalStorage
 import org.pointyware.commonsense.core.viewmodels.ViewModel
-import org.pointyware.commonsense.feature.ontology.ConceptSpace
 import org.pointyware.commonsense.feature.ontology.data.ArrangementController
 import org.pointyware.commonsense.feature.ontology.data.Position
 import org.pointyware.commonsense.feature.ontology.interactors.AddNewNodeUseCase
@@ -46,38 +45,39 @@ class ConceptSpaceViewModel(
         )
     )
 
-    val state: StateFlow<ConceptSpaceUiState> =
-        getActiveConceptSpaceUseCase()
-            .combine(arrangementController.frozenIds) { conceptSpace, frozenIds ->
-                Log.v("Mapping concept space: $conceptSpace")
-                ConceptSpaceUiState(
-                    OntologyUiState(
-                        id = conceptSpace.id,
-                        nodes = conceptSpace.focus.concepts.map { concept ->
-                            val position = arrangementController.getConceptPositionOrPut(concept, 0f, 0f)
-                            InfoNodeUiState(
-                                concept.id,
-                                concept.name,
-                                concept.id in frozenIds,
-                                position.x,
-                                position.y
-                            )
-                        },
-                        edges = conceptSpace.focus.relations.map { relation ->
-                            InfoEdgeUiState(
-                                relation.id,
-                                relation.type,
-                                relation.source.id,
-                                relation.target.id
-                            )
-                        }
+    val state: StateFlow<ConceptSpaceUiState> = combine(
+        getActiveConceptSpaceUseCase(),
+        arrangementController.frozenIds
+    ) { conceptSpace, frozenIds ->
+        Log.v("Mapping concept space: $conceptSpace")
+        ConceptSpaceUiState(
+            OntologyUiState(
+                id = conceptSpace.id,
+                nodes = conceptSpace.focus.concepts.map { concept ->
+                    val position = arrangementController.getConceptPositionOrPut(concept, 0f, 0f)
+                    InfoNodeUiState(
+                        concept.id,
+                        concept.name,
+                        concept.id in frozenIds,
+                        position.x,
+                        position.y
                     )
-                )
-            }.stateIn(
-                scope = viewModelScope,
-                started = SharingStarted.Lazily,
-                initialValue = emptySpace
+                },
+                edges = conceptSpace.focus.relations.map { relation ->
+                    InfoEdgeUiState(
+                        relation.id,
+                        relation.type,
+                        relation.source.id,
+                        relation.target.id
+                    )
+                }
             )
+        )
+    }.stateIn(
+        scope = viewModelScope,
+        started = SharingStarted.Lazily,
+        initialValue = emptySpace
+    )
 
     fun onLoadConceptSpace(file: LocalStorage) {
         viewModelScope.launch {
