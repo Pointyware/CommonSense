@@ -32,5 +32,11 @@ gradlePlugin {
             version = "0.1.0"
             implementationClass = "org.pointyware.commonsense.buildlogic.ComposeTargetsConventionPlugin"
         }
+
+        create("core-projects-convention") {
+            id = "org.pointyware.commonsense.core-projects-convention"
+            version = "0.1.0"
+            implementationClass = "org.pointyware.commonsense.buildlogic.CoreProjectsConventionPlugin"
+        }
     }
 }
