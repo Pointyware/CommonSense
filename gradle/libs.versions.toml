@@ -66,5 +66,6 @@ kotlinMultiplatform = { id = "org.jetbrains.kotlin.multiplatform", version.ref =
 ksp                 = { id = "com.google.devtools.ksp", version.ref = "ksp" }
 ktor                = { id = "io.ktor.plugin", version.ref = "ktor" }
 
+commonsense-compose = { id = "org.pointyware.commonsense.compose-convention", version = "0.1.0" }
 commonsense-koin = { id = "org.pointyware.commonsense.koin-dependency-injection-convention", version = "0.1.0" }
 commonsense-kmp = { id = "org.pointyware.commonsense.kmp-convention", version = "0.1.0" }
