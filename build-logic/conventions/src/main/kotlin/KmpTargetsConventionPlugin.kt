@@ -37,19 +37,7 @@ class KmpTargetsConventionPlugin: Plugin<Project> {
 
         // Add dependencies after evaluation
         target.afterEvaluate {
-
-            val coreProject = project(":core:entities")
-            val ontologyProject = project(":feature:ontology")
-            val epistemologyProject = project(":feature:epistemology")
-
             dependencies {
-                listOf(
-                    coreProject,
-                    ontologyProject,
-                    epistemologyProject
-                ).forEach {
-                    add("implementation", it)
-                }
             }
         }
     }
