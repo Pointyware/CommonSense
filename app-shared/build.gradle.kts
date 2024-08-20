@@ -66,18 +66,41 @@ kotlin {
         val commonTest by getting {
             dependencies {
                 implementation(libs.kotlin.test)
+            }
+        }
+
+        val jvmSharedMain by creating {
+            dependsOn(commonMain)
+        }
+
+        val jvmSharedTest by creating {
+            dependsOn(commonTest)
+            dependencies {
                 implementation(libs.koin.test)
             }
         }
 
         val jvmMain by getting {
+            dependsOn(jvmSharedMain)
             dependencies {
                 implementation(compose.desktop.common)
                 implementation(libs.kotlinx.coroutinesSwing)
             }
         }
+
+        val jvmTest by getting {
+            dependsOn(jvmSharedTest)
+        }
+
+        val androidMain by getting {
+            dependsOn(jvmSharedMain)
+        }
+        val androidUnitTest by getting {
+            dependsOn(jvmSharedTest)
+        }
     }
 }
+
 compose.resources {
     publicResClass = true
     packageOfResClass = "org.pointyware.commonsense.shared"
