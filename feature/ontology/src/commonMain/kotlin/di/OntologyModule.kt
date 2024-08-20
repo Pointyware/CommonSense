@@ -43,6 +43,7 @@ fun ontologyInteractorModule() = module {
     single<RemoveNodeUseCase> { RemoveNodeUseCase(get<ConceptSpaceRepository>(), get<ArrangementController>()) }
     factory<SaveConceptSpaceUseCase> { SaveConceptSpaceUseCase(get<SelectFileUseCase>(), get<ConceptSpaceRepository>()) }
     factory<SelectFileUseCase> { SelectFileUseCaseImpl() }
+    factory<UpdateNodeUseCase> { UpdateNodeUseCase(get<ConceptSpaceRepository>()) }
 }
 
 fun ontologyViewModelModule() = module {
