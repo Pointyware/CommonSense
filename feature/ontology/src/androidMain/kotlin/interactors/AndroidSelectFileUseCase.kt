@@ -10,3 +10,7 @@ class AndroidSelectFileUseCase(): SelectFileUseCase {
         TODO("Not yet implemented")
     }
 }
+
+actual fun SelectFileUseCaseImpl(): SelectFileUseCase {
+    return AndroidSelectFileUseCase()
+}

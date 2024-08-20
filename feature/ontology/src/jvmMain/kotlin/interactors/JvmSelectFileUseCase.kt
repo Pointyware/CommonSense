@@ -15,3 +15,7 @@ class JvmSelectFileUseCase(
         return Result.success(JvmFile(DIRECTORY_SPACES)) // TODO: coordinate with file dialogs
     }
 }
+
+actual fun SelectFileUseCaseImpl(): SelectFileUseCase {
+    return JvmSelectFileUseCase()
+}
