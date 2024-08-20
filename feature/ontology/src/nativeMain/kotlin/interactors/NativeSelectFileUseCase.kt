@@ -10,3 +10,7 @@ class NativeSelectFileUseCase(): SelectFileUseCase {
         TODO("Not yet implemented")
     }
 }
+
+actual fun SelectFileUseCaseImpl(): SelectFileUseCase {
+    return NativeSelectFileUseCase()
+}

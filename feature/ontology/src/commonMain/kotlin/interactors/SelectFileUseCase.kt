@@ -10,3 +10,5 @@ const val DIRECTORY_SPACES = "spaces"
 interface SelectFileUseCase {
     suspend operator fun invoke(): Result<LocalStorage>
 }
+
+expect fun SelectFileUseCaseImpl(): SelectFileUseCase
