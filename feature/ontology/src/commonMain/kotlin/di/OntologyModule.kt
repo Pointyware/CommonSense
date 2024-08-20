@@ -11,6 +11,8 @@ import org.pointyware.commonsense.feature.ontology.interactors.GetActiveConceptS
 import org.pointyware.commonsense.feature.ontology.interactors.LoadConceptSpaceUseCase
 import org.pointyware.commonsense.feature.ontology.interactors.RemoveNodeUseCase
 import org.pointyware.commonsense.feature.ontology.interactors.SaveConceptSpaceUseCase
+import org.pointyware.commonsense.feature.ontology.interactors.SelectFileUseCase
+import org.pointyware.commonsense.feature.ontology.interactors.SelectFileUseCaseImpl
 import org.pointyware.commonsense.feature.ontology.interactors.UpdateNodeUseCase
 import org.pointyware.commonsense.feature.ontology.local.ConceptSpaceDataSource
 import org.pointyware.commonsense.feature.ontology.ui.ConceptSpaceUiStateMapper
@@ -39,6 +41,8 @@ fun ontologyInteractorModule() = module {
     single<LoadConceptSpaceUseCase> { LoadConceptSpaceUseCase(get<ConceptSpaceRepository>()) }
     single<AddNewNodeUseCase> { AddNewNodeUseCase(get<ConceptSpaceRepository>(), get<ArrangementController>()) }
     single<RemoveNodeUseCase> { RemoveNodeUseCase(get<ConceptSpaceRepository>(), get<ArrangementController>()) }
+    factory<SaveConceptSpaceUseCase> { SaveConceptSpaceUseCase(get<SelectFileUseCase>(), get<ConceptSpaceRepository>()) }
+    factory<SelectFileUseCase> { SelectFileUseCaseImpl() }
 }
 
 fun ontologyViewModelModule() = module {
