@@ -41,6 +41,9 @@ consider now, the way it’s used,</br>
 is clearly to exclude.
 </details>
 
+### Agents' Responsibilities
+When one agent introduces information to another agent that presents a conflict to the second agent's model of the world, the second agent will usually want to deny the information presented; that would demonstrate bad faith in the first agent, and it would be more productive to instead investigate the source of the divergence. When presented with a conceptual conflict, don't contradict – investigate.
+
 ## Modularization
 
 * core
