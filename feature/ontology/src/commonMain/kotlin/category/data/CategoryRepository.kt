@@ -13,6 +13,7 @@ interface CategoryRepository {
     suspend fun getSubcategories(id: Uuid): Result<List<Category>>
     suspend fun getConcepts(id: Uuid): Result<List<Concept>>
     suspend fun addConcept(subject: Uuid, newConcept: Concept): Result<Unit>
+    suspend fun addCategory(subject: Uuid, newCategory: Category): Result<Unit>
 }
 
 /**
@@ -67,6 +68,15 @@ class CategoryRepositoryImpl(
     override suspend fun addConcept(subject: Uuid, newConcept: Concept): Result<Unit> {
         categoryIndex[subject]?.let {
             it.concepts.add(newConcept)
+            return Result.success(Unit)
+        } ?: run {
+            return Result.failure(Exception("Category not found"))
+        }
+    }
+
+    override suspend fun addCategory(subject: Uuid, newCategory: Category): Result<Unit> {
+        categoryIndex[subject]?.let {
+            it.subcategories.add(newCategory)
             return Result.success(Unit)
         } ?: run {
             return Result.failure(Exception("Category not found"))
