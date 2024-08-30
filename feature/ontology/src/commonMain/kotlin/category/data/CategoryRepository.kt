@@ -49,7 +49,7 @@ class CategoryRepositoryImpl(
 
     override suspend fun getSubcategories(id: Uuid): Result<List<Category>> {
         return categoryIndex[id]?.let {
-            Result.success(it.subcategories)
+            Result.success(it.subcategories.toList())
         } ?: run {
             Result.failure(Exception("Category not found"))
         }
@@ -57,7 +57,7 @@ class CategoryRepositoryImpl(
 
     override suspend fun getConcepts(id: Uuid): Result<List<Concept>> {
         return categoryIndex[id]?.let {
-            Result.success(it.concepts)
+            Result.success(it.concepts.toList())
         } ?: run {
             Result.failure(Exception("Category not found"))
         }
