@@ -14,12 +14,15 @@ import org.pointyware.commonsense.feature.ontology.ConceptSpaceScreen
 import org.pointyware.commonsense.feature.ontology.category.ui.CategoryExplorer
 import org.pointyware.commonsense.feature.ontology.category.ui.CategoryExplorerState
 import org.pointyware.commonsense.feature.ontology.category.viewmodels.CategoryExplorerViewModel
+import org.pointyware.commonsense.feature.ontology.ui.CategoryCreator
 import org.pointyware.commonsense.feature.ontology.ui.ConceptEditor
+import org.pointyware.commonsense.feature.ontology.viewmodels.CategoryCreatorViewModel
 import org.pointyware.commonsense.feature.ontology.viewmodels.ConceptEditorViewModel
 import org.pointyware.commonsense.feature.ontology.viewmodels.ConceptSpaceViewModel
 
 val ontologyRoute = StaticRoute("ontology", Unit)
 val categoryExplorer = ontologyRoute.fixed("categoryExplorer")
+val categoryCreator = ontologyRoute.fixed("categoryCreator")
 val conceptEditor = ontologyRoute.fixed("conceptEditor")
 
 /**
@@ -58,6 +61,23 @@ fun LocationRootScope<Any, Any>.ontologyRouting() {
             modifier = Modifier.fillMaxSize(),
             onCategorySelected = viewModel::onCategorySelected,
             onConceptSelected = viewModel::onConceptSelected,
+        )
+    }
+
+    location(
+        key = categoryCreator
+    ) {
+        Log.v("CategoryCreator")
+        val koin = remember { getKoin() }
+        val viewModel = remember { koin.get<CategoryCreatorViewModel>() }
+
+        val state by viewModel.state.collectAsState()
+        CategoryCreator(
+            state = state,
+            modifier = Modifier.fillMaxSize(),
+            onNameChange = viewModel::onNameChange,
+            onCancel = viewModel::onCancel,
+            onConfirm = viewModel::onConfirm,
         )
     }
 
