@@ -2,6 +2,7 @@ package org.pointyware.commonsense.feature.ontology.di
 
 import kotlinx.serialization.json.Json
 import org.koin.dsl.module
+import org.pointyware.commonsense.feature.ontology.category.viewmodels.CategoryExplorerViewModel
 import org.pointyware.commonsense.feature.ontology.data.ArrangementController
 import org.pointyware.commonsense.feature.ontology.data.ConceptSpaceRepository
 import org.pointyware.commonsense.feature.ontology.data.ConceptSpaceRepositoryImpl
@@ -61,6 +62,8 @@ fun ontologyViewModelModule() = module {
             get<ArrangementController>()
         )
     }
+
+    single<CategoryExplorerViewModel> { CategoryExplorerViewModel() }
 }
 
 fun ontologyUiModule() = module {
