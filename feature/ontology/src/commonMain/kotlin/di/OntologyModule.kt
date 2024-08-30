@@ -2,6 +2,8 @@ package org.pointyware.commonsense.feature.ontology.di
 
 import kotlinx.serialization.json.Json
 import org.koin.dsl.module
+import org.pointyware.commonsense.feature.ontology.category.data.CategoryRepository
+import org.pointyware.commonsense.feature.ontology.category.data.CategoryRepositoryImpl
 import org.pointyware.commonsense.feature.ontology.category.viewmodels.CategoryExplorerViewModel
 import org.pointyware.commonsense.feature.ontology.data.ArrangementController
 import org.pointyware.commonsense.feature.ontology.data.ConceptSpaceRepository
@@ -35,6 +37,8 @@ fun ontologyDataModule() = module {
     single<Json> { Json.Default }
     single<ConceptSpaceRepository> { ConceptSpaceRepositoryImpl(get<ConceptSpaceDataSource>()) }
     single<ArrangementController> { SimpleArrangementController() }
+
+    single<CategoryRepository> { CategoryRepositoryImpl() }
 }
 
 fun ontologyInteractorModule() = module {
