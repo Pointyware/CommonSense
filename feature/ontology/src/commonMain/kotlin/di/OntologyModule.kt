@@ -10,6 +10,7 @@ import org.pointyware.commonsense.feature.ontology.category.interactors.GetSelec
 import org.pointyware.commonsense.feature.ontology.category.viewmodels.CategoryExplorerViewModel
 import org.pointyware.commonsense.feature.ontology.data.ArrangementController
 import org.pointyware.commonsense.feature.ontology.data.ConceptEditorController
+import org.pointyware.commonsense.feature.ontology.data.ConceptEditorControllerImpl
 import org.pointyware.commonsense.feature.ontology.data.ConceptSpaceRepository
 import org.pointyware.commonsense.feature.ontology.data.ConceptSpaceRepositoryImpl
 import org.pointyware.commonsense.feature.ontology.data.SimpleArrangementController
@@ -44,6 +45,7 @@ fun ontologyDataModule() = module {
     single<ArrangementController> { SimpleArrangementController() }
 
     single<CategoryRepository> { CategoryRepositoryImpl() }
+    single<ConceptEditorController> { ConceptEditorControllerImpl() }
 }
 
 fun ontologyInteractorModule() = module {
