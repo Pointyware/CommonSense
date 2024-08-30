@@ -2,37 +2,41 @@ package org.pointyware.commonsense.feature.ontology.category.viewmodels
 
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.launch
 import org.pointyware.commonsense.core.common.Uuid
 import org.pointyware.commonsense.core.viewmodels.ViewModel
-import org.pointyware.commonsense.feature.ontology.entities.Category
+import org.pointyware.commonsense.feature.ontology.category.interactors.GetSelectedCategoryUseCase
 
 /**
  * Maintains the state of the category explorer.
  */
 class CategoryExplorerViewModel(
-
+    private val getSelectedCategoryUseCase: GetSelectedCategoryUseCase
 ): ViewModel() {
 
-    // TODO: replace with state watching/mapping use case
     private val mutableState = MutableStateFlow(CategoryExplorerUiState.Loading)
     val state: StateFlow<CategoryExplorerUiState> get() = mutableState
-
-    init {
-        mutableState.value = CategoryExplorerUiState(
-            selected = Category(
-                id = Uuid.v4(),
-                name = "Test",
-            ),
-            subcategories = emptyList(),
-            concepts = emptyList(),
-            loading = false
-        )
-    }
 
     fun onCategorySelected(categoryId: Uuid) {
         mutableState.value = CategoryExplorerUiState.Loading
 
-        TODO("Initiate loading of subcategories and concepts")
+        viewModelScope.launch {
+            getSelectedCategoryUseCase.invoke(categoryId)
+                .onSuccess { info ->
+                    mutableState.update {
+                        CategoryExplorerUiState(
+                            selected = info.subject,
+                            subcategories = info.subcategories,
+                            concepts = info.concepts
+                        )
+                    }
+                }
+                .onFailure {
+                    println("Failed to get category info for id $categoryId")
+                    it.printStackTrace()
+                }
+        }
     }
 
     fun onConceptSelected(conceptId: Uuid) {
