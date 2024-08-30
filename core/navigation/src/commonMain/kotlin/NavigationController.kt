@@ -145,3 +145,5 @@ fun <K, A> StackNavigationController(
 ): StackNavigationController<K, A> {
     return StackNavigationControllerImpl(initialLocation)
 }
+
+typealias CymaticsNavController = StackNavigationController<Any, Any>
