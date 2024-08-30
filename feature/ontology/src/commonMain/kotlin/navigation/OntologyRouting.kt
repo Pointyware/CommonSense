@@ -14,10 +14,13 @@ import org.pointyware.commonsense.feature.ontology.ConceptSpaceScreen
 import org.pointyware.commonsense.feature.ontology.category.ui.CategoryExplorer
 import org.pointyware.commonsense.feature.ontology.category.ui.CategoryExplorerState
 import org.pointyware.commonsense.feature.ontology.category.viewmodels.CategoryExplorerViewModel
+import org.pointyware.commonsense.feature.ontology.ui.ConceptEditor
+import org.pointyware.commonsense.feature.ontology.viewmodels.ConceptEditorViewModel
 import org.pointyware.commonsense.feature.ontology.viewmodels.ConceptSpaceViewModel
 
 val ontologyRoute = StaticRoute("ontology", Unit)
 val categoryExplorer = ontologyRoute.fixed("categoryExplorer")
+val conceptEditor = ontologyRoute.fixed("conceptEditor")
 
 /**
  *
@@ -55,6 +58,25 @@ fun LocationRootScope<Any, Any>.ontologyRouting() {
             modifier = Modifier.fillMaxSize(),
             onCategorySelected = viewModel::onCategorySelected,
             onConceptSelected = viewModel::onConceptSelected,
+        )
+    }
+
+    location(
+        key = conceptEditor
+    ) {
+
+        Log.v("ConceptEditor")
+        val koin = remember { getKoin() }
+        val viewModel = remember { koin.get<ConceptEditorViewModel>() }
+
+        val state by viewModel.state.collectAsState()
+        ConceptEditor(
+            state = state,
+            modifier = Modifier.fillMaxSize(),
+            onNameChange = viewModel::onNameChange,
+            onDescriptionChange = viewModel::onDescriptionChange,
+            onCancel = viewModel::onCancel,
+            onConfirm = viewModel::onConfirm,
         )
     }
 }
