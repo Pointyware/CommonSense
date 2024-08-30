@@ -25,7 +25,7 @@ class GetSelectedCategoryUseCase(
 
 data class CategoryInfo(
     val id: Uuid,
-    val name: Category,
+    val subject: Category,
     val subcategories: List<Category>,
     val concepts: List<Concept>
 )
