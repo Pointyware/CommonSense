@@ -3,11 +3,13 @@ package org.pointyware.commonsense.feature.ontology.category.interactors
 import org.pointyware.commonsense.core.common.Uuid
 import org.pointyware.commonsense.feature.ontology.Concept
 import org.pointyware.commonsense.feature.ontology.category.data.CategoryRepository
+import org.pointyware.commonsense.feature.ontology.data.ConceptEditorController
 import org.pointyware.commonsense.feature.ontology.entities.Category
 
 /**
  */
 class GetSelectedCategoryUseCase(
+    private val conceptEditorController: ConceptEditorController,
     private val categoryRepository: CategoryRepository
 ) {
     suspend operator fun invoke(categoryId: Uuid): Result<CategoryInfo> {
@@ -17,6 +19,7 @@ class GetSelectedCategoryUseCase(
                     .onFailure { return Result.failure(it) }.getOrNull() ?: emptyList()
                 val concepts = categoryRepository.getConcepts(category.id)
                     .onFailure { return Result.failure(it) }.getOrNull() ?: emptyList()
+                conceptEditorController.subject = category
                 return Result.success(CategoryInfo(category.id, category, subcategories, concepts))
             }
         return Result.failure(category.exceptionOrNull() ?: Exception("Category not found"))
