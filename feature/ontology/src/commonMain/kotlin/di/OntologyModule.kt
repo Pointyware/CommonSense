@@ -94,7 +94,6 @@ fun ontologyViewModelModule() = module {
     ) }
     single<ConceptEditorViewModel> { ConceptEditorViewModel(
         get<CreateNewConceptUseCase>(),
-        get<CymaticsNavController>()
     ) }
     single<CategoryCreatorViewModel> { CategoryCreatorViewModel(
         get<CreateNewCategoryUseCase>(),
