@@ -10,8 +10,8 @@ import kotlinx.coroutines.launch
 import org.pointyware.commonsense.core.common.Log
 import org.pointyware.commonsense.core.common.Uuid
 import org.pointyware.commonsense.core.viewmodels.ViewModel
-import org.pointyware.commonsense.feature.ontology.Concept
 import org.pointyware.commonsense.feature.ontology.category.interactors.GetSelectedCategoryUseCase
+import org.pointyware.commonsense.feature.ontology.category.interactors.GetSelectedConceptUseCase
 import org.pointyware.commonsense.feature.ontology.viewmodels.ConceptEditorUiState
 import org.pointyware.commonsense.feature.ontology.viewmodels.ConceptEditorViewModel
 
@@ -20,7 +20,7 @@ import org.pointyware.commonsense.feature.ontology.viewmodels.ConceptEditorViewM
  */
 class CategoryExplorerViewModel(
     private val getSelectedCategoryUseCase: GetSelectedCategoryUseCase,
-//    private val getSelectedConceptUseCase: GetSelectedConceptUseCase,
+    private val getSelectedConceptUseCase: GetSelectedConceptUseCase,
     private val conceptEditorViewModel: ConceptEditorViewModel,
 ): ViewModel(), ConceptEditorViewModel by conceptEditorViewModel {
 
@@ -70,9 +70,17 @@ class CategoryExplorerViewModel(
     fun onConceptSelected(conceptId: Uuid) {
         _loadingState.value = true
         viewModelScope.launch {
-            val concept: Concept = TODO("getSelectedCategoryUseCase.getConcept(conceptId)")
-            conceptEditorViewModel.prepareFor(concept)
-            _conceptEditorEnabled.value = true
+            val category = _categoryUiState.value.selected ?: return@launch
+            getSelectedConceptUseCase.invoke(categoryId = category.id, conceptId = conceptId)
+                .onSuccess {
+                    conceptEditorViewModel.prepareFor(it)
+                    _conceptEditorEnabled.value = true
+                }
+                .onFailure {
+                    // TODO: post error to user
+                    Log.v("Failed to get concept info for id $conceptId")
+                    it.printStackTrace()
+                }
         }
     }
 

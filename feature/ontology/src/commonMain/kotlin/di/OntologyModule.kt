@@ -95,6 +95,7 @@ fun ontologyViewModelModule() = module {
 
     single<CategoryExplorerViewModel> { CategoryExplorerViewModel(
         get<GetSelectedCategoryUseCase>(),
+        get<GetSelectedConceptUseCase>(),
         get<ConceptEditorViewModel>(),
     ) }
     single<ConceptEditorViewModel> { ConceptEditorViewModelImpl(
