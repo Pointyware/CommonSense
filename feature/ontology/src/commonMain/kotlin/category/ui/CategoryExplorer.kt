@@ -36,7 +36,6 @@ fun CategoryExplorer(
     modifier: Modifier = Modifier,
     onCategorySelected: (Uuid)->Unit,
     onConceptSelected: (Uuid)->Unit,
-    onAddCard: ()->Unit,
 ) {
     Column(
         modifier = modifier
@@ -68,9 +67,6 @@ fun CategoryExplorer(
                     modifier = Modifier.clickable { onConceptSelected(concept.id) }
                 )
             }
-        }
-        Button(onClick = onAddCard) {
-            Text(text = "New Card")
         }
     }
 }
