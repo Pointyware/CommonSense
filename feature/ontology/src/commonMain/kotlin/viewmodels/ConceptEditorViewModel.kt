@@ -5,8 +5,10 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import org.pointyware.commonsense.core.common.Uuid
 import org.pointyware.commonsense.core.navigation.CymaticsNavController
 import org.pointyware.commonsense.core.viewmodels.ViewModel
+import org.pointyware.commonsense.feature.ontology.Concept
 import org.pointyware.commonsense.feature.ontology.category.interactors.CreateNewConceptUseCase
 
 /**
@@ -43,5 +45,17 @@ class ConceptEditorViewModel(
         mutableState.update {
             it.copy(description = newDescription)
         }
+    }
+
+    fun prepareFor(concept: Concept?) {
+        mutableState.value = concept?.let {
+            ConceptEditorUiState(
+                id = it.id,
+                name = it.name,
+                description = it.description ?: ""
+            )
+        } ?: ConceptEditorUiState(
+            null, "", ""
+        )
     }
 }
