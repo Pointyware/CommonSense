@@ -81,6 +81,10 @@ class CategoryExplorerViewModel(
         _conceptEditorEnabled.value = true
     }
 
+    fun onAddCategory() {
+
+    }
+
     init {
         viewModelScope.launch {
             conceptEditorViewModel.onFinish.collect {
