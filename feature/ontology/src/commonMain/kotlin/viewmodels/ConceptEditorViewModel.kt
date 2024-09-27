@@ -16,13 +16,40 @@ import org.pointyware.commonsense.feature.ontology.category.interactors.CreateNe
  * Maintains the state of a Concept Editor UI, reflected in [editorState].
  */
 interface ConceptEditorViewModel {
+    /**
+     * Observable that reports the current state of the editor.
+     */
     val editorState: StateFlow<ConceptEditorUiState>
+
+    /**
+     * Observable that reports when the editor is closed.
+     */
     val onFinish: SharedFlow<Unit>
-    fun onCancel()
-    fun onConfirm()
-    fun onNameChange(newName: String)
-    fun onDescriptionChange(newDescription: String)
+
+    /**
+     * Prepare the editor for a new concept or an existing one.
+     */
     fun prepareFor(concept: Concept?)
+
+    /**
+     * Update the state with a new name.
+     */
+    fun onNameChange(newName: String)
+
+    /**
+     * Update the state with a new description.
+     */
+    fun onDescriptionChange(newDescription: String)
+
+    /**
+     * Cancel the changes and close the editor.
+     */
+    fun onCancel()
+
+    /**
+     * Commit the changes and close the editor.
+     */
+    fun onCommitConcept()
 }
 
 class ConceptEditorViewModelImpl(
@@ -39,7 +66,7 @@ class ConceptEditorViewModelImpl(
         mutableOnFinish.tryEmit(Unit)
     }
 
-    override fun onConfirm() {
+    override fun onCommitConcept() {
         viewModelScope.launch {
             val state = editorState.value
             createNewConceptUseCase.invoke(state.name, state.description)

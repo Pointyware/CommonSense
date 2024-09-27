@@ -86,7 +86,7 @@ fun LocationRootScope<Any, Any>.ontologyRouting() {
             onNameChange = viewModel::onNameChange,
             onDescriptionChange = viewModel::onDescriptionChange,
             onCancel = viewModel::onCancel,
-            onConfirm = viewModel::onConfirm,
+            onConfirm = viewModel::onCommitConcept,
         )
     }
 }
