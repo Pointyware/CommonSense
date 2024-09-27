@@ -66,8 +66,11 @@ class CategoryExplorerViewModel(
 
     fun onConceptSelected(conceptId: Uuid) {
         _loadingState.value = true
-
-
+        viewModelScope.launch {
+            val concept: Concept = TODO("getSelectedCategoryUseCase.getConcept(conceptId)")
+            conceptEditorViewModel.prepareFor(concept)
+            _conceptEditorEnabled.value = true
+        }
     }
 
     fun onAddCard() {
