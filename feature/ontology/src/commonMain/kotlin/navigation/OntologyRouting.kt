@@ -12,6 +12,7 @@ import org.pointyware.commonsense.core.navigation.LocationRootScope
 import org.pointyware.commonsense.core.navigation.StaticRoute
 import org.pointyware.commonsense.feature.ontology.ConceptSpaceScreen
 import org.pointyware.commonsense.feature.ontology.category.ui.CategoryExplorer
+import org.pointyware.commonsense.feature.ontology.category.ui.CategoryExplorerScreen
 import org.pointyware.commonsense.feature.ontology.category.ui.CategoryExplorerState
 import org.pointyware.commonsense.feature.ontology.category.viewmodels.CategoryExplorerViewModel
 import org.pointyware.commonsense.feature.ontology.ui.CategoryCreator
@@ -46,21 +47,12 @@ fun LocationRootScope<Any, Any>.ontologyRouting() {
         key = categoryExplorer,
     ) {
         Log.v("CategoryExplorer")
+
         val koin = remember { getKoin() }
         val viewModel = remember { koin.get<CategoryExplorerViewModel>() }
 
-        val state by viewModel.state.collectAsState()
-        val isLoading = state.loading // TODO: add loading state indicator
-        val mappedState = CategoryExplorerState(
-            state.selected,
-            state.subcategories,
-            state.concepts
-        )
-        CategoryExplorer(
-            state = mappedState,
-            modifier = Modifier.fillMaxSize(),
-            onCategorySelected = viewModel::onCategorySelected,
-            onConceptSelected = viewModel::onConceptSelected,
+        CategoryExplorerScreen(
+            viewModel = viewModel,
         )
     }
 
