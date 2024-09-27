@@ -8,7 +8,9 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.material3.Button
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
@@ -29,8 +31,9 @@ data class CategoryExplorerState(
 fun CategoryExplorer(
     state: CategoryExplorerState,
     modifier: Modifier = Modifier,
-    onCategorySelected: (Uuid) -> Unit,
-    onConceptSelected: (Uuid) -> Unit,
+    onCategorySelected: (Uuid)->Unit,
+    onConceptSelected: (Uuid)->Unit,
+    onAddCard: ()->Unit,
 ) {
     Column {
         state.currentCategory?.let { category ->
@@ -60,6 +63,9 @@ fun CategoryExplorer(
                     modifier = Modifier.clickable { onConceptSelected(concept.id) }
                 )
             }
+        }
+        Button(onClick = onAddCard) {
+            Text(text = "New Card")
         }
     }
 }
