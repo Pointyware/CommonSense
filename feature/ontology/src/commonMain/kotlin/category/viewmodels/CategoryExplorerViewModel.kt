@@ -69,6 +69,14 @@ class CategoryExplorerViewModel(
 
     }
 
+    init {
+        viewModelScope.launch {
+            conceptEditorViewModel.onFinish.collect {
+                _conceptEditorEnabled.value = false
+            }
+        }
+    }
+
     fun onAddCard() {
         conceptEditorViewModel.prepareFor(null)
         _conceptEditorEnabled.value = true
