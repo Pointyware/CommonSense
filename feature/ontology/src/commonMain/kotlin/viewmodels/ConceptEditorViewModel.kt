@@ -86,7 +86,9 @@ class ConceptEditorViewModelImpl(
         }
     }
     override fun onCancel() {
-        mutableOnFinish.tryEmit(Unit)
+        viewModelScope.launch {
+            mutableOnFinish.emit(Unit)
+        }
     }
 
     override fun onCommitConcept() {
