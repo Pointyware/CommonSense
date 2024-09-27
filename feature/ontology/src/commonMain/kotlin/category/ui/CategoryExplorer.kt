@@ -18,6 +18,9 @@ import org.pointyware.commonsense.core.common.Uuid
 import org.pointyware.commonsense.feature.ontology.Concept
 import org.pointyware.commonsense.feature.ontology.entities.Category
 
+/**
+ * Represents the state of the CategoryExplorer composable.
+ */
 data class CategoryExplorerState(
     val currentCategory: Category?,
     val categories: List<Category>,
