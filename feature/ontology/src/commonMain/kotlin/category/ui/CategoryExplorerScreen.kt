@@ -7,6 +7,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.window.Dialog
 import org.pointyware.commonsense.feature.ontology.category.viewmodels.CategoryExplorerViewModel
+import org.pointyware.commonsense.feature.ontology.ui.ConceptEditor
 
 /**
  * Takes a view model, binds the state to the CategoryExplorer composable, and passes events
@@ -24,23 +25,19 @@ fun CategoryExplorerScreen(
         state.currentCategory.concepts
     )
 
-    if (state.conceptEditor != null) {
+    state.conceptEditor?.let { conceptEditorUiState ->
         Dialog(
             onDismissRequest = {
-
+                viewModel.onCancel()
             }
         ) {
-
-//            val conceptEditorViewModel = remember { viewModel.getConceptEditorViewModel(null) }
-//            val editorState by conceptEditorViewModel.state.collectAsState()
-//
-//            ConceptEditor(
-//                state = editorState,
-//                onNameChange = conceptEditorViewModel::onNameChange,
-//                onDescriptionChange = conceptEditorViewModel::onDescriptionChange,
-//                onConfirm = conceptEditorViewModel::onConfirm,
-//                onCancel = conceptEditorViewModel::onCancel
-//            )
+            ConceptEditor(
+                state = conceptEditorUiState,
+                onNameChange = viewModel::onNameChange,
+                onDescriptionChange = viewModel::onDescriptionChange,
+                onConfirm = viewModel::onCommitConcept,
+                onCancel = viewModel::onCancel
+            )
         }
     }
 
