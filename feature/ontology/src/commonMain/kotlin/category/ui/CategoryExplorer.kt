@@ -38,7 +38,9 @@ fun CategoryExplorer(
     onConceptSelected: (Uuid)->Unit,
     onAddCard: ()->Unit,
 ) {
-    Column {
+    Column(
+        modifier = modifier
+    ) {
         state.currentCategory?.let { category ->
             CategoryItem(
                 value = category,
