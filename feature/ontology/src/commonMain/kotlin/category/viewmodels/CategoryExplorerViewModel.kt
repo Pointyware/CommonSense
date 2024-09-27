@@ -19,6 +19,7 @@ import org.pointyware.commonsense.feature.ontology.viewmodels.ConceptEditorViewM
  */
 class CategoryExplorerViewModel(
     private val getSelectedCategoryUseCase: GetSelectedCategoryUseCase,
+//    private val getSelectedConceptUseCase: GetSelectedConceptUseCase,
     private val conceptEditorViewModel: ConceptEditorViewModel,
 ): ViewModel(), ConceptEditorViewModel by conceptEditorViewModel {
 
@@ -69,16 +70,16 @@ class CategoryExplorerViewModel(
 
     }
 
+    fun onAddCard() {
+        conceptEditorViewModel.prepareFor(null)
+        _conceptEditorEnabled.value = true
+    }
+
     init {
         viewModelScope.launch {
             conceptEditorViewModel.onFinish.collect {
                 _conceptEditorEnabled.value = false
             }
         }
-    }
-
-    fun onAddCard() {
-        conceptEditorViewModel.prepareFor(null)
-        _conceptEditorEnabled.value = true
     }
 }
