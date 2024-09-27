@@ -62,16 +62,16 @@ class ConceptEditorViewModelImpl(
     private val mutableOnFinish = MutableSharedFlow<Unit>()
     override val onFinish: SharedFlow<Unit> = mutableOnFinish.asSharedFlow()
 
-    override fun onCancel() {
-        mutableOnFinish.tryEmit(Unit)
-    }
-
-    override fun onCommitConcept() {
-        viewModelScope.launch {
-            val state = editorState.value
-            createNewConceptUseCase.invoke(state.name, state.description)
-            mutableOnFinish.emit(Unit)
-        }
+    override fun prepareFor(concept: Concept?) {
+        mutableState.value = concept?.let {
+            ConceptEditorUiState(
+                id = it.id,
+                name = it.name,
+                description = it.description ?: ""
+            )
+        } ?: ConceptEditorUiState(
+            null, "", ""
+        )
     }
 
     override fun onNameChange(newName: String) {
@@ -85,16 +85,15 @@ class ConceptEditorViewModelImpl(
             it.copy(description = newDescription)
         }
     }
+    override fun onCancel() {
+        mutableOnFinish.tryEmit(Unit)
+    }
 
-    override fun prepareFor(concept: Concept?) {
-        mutableState.value = concept?.let {
-            ConceptEditorUiState(
-                id = it.id,
-                name = it.name,
-                description = it.description ?: ""
-            )
-        } ?: ConceptEditorUiState(
-            null, "", ""
-        )
+    override fun onCommitConcept() {
+        viewModelScope.launch {
+            val state = editorState.value
+            createNewConceptUseCase.invoke(state.name, state.description)
+            mutableOnFinish.emit(Unit)
+        }
     }
 }
