@@ -68,25 +68,6 @@ fun CommonSenseApp(
                     },
                 )
             },
-            floatingActionButton = {
-                Column {
-                    Button(
-                        onClick = { navController.navigateTo(conceptEditor) },
-                    ) {
-                        Text(
-                            text = "New Concept"
-                        )
-                    }
-                    Button(
-                        onClick = { navController.navigateTo(categoryCreator) },
-                    ) {
-                        Text(
-                            text = "New Category"
-                        )
-                    }
-                }
-            },
-            floatingActionButtonPosition = FabPosition.End,
         ) { paddingValues ->
             LocationRoot(
                 navController = navController,
