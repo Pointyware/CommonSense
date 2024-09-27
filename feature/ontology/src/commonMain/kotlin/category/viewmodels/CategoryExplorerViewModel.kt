@@ -70,7 +70,7 @@ class CategoryExplorerViewModel(
     }
 
     fun onAddCard() {
-//        conceptEditorViewModel.prepareFor(null)
-
+        conceptEditorViewModel.prepareFor(null)
+        _conceptEditorEnabled.value = true
     }
 }
