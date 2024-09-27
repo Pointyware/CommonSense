@@ -26,7 +26,9 @@ fun CategoryExplorerScreen(
 
     if (state.conceptEditor != null) {
         Dialog(
-            onDismissRequest = {  }
+            onDismissRequest = {
+
+            }
         ) {
 
 //            val conceptEditorViewModel = remember { viewModel.getConceptEditorViewModel(null) }

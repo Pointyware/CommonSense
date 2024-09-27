@@ -20,7 +20,7 @@ import org.pointyware.commonsense.feature.ontology.viewmodels.ConceptEditorViewM
 class CategoryExplorerViewModel(
     private val getSelectedCategoryUseCase: GetSelectedCategoryUseCase,
     private val conceptEditorViewModel: ConceptEditorViewModel,
-): ViewModel() {
+): ViewModel(), ConceptEditorViewModel by conceptEditorViewModel {
 
     private val _loadingState = MutableStateFlow(false)
     private val _categoryUiState = MutableStateFlow(CategoryUiState())
