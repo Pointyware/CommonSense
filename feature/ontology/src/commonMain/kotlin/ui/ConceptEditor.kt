@@ -28,11 +28,13 @@ fun ConceptEditor(
             label = { Text("Name") },
             value = state.name,
             onValueChange = onNameChange,
+            singleLine = true,
         )
         TextField(
             label = { Text("Description") },
             value = state.description,
             onValueChange = onDescriptionChange,
+            singleLine = true,
         )
 
         Row {
