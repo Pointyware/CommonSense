@@ -1,13 +1,17 @@
 package org.pointyware.commonsense.feature.ontology.category.viewmodels
 
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import org.pointyware.commonsense.core.common.Uuid
 import org.pointyware.commonsense.core.viewmodels.ViewModel
 import org.pointyware.commonsense.feature.ontology.Concept
 import org.pointyware.commonsense.feature.ontology.category.interactors.GetSelectedCategoryUseCase
+import org.pointyware.commonsense.feature.ontology.viewmodels.ConceptEditorUiState
 import org.pointyware.commonsense.feature.ontology.viewmodels.ConceptEditorViewModel
 
 /**
@@ -18,17 +22,27 @@ class CategoryExplorerViewModel(
     private val conceptEditorViewModel: ConceptEditorViewModel,
 ): ViewModel() {
 
-    private val mutableState = MutableStateFlow(CategoryExplorerUiState.Loading)
-    val state: StateFlow<CategoryExplorerUiState> get() = mutableState
+    private val _loadingState = MutableStateFlow(false)
+    private val _categoryUiState = MutableStateFlow(CategoryUiState())
+    private val _conceptEditorUiState = MutableStateFlow<ConceptEditorUiState?>(null)
+
+    val state: StateFlow<CategoryExplorerUiState> get() = combine(_loadingState, _categoryUiState, _conceptEditorUiState) {
+        loading, currentCategory, conceptEditor ->
+        CategoryExplorerUiState(loading, currentCategory, conceptEditor)
+    }.stateIn(
+        viewModelScope,
+        SharingStarted.Lazily,
+        CategoryExplorerUiState.Loading,
+    )
 
     fun onCategorySelected(categoryId: Uuid) {
-        mutableState.value = CategoryExplorerUiState.Loading
+        _loadingState.value = true
 
         viewModelScope.launch {
             getSelectedCategoryUseCase.invoke(categoryId)
                 .onSuccess { info ->
-                    mutableState.update {
-                        CategoryExplorerUiState(
+                    _categoryUiState.update {
+                        CategoryUiState(
                             selected = info.subject,
                             subcategories = info.subcategories,
                             concepts = info.concepts
@@ -36,6 +50,7 @@ class CategoryExplorerViewModel(
                     }
                 }
                 .onFailure {
+
                     println("Failed to get category info for id $categoryId")
                     it.printStackTrace()
                 }
@@ -43,13 +58,13 @@ class CategoryExplorerViewModel(
     }
 
     fun onConceptSelected(conceptId: Uuid) {
-        mutableState.value = CategoryExplorerUiState.Loading
+        _loadingState.value = true
 
-        TODO("Open Concept Viewer with selected id")
+
     }
 
-    fun getConceptEditorViewModel(concept: Concept?): ConceptEditorViewModel {
-        conceptEditorViewModel.prepareFor(concept)
-        return conceptEditorViewModel
+    fun onAddCard() {
+//        conceptEditorViewModel.prepareFor(null)
+
     }
 }
