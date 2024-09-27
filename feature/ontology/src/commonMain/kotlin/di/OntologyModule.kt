@@ -8,6 +8,7 @@ import org.pointyware.commonsense.feature.ontology.category.data.CategoryReposit
 import org.pointyware.commonsense.feature.ontology.category.interactors.CreateNewCategoryUseCase
 import org.pointyware.commonsense.feature.ontology.category.interactors.CreateNewConceptUseCase
 import org.pointyware.commonsense.feature.ontology.category.interactors.GetSelectedCategoryUseCase
+import org.pointyware.commonsense.feature.ontology.category.interactors.GetSelectedConceptUseCase
 import org.pointyware.commonsense.feature.ontology.category.viewmodels.CategoryExplorerViewModel
 import org.pointyware.commonsense.feature.ontology.data.ArrangementController
 import org.pointyware.commonsense.feature.ontology.data.ConceptEditorController
@@ -61,6 +62,9 @@ fun ontologyInteractorModule() = module {
     factory<UpdateNodeUseCase> { UpdateNodeUseCase(get<ConceptSpaceRepository>()) }
     factory<GetSelectedCategoryUseCase> { GetSelectedCategoryUseCase(
         get<ConceptEditorController>(),
+        get<CategoryRepository>()
+    ) }
+    factory<GetSelectedConceptUseCase> { GetSelectedConceptUseCase(
         get<CategoryRepository>()
     ) }
     factory<CreateNewConceptUseCase> { CreateNewConceptUseCase(
