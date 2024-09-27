@@ -27,6 +27,7 @@ import org.pointyware.commonsense.feature.ontology.local.ConceptSpaceDataSource
 import org.pointyware.commonsense.feature.ontology.ui.ConceptSpaceUiStateMapper
 import org.pointyware.commonsense.feature.ontology.viewmodels.CategoryCreatorViewModel
 import org.pointyware.commonsense.feature.ontology.viewmodels.ConceptEditorViewModel
+import org.pointyware.commonsense.feature.ontology.viewmodels.ConceptEditorViewModelImpl
 import org.pointyware.commonsense.feature.ontology.viewmodels.ConceptSpaceViewModel
 
 /**
@@ -92,7 +93,7 @@ fun ontologyViewModelModule() = module {
         get<GetSelectedCategoryUseCase>(),
         get<ConceptEditorViewModel>(),
     ) }
-    single<ConceptEditorViewModel> { ConceptEditorViewModel(
+    single<ConceptEditorViewModel> { ConceptEditorViewModelImpl(
         get<CreateNewConceptUseCase>(),
     ) }
     single<CategoryCreatorViewModel> { CategoryCreatorViewModel(

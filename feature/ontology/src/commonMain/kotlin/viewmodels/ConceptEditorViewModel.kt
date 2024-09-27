@@ -13,7 +13,7 @@ import org.pointyware.commonsense.feature.ontology.Concept
 import org.pointyware.commonsense.feature.ontology.category.interactors.CreateNewConceptUseCase
 
 /**
- *
+ * Maintains the state of a Concept Editor UI, reflected in [editorState].
  */
 interface ConceptEditorViewModel {
     val editorState: StateFlow<ConceptEditorUiState>
@@ -25,9 +25,6 @@ interface ConceptEditorViewModel {
     fun prepareFor(concept: Concept?)
 }
 
-/**
- *
- */
 class ConceptEditorViewModelImpl(
     private val createNewConceptUseCase: CreateNewConceptUseCase,
 ): ViewModel(), ConceptEditorViewModel {
