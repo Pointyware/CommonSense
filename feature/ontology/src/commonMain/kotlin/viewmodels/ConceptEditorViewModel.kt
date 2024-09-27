@@ -15,41 +15,54 @@ import org.pointyware.commonsense.feature.ontology.category.interactors.CreateNe
 /**
  *
  */
-class ConceptEditorViewModel(
+interface ConceptEditorViewModel {
+    val editorState: StateFlow<ConceptEditorUiState>
+    val onFinish: SharedFlow<Unit>
+    fun onCancel()
+    fun onConfirm()
+    fun onNameChange(newName: String)
+    fun onDescriptionChange(newDescription: String)
+    fun prepareFor(concept: Concept?)
+}
+
+/**
+ *
+ */
+class ConceptEditorViewModelImpl(
     private val createNewConceptUseCase: CreateNewConceptUseCase,
-): ViewModel() {
+): ViewModel(), ConceptEditorViewModel {
 
     private val mutableState = MutableStateFlow(ConceptEditorUiState.Empty)
-    val state: StateFlow<ConceptEditorUiState> get() = mutableState.asStateFlow()
+    override val editorState: StateFlow<ConceptEditorUiState> get() = mutableState.asStateFlow()
 
     private val mutableOnFinish = MutableSharedFlow<Unit>()
-    val onFinish: SharedFlow<Unit> = mutableOnFinish.asSharedFlow()
+    override val onFinish: SharedFlow<Unit> = mutableOnFinish.asSharedFlow()
 
-    fun onCancel() {
+    override fun onCancel() {
         mutableOnFinish.tryEmit(Unit)
     }
 
-    fun onConfirm() {
+    override fun onConfirm() {
         viewModelScope.launch {
-            val state = state.value
+            val state = editorState.value
             createNewConceptUseCase.invoke(state.name, state.description)
             mutableOnFinish.emit(Unit)
         }
     }
 
-    fun onNameChange(newName: String) {
+    override fun onNameChange(newName: String) {
         mutableState.update {
             it.copy(name = newName)
         }
     }
 
-    fun onDescriptionChange(newDescription: String) {
+    override fun onDescriptionChange(newDescription: String) {
         mutableState.update {
             it.copy(description = newDescription)
         }
     }
 
-    fun prepareFor(concept: Concept?) {
+    override fun prepareFor(concept: Concept?) {
         mutableState.value = concept?.let {
             ConceptEditorUiState(
                 id = it.id,
