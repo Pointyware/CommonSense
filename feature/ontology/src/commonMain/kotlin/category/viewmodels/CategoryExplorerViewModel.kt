@@ -7,6 +7,7 @@ import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import org.pointyware.commonsense.core.common.Log
 import org.pointyware.commonsense.core.common.Uuid
 import org.pointyware.commonsense.core.viewmodels.ViewModel
 import org.pointyware.commonsense.feature.ontology.Concept
@@ -35,7 +36,9 @@ class CategoryExplorerViewModel(
             loading = loading,
             currentCategory = currentCategory,
             conceptEditor = if (conceptEditorEnabled) conceptEditor else null
-        )
+        ).also {
+            Log.v("onChange state\n$it")
+        }
     }.stateIn(
         viewModelScope,
         SharingStarted.Lazily,
@@ -58,7 +61,7 @@ class CategoryExplorerViewModel(
                 }
                 .onFailure {
 
-                    println("Failed to get category info for id $categoryId")
+                    Log.v("Failed to get category info for id $categoryId")
                     it.printStackTrace()
                 }
         }
@@ -81,7 +84,13 @@ class CategoryExplorerViewModel(
     init {
         viewModelScope.launch {
             conceptEditorViewModel.onFinish.collect {
+                Log.v("finish")
                 _conceptEditorEnabled.value = false
+            }
+        }
+        viewModelScope.launch {
+            _conceptEditorEnabled.collect {
+                Log.v("conceptEditorEnabled: $it")
             }
         }
     }
