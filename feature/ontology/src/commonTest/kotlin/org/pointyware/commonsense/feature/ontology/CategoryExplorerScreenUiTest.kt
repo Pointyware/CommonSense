@@ -4,10 +4,12 @@ import androidx.compose.ui.test.ComposeUiTest
 import androidx.compose.ui.test.ExperimentalTestApi
 import androidx.compose.ui.test.assertIsNotEnabled
 import androidx.compose.ui.test.assertTextEquals
+import androidx.compose.ui.test.hasText
 import androidx.compose.ui.test.onNodeWithContentDescription
 import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.performClick
 import androidx.compose.ui.test.runComposeUiTest
+import androidx.compose.ui.test.waitUntilExactlyOneExists
 import org.koin.core.context.stopKoin
 import org.koin.mp.KoinPlatform.getKoin
 import org.pointyware.commonsense.feature.ontology.category.ui.CategoryExplorerScreen
@@ -70,7 +72,7 @@ class CategoryExplorerScreenUiTest {
          */
         onNodeWithText("New Concept").performClick()
 
-        onNodeWithText("Concept").assertExists()
+        waitUntilExactlyOneExists(hasText("Concept"))
         onNodeWithContentDescription("Name")
             .assertTextEquals("")
         onNodeWithContentDescription("Description")
