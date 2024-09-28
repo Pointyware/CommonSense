@@ -1,34 +1,32 @@
 package di
 
-import io.ktor.client.HttpClientConfig
-import io.ktor.client.engine.HttpClientEngine
-import org.koin.core.annotation.KoinExperimentalAPI
-import org.koin.core.module.Module
-import org.koin.test.check.checkKoinModules
-import org.koin.test.verify.verify
-import org.pointyware.commonsense.shared.di.appModule
+import org.koin.core.KoinApplication
+import org.koin.test.check.checkModules
+import org.pointyware.commonsense.feature.ontology.di.ontologyJvmSharedModule
+import org.pointyware.commonsense.shared.di.setupKoin
+import kotlin.test.AfterTest
 import kotlin.test.BeforeTest
 import kotlin.test.Test
 
 /**
+ *
  */
 class KoinValidationTest {
 
-    lateinit var topLevelModule: Module
+    lateinit var koinApp: KoinApplication
 
     @BeforeTest
     fun setUp() {
-        topLevelModule = appModule()
+        koinApp = setupKoin(platformModule = ontologyJvmSharedModule())
     }
 
-    @OptIn(KoinExperimentalAPI::class)
-    @Test
-    fun verifyKoinConfiguration() {
-        topLevelModule.verify(extraTypes = listOf(HttpClientEngine::class, HttpClientConfig::class))
+    @AfterTest
+    fun stopKoin() {
+        koinApp.close()
     }
 
     @Test
     fun checkKoinModules() {
-        checkKoinModules(listOf(topLevelModule))
+        koinApp.checkModules()
     }
 }
