@@ -5,7 +5,7 @@ import org.pointyware.commonsense.feature.ontology.Concept
 import org.pointyware.commonsense.feature.ontology.entities.Category
 
 /**
- *
+ * Repository interface for managing categories and their associated subcategories and concepts.
  */
 interface CategoryRepository {
     suspend fun createCategory(name: String): Result<Category>
