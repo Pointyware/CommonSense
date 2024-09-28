@@ -37,7 +37,7 @@ fun CategoryEditor(
                 Text("Cancel")
             }
             Button(onClick = onConfirm) {
-                Text("Confirm")
+                Text("Save")
             }
         }
     }
