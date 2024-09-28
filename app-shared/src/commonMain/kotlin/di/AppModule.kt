@@ -1,5 +1,6 @@
 package org.pointyware.commonsense.shared.di
 
+import org.koin.core.context.startKoin
 import org.koin.core.module.Module
 import org.koin.dsl.module
 import org.pointyware.commonsense.core.data.di.dataModule
@@ -14,6 +15,13 @@ import org.pointyware.commonsense.feature.ontology.di.ontologyModule
 import org.pointyware.commonsense.shared.FileViewModel
 import org.pointyware.commonsense.shared.home.di.homeModule
 
+
+fun setupKoin(platformModule: Module = module{}) = startKoin {
+    modules(
+        appModule(),
+        platformModule
+    )
+}
 
 fun appModule(): Module = module {
     includes(
