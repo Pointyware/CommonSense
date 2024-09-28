@@ -65,7 +65,7 @@ fun ConceptEditor(
                 Text("Cancel")
             }
             Button(onClick = onConfirm) {
-                Text("Confirm")
+                Text("Save")
             }
         }
     }
