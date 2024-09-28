@@ -36,6 +36,32 @@ fun CategoryExplorerScreen(
         modifier = Modifier.fillMaxSize(),
         contentAlignment = Alignment.Center
     ) {
+        CategoryExplorer(
+            state = mappedState,
+            modifier = Modifier.fillMaxSize(),
+            onCategorySelected = viewModel::onCategorySelected,
+            onConceptSelected = viewModel::onConceptSelected,
+        )
+
+        Column(
+            modifier = Modifier.align(Alignment.BottomEnd)
+        ) {
+            Button(
+                onClick = viewModel::onAddCard,
+            ) {
+                Text(
+                    text = "New Concept"
+                )
+            }
+            Button(
+                onClick = viewModel::onAddCategory,
+            ) {
+                Text(
+                    text = "New Category"
+                )
+            }
+        }
+
         when (val capture = state.editorState) {
             is CategoryExplorerEditorState.Concept -> {
                 Dialog(
@@ -67,32 +93,6 @@ fun CategoryExplorerScreen(
                 }
             }
             else -> { /* Show Nothing */ }
-        }
-
-        CategoryExplorer(
-            state = mappedState,
-            modifier = Modifier.fillMaxSize(),
-            onCategorySelected = viewModel::onCategorySelected,
-            onConceptSelected = viewModel::onConceptSelected,
-        )
-
-        Column(
-            modifier = Modifier.align(Alignment.BottomEnd)
-        ) {
-            Button(
-                onClick = viewModel::onAddCard,
-            ) {
-                Text(
-                    text = "New Concept"
-                )
-            }
-            Button(
-                onClick = viewModel::onAddCategory,
-            ) {
-                Text(
-                    text = "New Category"
-                )
-            }
         }
     }
 }
