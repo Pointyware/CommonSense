@@ -77,6 +77,8 @@ kotlin {
             dependsOn(commonTest)
             dependencies {
                 implementation(libs.koin.test)
+
+                implementation(libs.mockk)
             }
         }
 
