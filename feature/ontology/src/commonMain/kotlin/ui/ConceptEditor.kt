@@ -64,7 +64,11 @@ fun ConceptEditor(
             Button(onClick = onCancel) {
                 Text("Cancel")
             }
-            Button(onClick = onConfirm) {
+            val saveEnabled = remember(state.name, state.description) { state.name.isNotBlank() && state.description.isNotBlank() }
+            Button(
+                onClick = onConfirm,
+                enabled = saveEnabled
+            ) {
                 Text("Save")
             }
         }
