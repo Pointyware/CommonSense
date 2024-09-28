@@ -100,10 +100,6 @@ fun ontologyViewModelModule() = module {
     singleOf(::CategoryExplorerViewModel)
     singleOf(::ConceptEditorViewModelImpl) { bind<ConceptEditorViewModel>() }
     singleOf(::CategoryEditorViewModelImpl) { bind<CategoryEditorViewModel>() }
-    single<CategoryCreatorViewModel> { CategoryCreatorViewModel(
-        get<CreateNewCategoryUseCase>(),
-        get<CymaticsNavController>()
-    ) }
 }
 
 fun ontologyUiModule() = module {
