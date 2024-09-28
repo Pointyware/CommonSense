@@ -8,13 +8,12 @@ import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import org.pointyware.commonsense.feature.ontology.viewmodels.CategoryEditorUiState
-import org.pointyware.commonsense.feature.ontology.viewmodels.ConceptEditorUiState
 
 /**
  * Allows a user to edit the properties of a new or existing concept.
  */
 @Composable
-fun CategoryCreator(
+fun CategoryEditor(
     state: CategoryEditorUiState,
     modifier: Modifier = Modifier,
     onNameChange: (String) -> Unit,

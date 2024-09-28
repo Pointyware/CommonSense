@@ -14,7 +14,7 @@ import org.pointyware.commonsense.feature.ontology.ConceptSpaceScreen
 import org.pointyware.commonsense.feature.ontology.category.ui.CategoryExplorerScreen
 import org.pointyware.commonsense.feature.ontology.category.viewmodels.CategoryEditorViewModel
 import org.pointyware.commonsense.feature.ontology.category.viewmodels.CategoryExplorerViewModel
-import org.pointyware.commonsense.feature.ontology.ui.CategoryCreator
+import org.pointyware.commonsense.feature.ontology.ui.CategoryEditor
 import org.pointyware.commonsense.feature.ontology.ui.ConceptEditor
 import org.pointyware.commonsense.feature.ontology.viewmodels.ConceptEditorViewModel
 import org.pointyware.commonsense.feature.ontology.viewmodels.ConceptSpaceViewModel
@@ -62,7 +62,7 @@ fun LocationRootScope<Any, Any>.ontologyRouting() {
         val viewModel = remember { koin.get<CategoryEditorViewModel>() }
 
         val state by viewModel.state.collectAsState()
-        CategoryCreator(
+        CategoryEditor(
             state = state,
             modifier = Modifier.fillMaxSize(),
             onNameChange = viewModel::onNameChange,
