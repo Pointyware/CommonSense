@@ -12,7 +12,6 @@ import org.pointyware.commonsense.core.common.Uuid
 import org.pointyware.commonsense.core.viewmodels.ViewModel
 import org.pointyware.commonsense.feature.ontology.category.interactors.GetSelectedCategoryUseCase
 import org.pointyware.commonsense.feature.ontology.category.interactors.GetSelectedConceptUseCase
-import org.pointyware.commonsense.feature.ontology.viewmodels.ConceptEditorUiState
 import org.pointyware.commonsense.feature.ontology.viewmodels.ConceptEditorViewModel
 
 /**
@@ -40,7 +39,7 @@ class CategoryExplorerViewModel(
         }
     }.stateIn(
         viewModelScope,
-        SharingStarted.Lazily,
+        SharingStarted.Eagerly,
         CategoryExplorerUiState.Loading,
     )
 
