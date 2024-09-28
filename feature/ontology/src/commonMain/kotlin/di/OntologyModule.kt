@@ -1,6 +1,7 @@
 package org.pointyware.commonsense.feature.ontology.di
 
 import kotlinx.serialization.json.Json
+import org.koin.core.module.dsl.bind
 import org.koin.core.module.dsl.singleOf
 import org.koin.dsl.module
 import org.pointyware.commonsense.core.navigation.CymaticsNavController
@@ -95,9 +96,7 @@ fun ontologyViewModelModule() = module {
     }
 
     singleOf(::CategoryExplorerViewModel)
-    single<ConceptEditorViewModel> { ConceptEditorViewModelImpl(
-        get<CreateNewConceptUseCase>(),
-    ) }
+    singleOf(::ConceptEditorViewModelImpl) { bind<ConceptEditorViewModel>() }
     single<CategoryCreatorViewModel> { CategoryCreatorViewModel(
         get<CreateNewCategoryUseCase>(),
         get<CymaticsNavController>()
