@@ -3,9 +3,7 @@ package org.pointyware.commonsense.feature.ontology
 import androidx.compose.ui.test.ComposeUiTest
 import androidx.compose.ui.test.ExperimentalTestApi
 import androidx.compose.ui.test.assertIsNotEnabled
-import androidx.compose.ui.test.assertTextEquals
 import androidx.compose.ui.test.hasText
-import androidx.compose.ui.test.onNodeWithContentDescription
 import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.performClick
 import androidx.compose.ui.test.runComposeUiTest
@@ -14,6 +12,7 @@ import org.koin.core.context.stopKoin
 import org.koin.mp.KoinPlatform.getKoin
 import org.pointyware.commonsense.feature.ontology.category.ui.CategoryExplorerScreen
 import org.pointyware.commonsense.feature.ontology.category.viewmodels.CategoryExplorerViewModel
+import org.pointyware.commonsense.feature.ontology.test.assertEditableTextEquals
 import org.pointyware.commonsense.feature.ontology.test.setupKoin
 import kotlin.test.BeforeTest
 import kotlin.test.Test
@@ -73,10 +72,11 @@ class CategoryExplorerScreenUiTest {
         onNodeWithText("New Concept").performClick()
 
         waitUntilExactlyOneExists(hasText("Concept"))
-        onNodeWithContentDescription("Name")
-            .assertTextEquals("")
-        onNodeWithContentDescription("Description")
-            .assertTextEquals("")
-        onNodeWithText("Save").assertIsNotEnabled()
+        onNodeWithText("Name")
+            .assertEditableTextEquals("")
+        onNodeWithText("Description")
+            .assertEditableTextEquals("")
+        onNodeWithText("Save")
+            .assertIsNotEnabled()
     }
 }
