@@ -7,6 +7,7 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import org.pointyware.commonsense.feature.ontology.viewmodels.CategoryEditorUiState
 import org.pointyware.commonsense.feature.ontology.viewmodels.ConceptEditorUiState
 
 /**
@@ -14,7 +15,7 @@ import org.pointyware.commonsense.feature.ontology.viewmodels.ConceptEditorUiSta
  */
 @Composable
 fun CategoryCreator(
-    state: ConceptEditorUiState,
+    state: CategoryEditorUiState,
     modifier: Modifier = Modifier,
     onNameChange: (String) -> Unit,
     onCancel: () -> Unit,
