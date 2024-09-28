@@ -11,6 +11,8 @@ import org.pointyware.commonsense.feature.ontology.category.interactors.CreateNe
 import org.pointyware.commonsense.feature.ontology.category.interactors.CreateNewConceptUseCase
 import org.pointyware.commonsense.feature.ontology.category.interactors.GetSelectedCategoryUseCase
 import org.pointyware.commonsense.feature.ontology.category.interactors.GetSelectedConceptUseCase
+import org.pointyware.commonsense.feature.ontology.category.viewmodels.CategoryEditorViewModel
+import org.pointyware.commonsense.feature.ontology.category.viewmodels.CategoryEditorViewModelImpl
 import org.pointyware.commonsense.feature.ontology.category.viewmodels.CategoryExplorerViewModel
 import org.pointyware.commonsense.feature.ontology.data.ArrangementController
 import org.pointyware.commonsense.feature.ontology.data.ConceptEditorController
@@ -97,6 +99,7 @@ fun ontologyViewModelModule() = module {
 
     singleOf(::CategoryExplorerViewModel)
     singleOf(::ConceptEditorViewModelImpl) { bind<ConceptEditorViewModel>() }
+    singleOf(::CategoryEditorViewModelImpl) { bind<CategoryEditorViewModel>() }
     single<CategoryCreatorViewModel> { CategoryCreatorViewModel(
         get<CreateNewCategoryUseCase>(),
         get<CymaticsNavController>()
