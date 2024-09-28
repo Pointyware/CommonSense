@@ -21,7 +21,15 @@ class CategoryExplorerViewModel(
     private val getSelectedCategoryUseCase: GetSelectedCategoryUseCase,
     private val getSelectedConceptUseCase: GetSelectedConceptUseCase,
     private val conceptEditorViewModel: ConceptEditorViewModel,
+    private val categoryEditorViewModel: CategoryEditorViewModel
 ): ViewModel(), ConceptEditorViewModel by conceptEditorViewModel {
+
+    /*
+    TODO: remove implementation by delegation
+      1. Simplify concept editor view model signatures
+      2. Do not inherit from ConceptEditorViewModel or CategoryEditorViewModel
+      3. Define concept/category-specific functions in this class
+     */
 
     enum class EditorState {
         Disabled,
