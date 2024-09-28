@@ -133,5 +133,10 @@ class CategoryExplorerViewModel(
                 _editorState.value = EditorState.Disabled
             }
         }
+        viewModelScope.launch {
+            categoryEditorViewModel.onFinish.collect {
+                _editorState.value = EditorState.Disabled
+            }
+        }
     }
 }
