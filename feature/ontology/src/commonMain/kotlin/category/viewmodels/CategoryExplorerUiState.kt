@@ -2,6 +2,7 @@ package org.pointyware.commonsense.feature.ontology.category.viewmodels
 
 import org.pointyware.commonsense.feature.ontology.Concept
 import org.pointyware.commonsense.feature.ontology.entities.Category
+import org.pointyware.commonsense.feature.ontology.viewmodels.CategoryEditorUiState
 import org.pointyware.commonsense.feature.ontology.viewmodels.ConceptEditorUiState
 
 /**
@@ -14,7 +15,7 @@ import org.pointyware.commonsense.feature.ontology.viewmodels.ConceptEditorUiSta
 data class CategoryExplorerUiState(
     val loading: Boolean = false,
     val currentCategory: CategoryUiState,
-    val conceptEditor: ConceptEditorUiState? = null
+    val editorState: CategoryExplorerEditorState = CategoryExplorerEditorState.Disabled,
 ) {
     companion object {
         val Loading = CategoryExplorerUiState(true, CategoryUiState())
@@ -26,3 +27,13 @@ data class CategoryUiState(
     val subcategories: List<Category> = emptyList(),
     val concepts: List<Concept> = emptyList(),
 )
+
+sealed interface CategoryExplorerEditorState {
+    data object Disabled : CategoryExplorerEditorState
+    data class Concept(
+        val concept: ConceptEditorUiState
+    ) : CategoryExplorerEditorState
+    data class Category(
+        val category: CategoryEditorUiState
+    ) : CategoryExplorerEditorState
+}

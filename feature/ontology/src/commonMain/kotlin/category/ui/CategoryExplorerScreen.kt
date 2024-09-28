@@ -11,7 +11,9 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.window.Dialog
+import org.pointyware.commonsense.feature.ontology.category.viewmodels.CategoryExplorerEditorState
 import org.pointyware.commonsense.feature.ontology.category.viewmodels.CategoryExplorerViewModel
+import org.pointyware.commonsense.feature.ontology.ui.CategoryEditor
 import org.pointyware.commonsense.feature.ontology.ui.ConceptEditor
 
 /**
@@ -34,20 +36,31 @@ fun CategoryExplorerScreen(
         modifier = Modifier.fillMaxSize(),
         contentAlignment = Alignment.Center
     ) {
-        state.conceptEditor?.let { conceptEditorUiState ->
-            Dialog(
-                onDismissRequest = {
-                    viewModel.onCancel()
+        when (val capture = state.editorState) {
+            is CategoryExplorerEditorState.Concept -> {
+                Dialog(
+                    onDismissRequest = {
+                        viewModel.onCancel()
+                    }
+                ) {
+                    ConceptEditor(
+                        state = capture.concept,
+                        onNameChange = viewModel::onNameChange,
+                        onDescriptionChange = viewModel::onDescriptionChange,
+                        onConfirm = viewModel::onCommitConcept,
+                        onCancel = viewModel::onCancel
+                    )
                 }
-            ) {
-                ConceptEditor(
-                    state = conceptEditorUiState,
+            }
+            is CategoryExplorerEditorState.Category -> {
+                CategoryEditor(
+                    state = capture.category,
                     onNameChange = viewModel::onNameChange,
-                    onDescriptionChange = viewModel::onDescriptionChange,
-                    onConfirm = viewModel::onCommitConcept,
+                    onConfirm = TODO(),
                     onCancel = viewModel::onCancel
                 )
             }
+            else -> { /* Show Nothing */ }
         }
 
         CategoryExplorer(

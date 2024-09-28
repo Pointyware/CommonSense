@@ -42,12 +42,16 @@ class CategoryExplorerViewModel(
     private val _editorState = MutableStateFlow(EditorState.Disabled)
 
     val state: StateFlow<CategoryExplorerUiState> get() = combine(
-        _loadingState, _categoryUiState, conceptEditorViewModel.editorState, _editorState
-    ) { loading, currentCategory, conceptEditor, editorState ->
+        _loadingState, _categoryUiState, conceptEditorViewModel.editorState, categoryEditorViewModel.state, _editorState
+    ) { loading, currentCategory, conceptEditor, categoryEditor, editorState ->
         CategoryExplorerUiState(
             loading = loading,
             currentCategory = currentCategory,
-            conceptEditor = if (editorState == EditorState.Concept) conceptEditor else null
+            editorState = when (editorState) {
+                EditorState.Concept -> CategoryExplorerEditorState.Concept(conceptEditor)
+                EditorState.Category -> CategoryExplorerEditorState.Category(categoryEditor)
+                EditorState.Disabled -> CategoryExplorerEditorState.Disabled
+            },
         ).also {
             Log.v("onChange state\n$it")
         }
