@@ -124,7 +124,7 @@ class CategoryExplorerViewModel(
 
     fun onAddCategory() {
         categoryEditorViewModel.prepareFor(null)
-        _editorState.value = EditorState.Concept
+        _editorState.value = EditorState.Category
     }
 
     init {
