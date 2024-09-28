@@ -23,17 +23,23 @@ class CategoryExplorerViewModel(
     private val conceptEditorViewModel: ConceptEditorViewModel,
 ): ViewModel(), ConceptEditorViewModel by conceptEditorViewModel {
 
+    enum class EditorState {
+        Disabled,
+        Concept,
+        Category
+    }
+
     private val _loadingState = MutableStateFlow(false)
     private val _categoryUiState = MutableStateFlow(CategoryUiState())
-    private val _conceptEditorEnabled = MutableStateFlow(false)
+    private val _editorState = MutableStateFlow(EditorState.Disabled)
 
     val state: StateFlow<CategoryExplorerUiState> get() = combine(
-        _loadingState, _categoryUiState, conceptEditorViewModel.editorState, _conceptEditorEnabled
-    ) { loading, currentCategory, conceptEditor, conceptEditorEnabled ->
+        _loadingState, _categoryUiState, conceptEditorViewModel.editorState, _editorState
+    ) { loading, currentCategory, conceptEditor, editorState ->
         CategoryExplorerUiState(
             loading = loading,
             currentCategory = currentCategory,
-            conceptEditor = if (conceptEditorEnabled) conceptEditor else null
+            conceptEditor = if (editorState == EditorState.Concept) conceptEditor else null
         ).also {
             Log.v("onChange state\n$it")
         }
@@ -72,7 +78,7 @@ class CategoryExplorerViewModel(
             getSelectedConceptUseCase.invoke(categoryId = category.id, conceptId = conceptId)
                 .onSuccess {
                     conceptEditorViewModel.prepareFor(it)
-                    _conceptEditorEnabled.value = true
+                    _editorState.value = EditorState.Concept
                 }
                 .onFailure {
                     // TODO: post error to user
@@ -84,23 +90,18 @@ class CategoryExplorerViewModel(
 
     fun onAddCard() {
         conceptEditorViewModel.prepareFor(null)
-        _conceptEditorEnabled.value = true
+        _editorState.value = EditorState.Concept
     }
 
     fun onAddCategory() {
-
+//        categoryEditorViewModel.prepareFor(null) // TODO: implement category editor
+        _editorState.value = EditorState.Concept
     }
 
     init {
         viewModelScope.launch {
             conceptEditorViewModel.onFinish.collect {
-                Log.v("finish")
-                _conceptEditorEnabled.value = false
-            }
-        }
-        viewModelScope.launch {
-            _conceptEditorEnabled.collect {
-                Log.v("conceptEditorEnabled: $it")
+                _editorState.value = EditorState.Disabled
             }
         }
     }
