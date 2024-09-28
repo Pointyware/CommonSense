@@ -46,6 +46,7 @@ fun ConceptEditor(
                 }
             }
         }
+        Text(text = "Concept")
         TextField(
             label = { Text("Name") },
             value = state.name,
