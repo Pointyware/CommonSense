@@ -2,11 +2,14 @@ package org.pointyware.commonsense.feature.ontology
 
 import androidx.compose.ui.test.ComposeUiTest
 import androidx.compose.ui.test.ExperimentalTestApi
+import androidx.compose.ui.test.assertIsEnabled
 import androidx.compose.ui.test.assertIsNotEnabled
-import androidx.compose.ui.test.hasText
+import androidx.compose.ui.test.hasContentDescription
 import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.performClick
+import androidx.compose.ui.test.performTextInput
 import androidx.compose.ui.test.runComposeUiTest
+import androidx.compose.ui.test.waitUntilDoesNotExist
 import androidx.compose.ui.test.waitUntilExactlyOneExists
 import org.koin.core.context.stopKoin
 import org.koin.mp.KoinPlatform.getKoin
@@ -71,12 +74,36 @@ class CategoryExplorerScreenUiTest {
          */
         onNodeWithText("New Concept").performClick()
 
-        waitUntilExactlyOneExists(hasText("Concept"))
+        waitUntilExactlyOneExists(hasContentDescription("Concept Editor"))
         onNodeWithText("Name")
             .assertEditableTextEquals("")
         onNodeWithText("Description")
             .assertEditableTextEquals("")
         onNodeWithText("Save")
             .assertIsNotEnabled()
+
+        /*
+        When:
+        - The user enters a name and description
+        Then:
+        - The "Save" button is enabled
+         */
+        onNodeWithText("Name")
+            .performTextInput("Concept Name")
+        onNodeWithText("Description")
+            .performTextInput("Concept Description")
+        onNodeWithText("Save")
+            .assertIsEnabled()
+
+        /*
+        When:
+        - The user taps "Save"
+        Then:
+        - The concept editor is dismissed
+         */
+        onNodeWithText("Save").performClick()
+        waitUntilDoesNotExist(hasContentDescription("Concept Editor"))
+
+        // TODO: add test for new concept presence
     }
 }
