@@ -1,12 +1,12 @@
 package org.pointyware.commonsense.feature.ontology.interactors
 
-import org.pointyware.commonsense.core.local.LocalStorage
+import kotlinx.io.files.Path
 
 /**
  *
  */
 class AndroidSelectFileUseCase(): SelectFileUseCase {
-    override suspend operator fun invoke(): Result<LocalStorage> {
+    override suspend operator fun invoke(): Result<Path> {
         TODO("Not yet implemented")
     }
 }

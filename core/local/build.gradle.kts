@@ -42,6 +42,8 @@ kotlin {
                 implementation(libs.koin.core)
 
                 implementation(libs.kotlinx.serialization.json)
+                implementation(libs.kotlinx.io.core)
+                implementation(libs.kotlinx.io.bytestring)
             }
         }
         val commonTest by getting {
@@ -54,8 +56,6 @@ kotlin {
             dependsOn(commonMain)
 
             dependencies {
-                implementation(libs.kotlinx.io.core)
-                implementation(libs.kotlinx.io.bytestring)
             }
         }
         val jvmSharedTest by creating {

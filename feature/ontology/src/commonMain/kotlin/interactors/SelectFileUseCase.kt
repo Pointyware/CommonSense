@@ -1,6 +1,6 @@
 package org.pointyware.commonsense.feature.ontology.interactors
 
-import org.pointyware.commonsense.core.local.LocalStorage
+import kotlinx.io.files.Path
 
 const val DIRECTORY_SPACES = "spaces"
 
@@ -8,7 +8,7 @@ const val DIRECTORY_SPACES = "spaces"
  * Opens a file dialog to select a file and returns the result.
  */
 interface SelectFileUseCase {
-    suspend operator fun invoke(): Result<LocalStorage>
+    suspend operator fun invoke(): Result<Path>
 }
 
 expect fun SelectFileUseCaseImpl(): SelectFileUseCase
