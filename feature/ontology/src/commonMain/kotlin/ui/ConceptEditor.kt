@@ -13,6 +13,8 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.semantics.contentDescription
+import androidx.compose.ui.semantics.semantics
 import org.pointyware.commonsense.feature.ontology.viewmodels.ConceptEditorUiState
 
 /**
@@ -29,6 +31,7 @@ fun ConceptEditor(
 ) {
     Column(
         modifier = modifier
+            .semantics { contentDescription = "Concept Editor" }
     ) {
         Box {
             var expanded by remember { mutableStateOf(false) }
