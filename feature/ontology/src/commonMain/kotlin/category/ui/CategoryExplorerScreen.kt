@@ -53,12 +53,18 @@ fun CategoryExplorerScreen(
                 }
             }
             is CategoryExplorerEditorState.Category -> {
-                CategoryEditor(
-                    state = capture.category,
-                    onNameChange = viewModel::onCategoryNameChange,
-                    onConfirm = viewModel::onCommitCategory,
-                    onCancel = viewModel::onCancel
-                )
+                Dialog(
+                    onDismissRequest = {
+                        viewModel.onCancel()
+                    }
+                ) {
+                    CategoryEditor(
+                        state = capture.category,
+                        onNameChange = viewModel::onCategoryNameChange,
+                        onConfirm = viewModel::onCommitCategory,
+                        onCancel = viewModel::onCancel
+                    )
+                }
             }
             else -> { /* Show Nothing */ }
         }
