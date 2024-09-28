@@ -79,14 +79,14 @@ fun LocationRootScope<Any, Any>.ontologyRouting() {
         val koin = remember { getKoin() }
         val viewModel = remember { koin.get<ConceptEditorViewModel>() }
 
-        val state by viewModel.editorState.collectAsState()
+        val state by viewModel.state.collectAsState()
         ConceptEditor(
             state = state,
             modifier = Modifier.fillMaxSize(),
             onNameChange = viewModel::onNameChange,
             onDescriptionChange = viewModel::onDescriptionChange,
             onCancel = viewModel::onCancel,
-            onConfirm = viewModel::onCommitConcept,
+            onConfirm = viewModel::onConfirm,
         )
     }
 }

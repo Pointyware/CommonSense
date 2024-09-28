@@ -10,6 +10,7 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import org.pointyware.commonsense.core.viewmodels.ViewModel
 import org.pointyware.commonsense.feature.ontology.category.interactors.CreateNewCategoryUseCase
+import org.pointyware.commonsense.feature.ontology.entities.Category
 import org.pointyware.commonsense.feature.ontology.viewmodels.CategoryEditorUiState
 
 /**
@@ -18,6 +19,7 @@ import org.pointyware.commonsense.feature.ontology.viewmodels.CategoryEditorUiSt
 interface CategoryEditorViewModel {
     val state: StateFlow<CategoryEditorUiState>
     val onFinish: SharedFlow<Unit>
+    fun prepareFor(category: Category?)
     fun onNameChange(newName: String)
     fun onConfirm()
     fun onCancel()
@@ -36,6 +38,12 @@ class CategoryEditorViewModelImpl(
     private val mutableFinish = MutableSharedFlow<Unit>()
     override val onFinish: SharedFlow<Unit>
         get() = mutableFinish.asSharedFlow()
+
+    override fun prepareFor(category: Category?) {
+        mutableState.update {
+            it.copy(name = category?.name ?: "")
+        }
+    }
 
     override fun onNameChange(newName: String) {
         mutableState.update {

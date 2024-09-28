@@ -45,7 +45,7 @@ fun CategoryExplorerScreen(
                 ) {
                     ConceptEditor(
                         state = capture.concept,
-                        onNameChange = viewModel::onNameChange,
+                        onNameChange = viewModel::onConceptNameChange,
                         onDescriptionChange = viewModel::onDescriptionChange,
                         onConfirm = viewModel::onCommitConcept,
                         onCancel = viewModel::onCancel
@@ -55,8 +55,8 @@ fun CategoryExplorerScreen(
             is CategoryExplorerEditorState.Category -> {
                 CategoryEditor(
                     state = capture.category,
-                    onNameChange = viewModel::onNameChange,
-                    onConfirm = TODO(),
+                    onNameChange = viewModel::onCategoryNameChange,
+                    onConfirm = viewModel::onCommitCategory,
                     onCancel = viewModel::onCancel
                 )
             }

@@ -22,14 +22,7 @@ class CategoryExplorerViewModel(
     private val getSelectedConceptUseCase: GetSelectedConceptUseCase,
     private val conceptEditorViewModel: ConceptEditorViewModel,
     private val categoryEditorViewModel: CategoryEditorViewModel
-): ViewModel(), ConceptEditorViewModel by conceptEditorViewModel {
-
-    /*
-    TODO: remove implementation by delegation
-      1. Simplify concept editor view model signatures
-      2. Do not inherit from ConceptEditorViewModel or CategoryEditorViewModel
-      3. Define concept/category-specific functions in this class
-     */
+): ViewModel() {
 
     enum class EditorState {
         Disabled,
@@ -42,7 +35,7 @@ class CategoryExplorerViewModel(
     private val _editorState = MutableStateFlow(EditorState.Disabled)
 
     val state: StateFlow<CategoryExplorerUiState> get() = combine(
-        _loadingState, _categoryUiState, conceptEditorViewModel.editorState, categoryEditorViewModel.state, _editorState
+        _loadingState, _categoryUiState, conceptEditorViewModel.state, categoryEditorViewModel.state, _editorState
     ) { loading, currentCategory, conceptEditor, categoryEditor, editorState ->
         CategoryExplorerUiState(
             loading = loading,
@@ -83,6 +76,14 @@ class CategoryExplorerViewModel(
         }
     }
 
+    fun onCategoryNameChange(name: String) {
+        categoryEditorViewModel.onNameChange(name)
+    }
+
+    fun onCommitCategory() {
+        categoryEditorViewModel.onConfirm()
+    }
+
     fun onConceptSelected(conceptId: Uuid) {
         _loadingState.value = true
         viewModelScope.launch {
@@ -100,13 +101,29 @@ class CategoryExplorerViewModel(
         }
     }
 
+    fun onConceptNameChange(name: String) {
+        conceptEditorViewModel.onNameChange(name)
+    }
+
+    fun onDescriptionChange(description: String) {
+        conceptEditorViewModel.onDescriptionChange(description)
+    }
+
+    fun onCommitConcept() {
+        conceptEditorViewModel.onConfirm()
+    }
+
+    fun onCancel() {
+        _editorState.value = EditorState.Disabled
+    }
+
     fun onAddCard() {
         conceptEditorViewModel.prepareFor(null)
         _editorState.value = EditorState.Concept
     }
 
     fun onAddCategory() {
-//        categoryEditorViewModel.prepareFor(null) // TODO: implement category editor
+        categoryEditorViewModel.prepareFor(null)
         _editorState.value = EditorState.Concept
     }
 
