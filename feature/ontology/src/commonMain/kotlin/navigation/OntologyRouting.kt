@@ -12,10 +12,10 @@ import org.pointyware.commonsense.core.navigation.LocationRootScope
 import org.pointyware.commonsense.core.navigation.StaticRoute
 import org.pointyware.commonsense.feature.ontology.ConceptSpaceScreen
 import org.pointyware.commonsense.feature.ontology.category.ui.CategoryExplorerScreen
+import org.pointyware.commonsense.feature.ontology.category.viewmodels.CategoryEditorViewModel
 import org.pointyware.commonsense.feature.ontology.category.viewmodels.CategoryExplorerViewModel
-import org.pointyware.commonsense.feature.ontology.ui.CategoryCreator
+import org.pointyware.commonsense.feature.ontology.ui.CategoryEditor
 import org.pointyware.commonsense.feature.ontology.ui.ConceptEditor
-import org.pointyware.commonsense.feature.ontology.viewmodels.CategoryCreatorViewModel
 import org.pointyware.commonsense.feature.ontology.viewmodels.ConceptEditorViewModel
 import org.pointyware.commonsense.feature.ontology.viewmodels.ConceptSpaceViewModel
 
@@ -59,10 +59,10 @@ fun LocationRootScope<Any, Any>.ontologyRouting() {
     ) {
         Log.v("CategoryCreator")
         val koin = remember { getKoin() }
-        val viewModel = remember { koin.get<CategoryCreatorViewModel>() }
+        val viewModel = remember { koin.get<CategoryEditorViewModel>() }
 
         val state by viewModel.state.collectAsState()
-        CategoryCreator(
+        CategoryEditor(
             state = state,
             modifier = Modifier.fillMaxSize(),
             onNameChange = viewModel::onNameChange,
@@ -79,14 +79,14 @@ fun LocationRootScope<Any, Any>.ontologyRouting() {
         val koin = remember { getKoin() }
         val viewModel = remember { koin.get<ConceptEditorViewModel>() }
 
-        val state by viewModel.editorState.collectAsState()
+        val state by viewModel.state.collectAsState()
         ConceptEditor(
             state = state,
             modifier = Modifier.fillMaxSize(),
             onNameChange = viewModel::onNameChange,
             onDescriptionChange = viewModel::onDescriptionChange,
             onCancel = viewModel::onCancel,
-            onConfirm = viewModel::onCommitConcept,
+            onConfirm = viewModel::onConfirm,
         )
     }
 }

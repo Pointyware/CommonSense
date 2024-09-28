@@ -7,14 +7,16 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import org.pointyware.commonsense.feature.ontology.viewmodels.ConceptEditorUiState
+import androidx.compose.ui.semantics.contentDescription
+import androidx.compose.ui.semantics.semantics
+import org.pointyware.commonsense.feature.ontology.viewmodels.CategoryEditorUiState
 
 /**
  * Allows a user to edit the properties of a new or existing concept.
  */
 @Composable
-fun CategoryCreator(
-    state: ConceptEditorUiState,
+fun CategoryEditor(
+    state: CategoryEditorUiState,
     modifier: Modifier = Modifier,
     onNameChange: (String) -> Unit,
     onCancel: () -> Unit,
@@ -22,6 +24,7 @@ fun CategoryCreator(
 ) {
     Column(
         modifier = modifier
+            .semantics { contentDescription = "Category Editor" }
     ) {
         TextField(
             label = { Text("Name") },
@@ -34,7 +37,7 @@ fun CategoryCreator(
                 Text("Cancel")
             }
             Button(onClick = onConfirm) {
-                Text("Confirm")
+                Text("Save")
             }
         }
     }

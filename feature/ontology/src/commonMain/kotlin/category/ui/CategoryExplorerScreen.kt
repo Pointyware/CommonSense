@@ -11,7 +11,9 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.window.Dialog
+import org.pointyware.commonsense.feature.ontology.category.viewmodels.CategoryExplorerEditorState
 import org.pointyware.commonsense.feature.ontology.category.viewmodels.CategoryExplorerViewModel
+import org.pointyware.commonsense.feature.ontology.ui.CategoryEditor
 import org.pointyware.commonsense.feature.ontology.ui.ConceptEditor
 
 /**
@@ -34,22 +36,6 @@ fun CategoryExplorerScreen(
         modifier = Modifier.fillMaxSize(),
         contentAlignment = Alignment.Center
     ) {
-        state.conceptEditor?.let { conceptEditorUiState ->
-            Dialog(
-                onDismissRequest = {
-                    viewModel.onCancel()
-                }
-            ) {
-                ConceptEditor(
-                    state = conceptEditorUiState,
-                    onNameChange = viewModel::onNameChange,
-                    onDescriptionChange = viewModel::onDescriptionChange,
-                    onConfirm = viewModel::onCommitConcept,
-                    onCancel = viewModel::onCancel
-                )
-            }
-        }
-
         CategoryExplorer(
             state = mappedState,
             modifier = Modifier.fillMaxSize(),
@@ -74,6 +60,39 @@ fun CategoryExplorerScreen(
                     text = "New Category"
                 )
             }
+        }
+
+        when (val capture = state.editorState) {
+            is CategoryExplorerEditorState.Concept -> {
+                Dialog(
+                    onDismissRequest = {
+                        viewModel.onCancel()
+                    }
+                ) {
+                    ConceptEditor(
+                        state = capture.concept,
+                        onNameChange = viewModel::onConceptNameChange,
+                        onDescriptionChange = viewModel::onDescriptionChange,
+                        onConfirm = viewModel::onCommitConcept,
+                        onCancel = viewModel::onCancel
+                    )
+                }
+            }
+            is CategoryExplorerEditorState.Category -> {
+                Dialog(
+                    onDismissRequest = {
+                        viewModel.onCancel()
+                    }
+                ) {
+                    CategoryEditor(
+                        state = capture.category,
+                        onNameChange = viewModel::onCategoryNameChange,
+                        onConfirm = viewModel::onCommitCategory,
+                        onCancel = viewModel::onCancel
+                    )
+                }
+            }
+            else -> { /* Show Nothing */ }
         }
     }
 }

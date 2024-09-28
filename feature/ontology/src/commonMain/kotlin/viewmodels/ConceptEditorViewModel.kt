@@ -13,13 +13,13 @@ import org.pointyware.commonsense.feature.ontology.Concept
 import org.pointyware.commonsense.feature.ontology.category.interactors.CreateNewConceptUseCase
 
 /**
- * Maintains the state of a Concept Editor UI, reflected in [editorState].
+ * Maintains the state of a Concept Editor UI, reflected in [state].
  */
 interface ConceptEditorViewModel {
     /**
      * Observable that reports the current state of the editor.
      */
-    val editorState: StateFlow<ConceptEditorUiState>
+    val state: StateFlow<ConceptEditorUiState>
 
     /**
      * Observable that reports when the editor is closed.
@@ -49,7 +49,7 @@ interface ConceptEditorViewModel {
     /**
      * Commit the changes and close the editor.
      */
-    fun onCommitConcept()
+    fun onConfirm()
 }
 
 class ConceptEditorViewModelImpl(
@@ -57,7 +57,7 @@ class ConceptEditorViewModelImpl(
 ): ViewModel(), ConceptEditorViewModel {
 
     private val mutableState = MutableStateFlow(ConceptEditorUiState.Empty)
-    override val editorState: StateFlow<ConceptEditorUiState> get() = mutableState.asStateFlow()
+    override val state: StateFlow<ConceptEditorUiState> get() = mutableState.asStateFlow()
 
     private val mutableOnFinish = MutableSharedFlow<Unit>()
     override val onFinish: SharedFlow<Unit> = mutableOnFinish.asSharedFlow()
@@ -91,9 +91,9 @@ class ConceptEditorViewModelImpl(
         }
     }
 
-    override fun onCommitConcept() {
+    override fun onConfirm() {
         viewModelScope.launch {
-            val state = editorState.value
+            val state = state.value
             createNewConceptUseCase.invoke(state.name, state.description)
             mutableOnFinish.emit(Unit)
         }

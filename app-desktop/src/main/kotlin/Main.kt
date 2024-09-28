@@ -15,15 +15,11 @@ import org.pointyware.commonsense.shared.CommonSenseApp
 import org.pointyware.commonsense.shared.FileViewModel
 import org.pointyware.commonsense.shared.di.appModule
 import org.pointyware.commonsense.shared.di.getDependencies
+import org.pointyware.commonsense.shared.di.setupKoin
 
 fun main() = application {
 
-    startKoin {
-        modules(
-            desktopModule(),
-            appModule()
-        )
-    }
+    setupKoin(platformModule = desktopModule())
 
     val appDependencies = remember { getDependencies() }
     val drawableResources = remember { appDependencies.getDrawableResources() }

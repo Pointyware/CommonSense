@@ -3,7 +3,6 @@ plugins {
     alias(libs.plugins.kotlinJvm)
     alias(libs.plugins.ktor)
     `maven-publish`
-    alias(libs.plugins.artifactRegistry)
 }
 
 tasks.named<Zip>("distZip") {
@@ -33,27 +32,21 @@ kotlin {
 }
 
 application {
-    mainClass = "org.pointyware.replace-me.api.ServerKt"
+    mainClass = "org.pointyware.commonsense.api.ServerKt"
 }
 
 ktor {
     fatJar {
-        archiveFileName = "replace-me-API-${version}.jar"
+        archiveFileName = "Common-Sense-API-${version}.jar"
     }
 }
 
-//publishing {
-//    publications {
-//        create<MavenPublication>("maven") {
-//            groupId = "org.pointyware.replace-me"
-//            artifactId = "replace-me-api"
-//            from(components["java"])
-//        }
-//    }
-//    repositories {
-//        maven {
-//            val releaseURL = "artifactregistry://us-central1-maven.pkg.dev/<project-id>/<repo>"
-//            url = uri(releaseURL)
-//        }
-//    }
-//}
+publishing {
+    publications {
+        create<MavenPublication>("maven") {
+            groupId = "org.pointyware.replace-me"
+            artifactId = "replace-me-api"
+            from(components["java"])
+        }
+    }
+}

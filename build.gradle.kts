@@ -17,7 +17,6 @@ plugins {
 
     alias(libs.plugins.commonsense.koin).apply(false)
     alias(libs.plugins.commonsense.kmp).apply(false)
-    alias(libs.plugins.artifactRegistry).apply(false)
 }
 
 tasks.dokkaHtmlMultiModule {

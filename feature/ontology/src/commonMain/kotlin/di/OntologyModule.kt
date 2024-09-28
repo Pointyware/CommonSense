@@ -1,14 +1,17 @@
 package org.pointyware.commonsense.feature.ontology.di
 
 import kotlinx.serialization.json.Json
+import org.koin.core.module.dsl.bind
+import org.koin.core.module.dsl.singleOf
 import org.koin.dsl.module
-import org.pointyware.commonsense.core.navigation.CymaticsNavController
 import org.pointyware.commonsense.feature.ontology.category.data.CategoryRepository
 import org.pointyware.commonsense.feature.ontology.category.data.CategoryRepositoryImpl
 import org.pointyware.commonsense.feature.ontology.category.interactors.CreateNewCategoryUseCase
 import org.pointyware.commonsense.feature.ontology.category.interactors.CreateNewConceptUseCase
 import org.pointyware.commonsense.feature.ontology.category.interactors.GetSelectedCategoryUseCase
 import org.pointyware.commonsense.feature.ontology.category.interactors.GetSelectedConceptUseCase
+import org.pointyware.commonsense.feature.ontology.category.viewmodels.CategoryEditorViewModel
+import org.pointyware.commonsense.feature.ontology.category.viewmodels.CategoryEditorViewModelImpl
 import org.pointyware.commonsense.feature.ontology.category.viewmodels.CategoryExplorerViewModel
 import org.pointyware.commonsense.feature.ontology.data.ArrangementController
 import org.pointyware.commonsense.feature.ontology.data.ConceptEditorController
@@ -26,7 +29,6 @@ import org.pointyware.commonsense.feature.ontology.interactors.SelectFileUseCase
 import org.pointyware.commonsense.feature.ontology.interactors.UpdateNodeUseCase
 import org.pointyware.commonsense.feature.ontology.local.ConceptSpaceDataSource
 import org.pointyware.commonsense.feature.ontology.ui.ConceptSpaceUiStateMapper
-import org.pointyware.commonsense.feature.ontology.viewmodels.CategoryCreatorViewModel
 import org.pointyware.commonsense.feature.ontology.viewmodels.ConceptEditorViewModel
 import org.pointyware.commonsense.feature.ontology.viewmodels.ConceptEditorViewModelImpl
 import org.pointyware.commonsense.feature.ontology.viewmodels.ConceptSpaceViewModel
@@ -93,18 +95,9 @@ fun ontologyViewModelModule() = module {
         )
     }
 
-    single<CategoryExplorerViewModel> { CategoryExplorerViewModel(
-        get<GetSelectedCategoryUseCase>(),
-        get<GetSelectedConceptUseCase>(),
-        get<ConceptEditorViewModel>(),
-    ) }
-    single<ConceptEditorViewModel> { ConceptEditorViewModelImpl(
-        get<CreateNewConceptUseCase>(),
-    ) }
-    single<CategoryCreatorViewModel> { CategoryCreatorViewModel(
-        get<CreateNewCategoryUseCase>(),
-        get<CymaticsNavController>()
-    ) }
+    singleOf(::CategoryExplorerViewModel)
+    singleOf(::ConceptEditorViewModelImpl) { bind<ConceptEditorViewModel>() }
+    singleOf(::CategoryEditorViewModelImpl) { bind<CategoryEditorViewModel>() }
 }
 
 fun ontologyUiModule() = module {

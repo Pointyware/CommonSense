@@ -21,19 +21,30 @@ class CategoryExplorerViewModel(
     private val getSelectedCategoryUseCase: GetSelectedCategoryUseCase,
     private val getSelectedConceptUseCase: GetSelectedConceptUseCase,
     private val conceptEditorViewModel: ConceptEditorViewModel,
-): ViewModel(), ConceptEditorViewModel by conceptEditorViewModel {
+    private val categoryEditorViewModel: CategoryEditorViewModel
+): ViewModel() {
+
+    enum class EditorState {
+        Disabled,
+        Concept,
+        Category
+    }
 
     private val _loadingState = MutableStateFlow(false)
     private val _categoryUiState = MutableStateFlow(CategoryUiState())
-    private val _conceptEditorEnabled = MutableStateFlow(false)
+    private val _editorState = MutableStateFlow(EditorState.Disabled)
 
     val state: StateFlow<CategoryExplorerUiState> get() = combine(
-        _loadingState, _categoryUiState, conceptEditorViewModel.editorState, _conceptEditorEnabled
-    ) { loading, currentCategory, conceptEditor, conceptEditorEnabled ->
+        _loadingState, _categoryUiState, conceptEditorViewModel.state, categoryEditorViewModel.state, _editorState
+    ) { loading, currentCategory, conceptEditor, categoryEditor, editorState ->
         CategoryExplorerUiState(
             loading = loading,
             currentCategory = currentCategory,
-            conceptEditor = if (conceptEditorEnabled) conceptEditor else null
+            editorState = when (editorState) {
+                EditorState.Concept -> CategoryExplorerEditorState.Concept(conceptEditor)
+                EditorState.Category -> CategoryExplorerEditorState.Category(categoryEditor)
+                EditorState.Disabled -> CategoryExplorerEditorState.Disabled
+            },
         ).also {
             Log.v("onChange state\n$it")
         }
@@ -65,6 +76,14 @@ class CategoryExplorerViewModel(
         }
     }
 
+    fun onCategoryNameChange(name: String) {
+        categoryEditorViewModel.onNameChange(name)
+    }
+
+    fun onCommitCategory() {
+        categoryEditorViewModel.onConfirm()
+    }
+
     fun onConceptSelected(conceptId: Uuid) {
         _loadingState.value = true
         viewModelScope.launch {
@@ -72,7 +91,7 @@ class CategoryExplorerViewModel(
             getSelectedConceptUseCase.invoke(categoryId = category.id, conceptId = conceptId)
                 .onSuccess {
                     conceptEditorViewModel.prepareFor(it)
-                    _conceptEditorEnabled.value = true
+                    _editorState.value = EditorState.Concept
                 }
                 .onFailure {
                     // TODO: post error to user
@@ -82,25 +101,41 @@ class CategoryExplorerViewModel(
         }
     }
 
+    fun onConceptNameChange(name: String) {
+        conceptEditorViewModel.onNameChange(name)
+    }
+
+    fun onDescriptionChange(description: String) {
+        conceptEditorViewModel.onDescriptionChange(description)
+    }
+
+    fun onCommitConcept() {
+        conceptEditorViewModel.onConfirm()
+    }
+
+    fun onCancel() {
+        _editorState.value = EditorState.Disabled
+    }
+
     fun onAddCard() {
         conceptEditorViewModel.prepareFor(null)
-        _conceptEditorEnabled.value = true
+        _editorState.value = EditorState.Concept
     }
 
     fun onAddCategory() {
-
+        categoryEditorViewModel.prepareFor(null)
+        _editorState.value = EditorState.Category
     }
 
     init {
         viewModelScope.launch {
             conceptEditorViewModel.onFinish.collect {
-                Log.v("finish")
-                _conceptEditorEnabled.value = false
+                _editorState.value = EditorState.Disabled
             }
         }
         viewModelScope.launch {
-            _conceptEditorEnabled.collect {
-                Log.v("conceptEditorEnabled: $it")
+            categoryEditorViewModel.onFinish.collect {
+                _editorState.value = EditorState.Disabled
             }
         }
     }
