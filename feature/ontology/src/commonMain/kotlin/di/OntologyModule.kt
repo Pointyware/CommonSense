@@ -4,7 +4,6 @@ import kotlinx.serialization.json.Json
 import org.koin.core.module.dsl.bind
 import org.koin.core.module.dsl.singleOf
 import org.koin.dsl.module
-import org.pointyware.commonsense.core.navigation.CymaticsNavController
 import org.pointyware.commonsense.feature.ontology.category.data.CategoryRepository
 import org.pointyware.commonsense.feature.ontology.category.data.CategoryRepositoryImpl
 import org.pointyware.commonsense.feature.ontology.category.interactors.CreateNewCategoryUseCase
@@ -30,7 +29,6 @@ import org.pointyware.commonsense.feature.ontology.interactors.SelectFileUseCase
 import org.pointyware.commonsense.feature.ontology.interactors.UpdateNodeUseCase
 import org.pointyware.commonsense.feature.ontology.local.ConceptSpaceDataSource
 import org.pointyware.commonsense.feature.ontology.ui.ConceptSpaceUiStateMapper
-import org.pointyware.commonsense.feature.ontology.viewmodels.CategoryCreatorViewModel
 import org.pointyware.commonsense.feature.ontology.viewmodels.ConceptEditorViewModel
 import org.pointyware.commonsense.feature.ontology.viewmodels.ConceptEditorViewModelImpl
 import org.pointyware.commonsense.feature.ontology.viewmodels.ConceptSpaceViewModel
