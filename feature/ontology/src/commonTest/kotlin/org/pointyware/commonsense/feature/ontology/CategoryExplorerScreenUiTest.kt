@@ -47,7 +47,7 @@ class CategoryExplorerScreenUiTest {
     }
 
     @Test
-    fun should_display_concepts() = runComposeUiTest {
+    fun tapping_add_concept_should_display_concept_editor() = runComposeUiTest {
         /*
         Given:
         - A concept space with concepts
@@ -105,5 +105,48 @@ class CategoryExplorerScreenUiTest {
         waitUntilDoesNotExist(hasContentDescription("Concept Editor"))
 
         // TODO: add test for new concept presence
+    }
+
+    @Test
+    fun tapping_add_category_should_display_category_editor() = runComposeUiTest {
+        /*
+        Given:
+        - A concept space
+         */
+        contentUnderTest()
+
+        /*
+        When:
+        - The user taps "New Category"
+        Then:
+        - The category editor is displayed
+        - And the name field is empty
+        - And the "Save" button is disabled
+         */
+        onNodeWithText("New Category").performClick()
+
+        waitUntilExactlyOneExists(hasContentDescription("Category Editor"))
+
+        /*
+        When:
+        - The user enters a name
+        Then:
+        - The "Save" button is enabled
+         */
+        onNodeWithText("Name")
+            .performTextInput("Category Name")
+        onNodeWithText("Save")
+            .assertIsEnabled()
+
+        /*
+        When:
+        - The user taps "Save"
+        Then:
+        - The category editor is dismissed
+         */
+        onNodeWithText("Save").performClick()
+        waitUntilDoesNotExist(hasContentDescription("Category Editor"))
+
+        // TODO: add test for new category presence
     }
 }
