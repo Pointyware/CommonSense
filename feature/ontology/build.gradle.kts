@@ -9,6 +9,7 @@ plugins {
     alias(libs.plugins.composeMultiplatform)
     alias(libs.plugins.compose.compiler)
     alias(libs.plugins.ksp)
+    alias(libs.plugins.sqlDelight)
 }
 
 kotlin {
@@ -145,5 +146,13 @@ android {
     compileSdk = 34
     defaultConfig {
         minSdk = 21
+    }
+}
+
+sqldelight {
+    databases {
+        create("Ontology") {
+            packageName = "org.pointyware.commonsense.feature.ontology.db"
+        }
     }
 }

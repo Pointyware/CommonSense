@@ -1,0 +1,10 @@
+CREATE TABLE category (
+  creationId INTEGER PRIMARY KEY NOT NULL,
+  parentId INTEGER,
+  name TEXT NOT NULL
+);
+
+CREATE INDEX category_parent_id ON category(parentId);
+
+INSERT INTO category (creationId, parentId, name)
+VALUES (0, NULL, 'Root');

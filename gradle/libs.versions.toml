@@ -19,6 +19,7 @@ material3 = "1.3.0"
 mockative = "2.0.1"
 mockk = "1.13.12"
 commonSense = "0.1.0"
+sqlDelight = "2.0.2"
 truth = "1.1.3"
 
 [libraries]
@@ -69,6 +70,7 @@ kotlinMultiplatform = { id = "org.jetbrains.kotlin.multiplatform", version.ref =
 kotlinSerialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
 ksp                 = { id = "com.google.devtools.ksp", version.ref = "ksp" }
 ktor                = { id = "io.ktor.plugin", version.ref = "ktor" }
+sqlDelight          = { id = "app.cash.sqldelight", version.ref = "sqlDelight" }
 
 commonsense-compose = { id = "org.pointyware.commonsense.compose-convention", version = "0.1.0" }
 commonsense-koin = { id = "org.pointyware.commonsense.koin-dependency-injection-convention", version = "0.1.0" }
