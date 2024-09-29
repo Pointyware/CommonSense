@@ -94,6 +94,8 @@ kotlin {
             dependencies {
                 implementation(compose.preview) // android/desktop support
                 implementation(compose.desktop.currentOs)
+
+                implementation(libs.sqlDelight.jvm)
             }
         }
         val jvmTest by getting {
@@ -111,12 +113,20 @@ kotlin {
                 implementation(libs.koin.core)
                 implementation(libs.koin.android)
                 implementation(libs.androidx.composePreview)
+
+                implementation(libs.sqlDelight.android)
             }
         }
         val androidUnitTest by getting {
             dependsOn(jvmSharedTest)
             dependencies {
                 implementation(libs.koin.test)
+            }
+        }
+
+        val nativeMain by getting {
+            dependencies {
+                implementation(libs.sqlDelight.native)
             }
         }
 
@@ -151,7 +161,7 @@ android {
 
 sqldelight {
     databases {
-        create("Ontology") {
+        create("OntologyDb") {
             packageName = "org.pointyware.commonsense.feature.ontology.db"
         }
     }

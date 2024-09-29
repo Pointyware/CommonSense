@@ -56,6 +56,9 @@ ktor-server-netty = { module = "io.ktor:ktor-server-netty", version.ref = "ktor"
 mockative = { module = "io.mockative:mockative", version.ref = "mockative" }
 mockativeSymbolProcessor = { module = "io.mockative:mockative-processor", version.ref = "mockative" }
 mockk = { module = "io.mockk:mockk", version.ref = "mockk" }
+sqlDelight-android = { module = "app.cash.sqldelight:android-driver", version.ref = "sqlDelight" }
+sqlDelight-native = { module = "app.cash.sqldelight:native-driver", version.ref = "sqlDelight" }
+sqlDelight-jvm = { module = "app.cash.sqldelight:sqlite-driver", version.ref = "sqlDelight" }
 truth = { module = "com.google.truth:truth", version.ref = "truth" }
 
 [plugins]
