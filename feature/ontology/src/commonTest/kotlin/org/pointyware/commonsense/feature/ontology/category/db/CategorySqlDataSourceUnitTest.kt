@@ -11,9 +11,7 @@ import org.koin.core.context.stopKoin
 import org.koin.dsl.module
 import org.koin.mp.KoinPlatform.getKoin
 import org.pointyware.commonsense.core.common.Uuid
-import org.pointyware.commonsense.feature.ontology.Concept
 import org.pointyware.commonsense.feature.ontology.category.data.CategorySqlDataSource
-import org.pointyware.commonsense.feature.ontology.entities.Category
 import org.pointyware.commonsense.feature.ontology.test.setupKoin
 import kotlin.test.AfterTest
 import kotlin.test.BeforeTest
