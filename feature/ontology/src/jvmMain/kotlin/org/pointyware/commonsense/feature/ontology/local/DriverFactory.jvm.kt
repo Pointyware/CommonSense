@@ -9,7 +9,7 @@ import org.pointyware.commonsense.feature.ontology.db.OntologyDb
  */
 actual class DriverFactory {
     actual fun createDriver(): SqlDriver {
-        val driver = JdbcSqliteDriver(JdbcSqliteDriver.IN_MEMORY)
+        val driver = JdbcSqliteDriver(JdbcSqliteDriver.IN_MEMORY + DATABASE_NAME)
         OntologyDb.Schema.create(driver)
         return driver
     }

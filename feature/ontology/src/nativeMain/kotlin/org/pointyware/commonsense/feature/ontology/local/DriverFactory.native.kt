@@ -9,6 +9,6 @@ import org.pointyware.commonsense.feature.ontology.db.OntologyDb
  */
 actual class DriverFactory {
     actual fun createDriver(): SqlDriver {
-        return NativeSqliteDriver(OntologyDb.Schema, "Ontology")
+        return NativeSqliteDriver(OntologyDb.Schema, DATABASE_NAME)
     }
 }
