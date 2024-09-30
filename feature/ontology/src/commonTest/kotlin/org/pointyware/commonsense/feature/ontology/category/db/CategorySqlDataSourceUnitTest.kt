@@ -11,12 +11,12 @@ import org.koin.mp.KoinPlatform.getKoin
 import org.pointyware.commonsense.core.common.Uuid
 import org.pointyware.commonsense.feature.ontology.category.data.CategorySqlDataSource
 import org.pointyware.commonsense.feature.ontology.test.setupKoin
-import kotlin.test.assertTrue
 import kotlin.test.AfterTest
 import kotlin.test.BeforeTest
 import kotlin.test.Test
 import kotlin.test.assertNotEquals
 import kotlin.test.assertNotNull
+import kotlin.test.assertTrue
 
 @OptIn(ExperimentalCoroutinesApi::class)
 class CategorySqlDataSourceUnitTest {
@@ -54,6 +54,31 @@ class CategorySqlDataSourceUnitTest {
         - The uuid of the category is not null
          */
         val result = dataSource.createCategory("test")
+
+        assertTrue(result.isSuccess)
+        assertNotNull(result.getOrNull()?.id)
+        assertNotEquals(Uuid.nil(), result.getOrThrow().id)
+    }
+
+    @Test
+    fun insertCategoryUnderCategory() = runTest {
+        /*
+        Given:
+        - A category with the name "alpha"
+        - A parent category with the name "parent"
+         */
+        val parentCategoryName = "alpha"
+        val parentCategory = dataSource.createCategory(parentCategoryName).getOrThrow()
+        val categoryName = "test"
+
+        /*
+        When:
+        - The category is inserted into the database with the parent category
+        Then:
+        - The result is success
+        - The uuid of the category is not null
+         */
+        val result = dataSource.addCategory(parentCategory.id, categoryName)
 
         assertTrue(result.isSuccess)
         assertNotNull(result.getOrNull()?.id)

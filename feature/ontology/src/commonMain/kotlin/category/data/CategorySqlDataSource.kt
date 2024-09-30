@@ -25,4 +25,8 @@ class CategorySqlDataSource(
             Result.failure(e)
         }
     }
+
+    override suspend fun addCategory(subject: Uuid, name: String): Result<Category> {
+        return Result.failure(Exception("Not implemented"))
+    }
 }
