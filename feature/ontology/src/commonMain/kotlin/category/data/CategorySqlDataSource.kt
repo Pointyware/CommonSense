@@ -2,6 +2,7 @@ package org.pointyware.commonsense.feature.ontology.category.data
 
 import org.pointyware.commonsense.core.common.Uuid
 import org.pointyware.commonsense.feature.ontology.Concept
+import org.pointyware.commonsense.feature.ontology.IndependentConcept
 import org.pointyware.commonsense.feature.ontology.db.OntologyDb
 import org.pointyware.commonsense.feature.ontology.entities.Category
 import org.pointyware.commonsense.feature.ontology.local.DriverFactory
@@ -49,8 +50,10 @@ class CategorySqlDataSource(
         subject: Uuid,
         name: String,
         description: String
-    ): Result<Concept> {
-        TODO("Not yet implemented")
+    ): Result<Concept> = kotlin.runCatching {
+        val newUuid = Uuid.v4()
+        db.categoryQueries.insertConcept(newUuid.bytes, subject.bytes, name, description)
+        IndependentConcept(newUuid, name, description)
     }
 
     override suspend fun getConcepts(id: Uuid): Result<List<Concept>> {
