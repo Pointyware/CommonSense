@@ -20,7 +20,7 @@ interface CategoryRepository {
  * Simple repository implementation that maintains a map of categories in memory with associated subcategories and concepts.
  */
 class CategoryRepositoryImpl(
-    private val categoryDataSource: CategoryDataSource // TODO: replace in-memory implementation with sql data source
+    private val categoryDataSource: CategoryDataSource
 ): CategoryRepository {
 
     data class Record(
