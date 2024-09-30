@@ -1,10 +1,55 @@
+-- Category table: a tree of categories
 CREATE TABLE category (
   creationId INTEGER PRIMARY KEY NOT NULL,
+  uuid BLOB NOT NULL, -- 16 bytes
   parentId INTEGER,
   name TEXT NOT NULL
 );
 
+-- Concept table: a set of concepts within categories
+CREATE TABLE concept (
+  creationId INTEGER PRIMARY KEY NOT NULL,
+  categoryId INTEGER NOT NULL,
+  uuid BLOB NOT NULL, -- 16 bytes
+  name TEXT NOT NULL,
+  description TEXT
+);
+
 CREATE INDEX category_parent_id ON category(parentId);
 
-INSERT INTO category (creationId, parentId, name)
-VALUES (0, NULL, 'Root');
+INSERT INTO category (creationId, uuid, parentId, name)
+VALUES (0, 0, NULL, 'Root');
+
+-- Insert a new category under an existing category; default to root if parentId is null
+insertCategory:
+INSERT INTO category (uuid, parentId, name)
+VALUES (
+    ?,
+  COALESCE((SELECT creationId FROM category WHERE uuid = ?), 0),
+  ?
+);
+
+-- Insert a new concept into a category
+insertConcept:
+WITH categoryMap (creationId) AS (
+  SELECT creationId
+  FROM category
+  WHERE uuid = ?
+)
+INSERT INTO concept (categoryId, uuid, name, description)
+VALUES (
+  creationId,
+  uuid,
+  name,
+  description
+);
+
+-- Get all categories within a category
+getCategories:
+SELECT child.uuid, child.name
+FROM
+  category AS child
+  JOIN category AS parent
+  ON child.parentId = parent.creationId
+WHERE
+  parent.creationId = (SELECT creationId FROM category WHERE uuid = ?);
