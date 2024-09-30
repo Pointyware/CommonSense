@@ -46,10 +46,14 @@ VALUES (
 
 -- Get all categories within a category
 getCategories:
-SELECT child.uuid, child.name
+SELECT uuid, name
 FROM
-  category AS child
-  JOIN category AS parent
-  ON child.parentId = parent.creationId
+  category
 WHERE
-  parent.creationId = (SELECT creationId FROM category WHERE uuid = ?);
+  parentId = (SELECT creationId FROM category WHERE uuid = ?);
+
+-- Get all concepts within a category
+getConcepts:
+SELECT uuid, name, description
+FROM concept
+WHERE categoryId = (SELECT creationId FROM category WHERE uuid = ?);
