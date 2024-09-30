@@ -54,6 +54,8 @@ class CategorySqlDataSource(
     }
 
     override suspend fun getConcepts(id: Uuid): Result<List<Concept>> = runCatching {
-        TODO("Not yet implemented")
+        db.categoryQueries.getConcepts(id.bytes) { uuid, name, description ->
+            IndependentConcept(Uuid(uuid), name, description)
+        }.executeAsList()
     }
 }
