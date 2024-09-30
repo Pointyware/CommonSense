@@ -34,14 +34,14 @@ insertConcept:
 WITH categoryMap (creationId) AS (
   SELECT creationId
   FROM category
-  WHERE uuid = ?
+  WHERE category.uuid = ?
 )
 INSERT INTO concept (categoryId, uuid, name, description)
 VALUES (
   creationId,
-  uuid,
-  name,
-  description
+  ?,
+  ?,
+  ?
 );
 
 -- Get all categories within a category
