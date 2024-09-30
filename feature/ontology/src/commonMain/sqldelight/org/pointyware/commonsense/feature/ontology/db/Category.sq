@@ -29,6 +29,9 @@ VALUES (
   ?
 );
 
+getCategory:
+SELECT uuid, name FROM category WHERE uuid = ?;
+
 -- Insert a new concept into a category
 insertConcept:
 INSERT INTO concept (categoryId, uuid, name, description)

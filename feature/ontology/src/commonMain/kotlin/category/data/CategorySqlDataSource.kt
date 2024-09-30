@@ -30,11 +30,13 @@ class CategorySqlDataSource(
         Category(newUuid, name)
     }
 
-    override suspend fun getCategory(id: Uuid): Result<Category> {
-        TODO("Not yet implemented")
+    override suspend fun getCategory(id: Uuid): Result<Category> = runCatching {
+        db.categoryQueries.getCategory(id.bytes) { uuid, name ->
+            Category(Uuid(uuid), name)
+        }.executeAsOne()
     }
 
-    override suspend fun getSubcategories(id: Uuid): Result<List<Category>> {
+    override suspend fun getSubcategories(id: Uuid): Result<List<Category>> = runCatching {
         TODO("Not yet implemented")
     }
 
@@ -42,13 +44,13 @@ class CategorySqlDataSource(
         subject: Uuid,
         name: String,
         description: String
-    ): Result<Concept> = kotlin.runCatching {
+    ): Result<Concept> = runCatching {
         val newUuid = Uuid.v4()
         db.categoryQueries.insertConcept(subject.bytes, newUuid.bytes, name, description)
         IndependentConcept(newUuid, name, description)
     }
 
-    override suspend fun getConcepts(id: Uuid): Result<List<Concept>> {
+    override suspend fun getConcepts(id: Uuid): Result<List<Concept>> = runCatching {
         TODO("Not yet implemented")
     }
 }
