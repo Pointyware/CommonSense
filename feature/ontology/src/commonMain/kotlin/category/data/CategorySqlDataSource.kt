@@ -18,24 +18,16 @@ class CategorySqlDataSource(
     private val driver = driverFactory.createDriver()
     private val db = OntologyDb(driver)
 
-    override suspend fun createCategory(name: String): Result<Category> {
-        return try {
-            val newUuid = Uuid.v4()
-            db.categoryQueries.insertCategory(newUuid.bytes, ByteArray(1), name)
-            Result.success(Category(newUuid, name))
-        } catch (e: Exception) {
-            Result.failure(e)
-        }
+    override suspend fun createCategory(name: String): Result<Category> = runCatching {
+        val newUuid = Uuid.v4()
+        db.categoryQueries.insertCategory(newUuid.bytes, ByteArray(1), name)
+        Category(newUuid, name)
     }
 
-    override suspend fun addCategory(subject: Uuid, name: String): Result<Category> {
-        return try {
-            val newUuid = Uuid.v4()
-            db.categoryQueries.insertCategory(newUuid.bytes, subject.bytes, name)
-            Result.success(Category(newUuid, name))
-        } catch (e: Exception) {
-            Result.failure(e)
-        }
+    override suspend fun addCategory(subject: Uuid, name: String): Result<Category> = runCatching {
+        val newUuid = Uuid.v4()
+        db.categoryQueries.insertCategory(newUuid.bytes, subject.bytes, name)
+        Category(newUuid, name)
     }
 
     override suspend fun getCategory(id: Uuid): Result<Category> {
