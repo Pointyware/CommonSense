@@ -27,6 +27,12 @@ class CategorySqlDataSource(
     }
 
     override suspend fun addCategory(subject: Uuid, name: String): Result<Category> {
-        return Result.failure(Exception("Not implemented"))
+        return try {
+            val newUuid = Uuid.v4()
+            db.categoryQueries.insertCategory(newUuid.bytes, subject.bytes, name)
+            Result.success(Category(newUuid, name))
+        } catch (e: Exception) {
+            Result.failure(e)
+        }
     }
 }
