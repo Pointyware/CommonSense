@@ -37,7 +37,9 @@ class CategorySqlDataSource(
     }
 
     override suspend fun getSubcategories(id: Uuid): Result<List<Category>> = runCatching {
-        TODO("Not yet implemented")
+        db.categoryQueries.getCategories(id.bytes) { uuid, name ->
+            Category(Uuid(uuid), name)
+        }.executeAsList()
     }
 
     override suspend fun addConcept(
