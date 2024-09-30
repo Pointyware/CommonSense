@@ -31,14 +31,9 @@ VALUES (
 
 -- Insert a new concept into a category
 insertConcept:
-WITH categoryMap (creationId) AS (
-  SELECT creationId
-  FROM category
-  WHERE category.uuid = ?
-)
 INSERT INTO concept (categoryId, uuid, name, description)
 VALUES (
-  creationId,
+  (SELECT creationId FROM category WHERE uuid = ?),
   ?,
   ?,
   ?

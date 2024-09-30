@@ -44,7 +44,7 @@ class CategorySqlDataSource(
         description: String
     ): Result<Concept> = kotlin.runCatching {
         val newUuid = Uuid.v4()
-        db.categoryQueries.insertConcept(newUuid.bytes, subject.bytes, name, description)
+        db.categoryQueries.insertConcept(subject.bytes, newUuid.bytes, name, description)
         IndependentConcept(newUuid, name, description)
     }
 
