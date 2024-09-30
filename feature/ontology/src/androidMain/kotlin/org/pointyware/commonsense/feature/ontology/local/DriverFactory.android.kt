@@ -12,4 +12,8 @@ actual class DriverFactory(private val context: Context) {
     actual fun createDriver(): SqlDriver {
         return AndroidSqliteDriver(OntologyDb.Schema, context, "ontology.db")
     }
+
+    actual fun inMemoryDriver(): SqlDriver {
+        return AndroidSqliteDriver(OntologyDb.Schema, context)
+    }
 }

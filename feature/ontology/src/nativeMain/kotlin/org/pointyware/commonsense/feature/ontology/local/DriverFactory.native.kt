@@ -11,4 +11,8 @@ actual class DriverFactory {
     actual fun createDriver(): SqlDriver {
         return NativeSqliteDriver(OntologyDb.Schema, DATABASE_NAME)
     }
+
+    actual fun inMemoryDriver(): SqlDriver {
+        return NativeSqliteDriver(OntologyDb.Schema, "")
+    }
 }

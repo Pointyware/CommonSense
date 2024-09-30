@@ -12,10 +12,11 @@ import org.pointyware.commonsense.feature.ontology.local.DriverFactory
  *
  */
 class CategorySqlDataSource(
-    private val driverFactory: DriverFactory
+    private val driverFactory: DriverFactory,
+    private val inMemory: Boolean = false
 ): CategoryDataSource {
 
-    private val driver = driverFactory.createDriver()
+    private val driver = if (inMemory) driverFactory.inMemoryDriver() else driverFactory.createDriver()
     private val db = OntologyDb(driver)
 
     override suspend fun createCategory(name: String): Result<Category> = runCatching {

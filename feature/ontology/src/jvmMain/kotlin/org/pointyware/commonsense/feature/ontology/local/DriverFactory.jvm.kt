@@ -13,4 +13,10 @@ actual class DriverFactory {
         OntologyDb.Schema.create(driver)
         return driver
     }
+
+    actual fun inMemoryDriver(): SqlDriver {
+        val driver = JdbcSqliteDriver(JdbcSqliteDriver.IN_MEMORY)
+        OntologyDb.Schema.create(driver)
+        return driver
+    }
 }

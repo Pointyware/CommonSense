@@ -10,4 +10,6 @@ internal const val DATABASE_NAME = "ontology.db"
  */
 expect class DriverFactory {
     fun createDriver(): SqlDriver
+
+    fun inMemoryDriver(): SqlDriver
 }

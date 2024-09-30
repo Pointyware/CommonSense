@@ -6,7 +6,9 @@ import kotlinx.coroutines.test.StandardTestDispatcher
 import kotlinx.coroutines.test.resetMain
 import kotlinx.coroutines.test.runTest
 import kotlinx.coroutines.test.setMain
+import org.koin.core.context.loadKoinModules
 import org.koin.core.context.stopKoin
+import org.koin.dsl.module
 import org.koin.mp.KoinPlatform.getKoin
 import org.pointyware.commonsense.core.common.Uuid
 import org.pointyware.commonsense.feature.ontology.Concept
@@ -29,6 +31,9 @@ class CategorySqlDataSourceUnitTest {
     @BeforeTest
     fun setUp() {
         setupKoin()
+        loadKoinModules(module {
+            single<CategorySqlDataSource> { CategorySqlDataSource(get(), inMemory = true) }
+        })
         val testDispatcher = StandardTestDispatcher()
         Dispatchers.setMain(testDispatcher)
         val koin = getKoin()
@@ -39,9 +44,6 @@ class CategorySqlDataSourceUnitTest {
     fun tearDown() {
         stopKoin()
         Dispatchers.resetMain()
-
-        // TODO: delete database between tests
-
     }
 
     //suspend fun createCategory(name: String): Result<Category>
