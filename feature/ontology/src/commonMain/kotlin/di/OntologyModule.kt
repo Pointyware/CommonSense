@@ -1,6 +1,7 @@
 package org.pointyware.commonsense.feature.ontology.di
 
 import kotlinx.serialization.json.Json
+import org.koin.core.module.Module
 import org.koin.core.module.dsl.bind
 import org.koin.core.module.dsl.singleOf
 import org.koin.dsl.module
@@ -41,16 +42,20 @@ fun ontologyModule() = module {
         ontologyDataModule(),
         ontologyInteractorModule(),
         ontologyViewModelModule(),
-        ontologyUiModule()
+        ontologyUiModule(),
+
+        ontologyLocalPlatformModule()
     )
 }
+
+expect fun ontologyLocalPlatformModule(): Module
 
 fun ontologyDataModule() = module {
     single<Json> { Json.Default }
     single<ConceptSpaceRepository> { ConceptSpaceRepositoryImpl(get<ConceptSpaceDataSource>()) }
     single<ArrangementController> { SimpleArrangementController() }
 
-    single<CategoryRepository> { CategoryRepositoryImpl() }
+    singleOf(::CategoryRepositoryImpl) { bind<CategoryRepository>() }
     single<ConceptEditorController> { ConceptEditorControllerImpl() }
 }
 

@@ -7,6 +7,6 @@ import org.pointyware.commonsense.feature.ontology.local.DriverFactory
 /**
  *
  */
-fun ontologyAndroidModule() = module {
+fun ontologyLocalAndroidModule() = module {
     singleOf(::DriverFactory)
 }
