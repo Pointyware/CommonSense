@@ -44,6 +44,8 @@ kotlin {
                 implementation(libs.kotlinx.serialization.json)
                 implementation(libs.kotlinx.io.core)
                 implementation(libs.kotlinx.io.bytestring)
+
+                implementation(libs.sqlDelight.runtime)
             }
         }
         val commonTest by getting {
