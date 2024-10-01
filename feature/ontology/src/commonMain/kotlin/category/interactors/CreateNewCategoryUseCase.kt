@@ -13,7 +13,7 @@ class CreateNewCategoryUseCase(
     private val conceptEditorController: ConceptEditorController,
     private val categoryRepository: CategoryRepository
 ) {
-    suspend fun invoke(name: String): Result<Unit> {
+    suspend fun invoke(name: String): Result<Category> {
         val subject = conceptEditorController.subject?.id
             ?: return Result.failure(IllegalStateException("No subject selected"))
         val newCategory = Category(Uuid.v4(), name)
