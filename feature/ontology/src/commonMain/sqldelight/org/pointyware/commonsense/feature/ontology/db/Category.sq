@@ -17,7 +17,7 @@ CREATE TABLE concept (
 
 CREATE INDEX category_parent_id ON category(parentId);
 
-INSERT OR REPLACE INTO category (creationId, uuid, parentId, name)
+INSERT INTO category (creationId, uuid, parentId, name)
 VALUES (0, unhex("00000000000000000000000000000000"), NULL, 'Root');
 
 -- Insert a new category under an existing category; default to root if parentId is null
