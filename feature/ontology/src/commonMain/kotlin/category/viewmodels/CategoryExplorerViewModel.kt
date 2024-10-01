@@ -138,5 +138,6 @@ class CategoryExplorerViewModel(
                 _editorState.value = EditorState.Disabled
             }
         }
+        onCategorySelected(Uuid.nil())
     }
 }
