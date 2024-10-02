@@ -1,6 +1,7 @@
 package org.pointyware.commonsense.feature.ontology.category.data
 
 import org.pointyware.commonsense.core.common.Uuid
+import org.pointyware.commonsense.core.local.db.createOrMigrate
 import org.pointyware.commonsense.feature.ontology.Concept
 import org.pointyware.commonsense.feature.ontology.IndependentConcept
 import org.pointyware.commonsense.feature.ontology.db.OntologyDb
@@ -18,7 +19,10 @@ class CategorySqlDataSource(
 ): CategoryDataSource {
 
     private val driver = driverFactory.createSqlDriver(persistence)
-    private val db = OntologyDb(driver)
+    private val db by lazy {
+        OntologyDb.Schema.createOrMigrate(driver)
+        OntologyDb(driver)
+    }
 
     override suspend fun createCategory(name: String): Result<Category> = runCatching {
         val newUuid = Uuid.v4()
