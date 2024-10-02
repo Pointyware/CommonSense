@@ -13,7 +13,7 @@ interface Concept {
     val description: String?
 }
 
-class IndependentConcept(
+data class IndependentConcept(
     override val id: Uuid,
     override val name: String,
     override val description: String?,

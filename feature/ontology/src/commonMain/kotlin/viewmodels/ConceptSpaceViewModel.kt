@@ -7,9 +7,9 @@ import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import kotlinx.io.files.Path
 import org.pointyware.commonsense.core.common.Log
 import org.pointyware.commonsense.core.common.Uuid
-import org.pointyware.commonsense.core.local.LocalStorage
 import org.pointyware.commonsense.core.viewmodels.ViewModel
 import org.pointyware.commonsense.feature.ontology.data.ArrangementController
 import org.pointyware.commonsense.feature.ontology.data.Position
@@ -79,7 +79,7 @@ class ConceptSpaceViewModel(
         initialValue = emptySpace
     )
 
-    fun onLoadConceptSpace(file: LocalStorage) {
+    fun onLoadConceptSpace(file: Path) {
         viewModelScope.launch {
             loadConceptSpaceUseCase(file)
                 .onSuccess { conceptSpace ->

@@ -1,6 +1,6 @@
 package org.pointyware.commonsense.feature.ontology.interactors
 
-import org.pointyware.commonsense.core.local.LocalStorage
+import kotlinx.io.files.Path
 import org.pointyware.commonsense.feature.ontology.data.ConceptSpaceRepository
 
 /**
@@ -11,7 +11,7 @@ class SaveConceptSpaceUseCase(
     private val conceptSpaceRepository: ConceptSpaceRepository
 ) {
 
-    suspend operator fun invoke(selectFile: Boolean = false): Result<LocalStorage> {
+    suspend operator fun invoke(selectFile: Boolean = false): Result<Path> {
         val openFile = conceptSpaceRepository.openFile
         if (selectFile || openFile == null) {
             return selectFileUseCase()

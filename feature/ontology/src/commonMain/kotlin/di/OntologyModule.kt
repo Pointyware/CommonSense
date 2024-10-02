@@ -1,11 +1,14 @@
 package org.pointyware.commonsense.feature.ontology.di
 
 import kotlinx.serialization.json.Json
+import org.koin.core.module.Module
 import org.koin.core.module.dsl.bind
 import org.koin.core.module.dsl.singleOf
 import org.koin.dsl.module
+import org.pointyware.commonsense.feature.ontology.category.data.CategoryDataSource
 import org.pointyware.commonsense.feature.ontology.category.data.CategoryRepository
 import org.pointyware.commonsense.feature.ontology.category.data.CategoryRepositoryImpl
+import org.pointyware.commonsense.feature.ontology.category.data.CategorySqlDataSource
 import org.pointyware.commonsense.feature.ontology.category.interactors.CreateNewCategoryUseCase
 import org.pointyware.commonsense.feature.ontology.category.interactors.CreateNewConceptUseCase
 import org.pointyware.commonsense.feature.ontology.category.interactors.GetSelectedCategoryUseCase
@@ -41,7 +44,9 @@ fun ontologyModule() = module {
         ontologyDataModule(),
         ontologyInteractorModule(),
         ontologyViewModelModule(),
-        ontologyUiModule()
+        ontologyUiModule(),
+
+        ontologyLocalModule()
     )
 }
 
@@ -50,8 +55,18 @@ fun ontologyDataModule() = module {
     single<ConceptSpaceRepository> { ConceptSpaceRepositoryImpl(get<ConceptSpaceDataSource>()) }
     single<ArrangementController> { SimpleArrangementController() }
 
-    single<CategoryRepository> { CategoryRepositoryImpl() }
+    singleOf(::CategoryRepositoryImpl) { bind<CategoryRepository>() }
     single<ConceptEditorController> { ConceptEditorControllerImpl() }
+}
+
+expect fun ontologyLocalPlatformModule(): Module
+
+fun ontologyLocalModule() = module {
+    single<CategoryDataSource> { CategorySqlDataSource(get()) }
+
+    includes(
+        ontologyLocalPlatformModule()
+    )
 }
 
 fun ontologyInteractorModule() = module {

@@ -13,16 +13,14 @@ class GetSelectedCategoryUseCase(
     private val categoryRepository: CategoryRepository
 ) {
     suspend operator fun invoke(categoryId: Uuid): Result<CategoryInfo> {
-        val category = categoryRepository.getCategory(categoryId)
-            .onSuccess { category ->
-                val subcategories = categoryRepository.getSubcategories(category.id)
-                    .onFailure { return Result.failure(it) }.getOrNull() ?: emptyList()
-                val concepts = categoryRepository.getConcepts(category.id)
-                    .onFailure { return Result.failure(it) }.getOrNull() ?: emptyList()
-                conceptEditorController.subject = category
-                return Result.success(CategoryInfo(category.id, category, subcategories, concepts))
-            }
-        return Result.failure(category.exceptionOrNull() ?: Exception("Category not found"))
+        return categoryRepository.getCategory(categoryId).map { category ->
+            val subcategories = categoryRepository.getSubcategories(category.id)
+                .onFailure { return Result.failure(it) }.getOrNull() ?: emptyList()
+            val concepts = categoryRepository.getConcepts(category.id)
+                .onFailure { return Result.failure(it) }.getOrNull() ?: emptyList()
+            conceptEditorController.subject = category
+            CategoryInfo(category.id, category, subcategories, concepts)
+        }
     }
 }
 

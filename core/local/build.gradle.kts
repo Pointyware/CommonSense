@@ -5,6 +5,7 @@ import org.jetbrains.kotlin.gradle.plugin.mpp.apple.XCFramework
 plugins {
     alias(libs.plugins.kotlinMultiplatform)
     alias(libs.plugins.androidLibrary)
+    alias(libs.plugins.kotlinSerialization)
 }
 
 kotlin {
@@ -39,6 +40,12 @@ kotlin {
                 implementation(projects.core.common)
 
                 implementation(libs.koin.core)
+
+                implementation(libs.kotlinx.serialization.json)
+                implementation(libs.kotlinx.io.core)
+                implementation(libs.kotlinx.io.bytestring)
+
+                implementation(libs.sqlDelight.runtime)
             }
         }
         val commonTest by getting {
@@ -49,6 +56,9 @@ kotlin {
 
         val jvmSharedMain by creating {
             dependsOn(commonMain)
+
+            dependencies {
+            }
         }
         val jvmSharedTest by creating {
             dependsOn(commonTest)
