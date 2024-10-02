@@ -1,4 +1,4 @@
-package org.pointyware.commonsense.feature.ontology.entities
+package org.pointyware.commonsense.feature.ontology
 
 import org.pointyware.commonsense.core.common.Uuid
 

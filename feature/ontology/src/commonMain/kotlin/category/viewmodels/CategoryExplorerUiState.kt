@@ -1,7 +1,7 @@
 package org.pointyware.commonsense.feature.ontology.category.viewmodels
 
 import org.pointyware.commonsense.feature.ontology.Concept
-import org.pointyware.commonsense.feature.ontology.entities.Category
+import org.pointyware.commonsense.feature.ontology.Category
 import org.pointyware.commonsense.feature.ontology.viewmodels.CategoryEditorUiState
 import org.pointyware.commonsense.feature.ontology.viewmodels.ConceptEditorUiState
 

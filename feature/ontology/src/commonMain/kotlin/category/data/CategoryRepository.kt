@@ -2,7 +2,7 @@ package org.pointyware.commonsense.feature.ontology.category.data
 
 import org.pointyware.commonsense.core.common.Uuid
 import org.pointyware.commonsense.feature.ontology.Concept
-import org.pointyware.commonsense.feature.ontology.entities.Category
+import org.pointyware.commonsense.feature.ontology.Category
 
 /**
  * Repository interface for managing categories and their associated subcategories and concepts.

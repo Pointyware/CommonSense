@@ -10,7 +10,7 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import org.pointyware.commonsense.core.viewmodels.ViewModel
 import org.pointyware.commonsense.feature.ontology.category.interactors.CreateNewCategoryUseCase
-import org.pointyware.commonsense.feature.ontology.entities.Category
+import org.pointyware.commonsense.feature.ontology.Category
 import org.pointyware.commonsense.feature.ontology.viewmodels.CategoryEditorUiState
 
 /**

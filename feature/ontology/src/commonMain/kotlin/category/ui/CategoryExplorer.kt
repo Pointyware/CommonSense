@@ -14,7 +14,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import org.pointyware.commonsense.core.common.Uuid
 import org.pointyware.commonsense.feature.ontology.Concept
-import org.pointyware.commonsense.feature.ontology.entities.Category
+import org.pointyware.commonsense.feature.ontology.Category
 
 /**
  * Represents the state of the CategoryExplorer composable.

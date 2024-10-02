@@ -5,7 +5,7 @@ import org.pointyware.commonsense.core.local.db.createOrMigrate
 import org.pointyware.commonsense.feature.ontology.Concept
 import org.pointyware.commonsense.feature.ontology.IndependentConcept
 import org.pointyware.commonsense.feature.ontology.db.OntologyDb
-import org.pointyware.commonsense.feature.ontology.entities.Category
+import org.pointyware.commonsense.feature.ontology.Category
 import org.pointyware.commonsense.feature.ontology.local.DriverFactory
 import org.pointyware.commonsense.feature.ontology.local.Persistence
 

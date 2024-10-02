@@ -1,6 +1,6 @@
 package org.pointyware.commonsense.feature.ontology.data
 
-import org.pointyware.commonsense.feature.ontology.entities.Category
+import org.pointyware.commonsense.feature.ontology.Category
 
 /**
  *
