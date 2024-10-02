@@ -16,10 +16,9 @@ var SqlDriver.version: Long
         binders = null,
     ).value
     set(value) {
-        this.executeQuery(
+        this.execute(
             identifier = null,
             sql = "PRAGMA user_version = $value;",
-            mapper = { QueryResult.Unit },
             parameters = 0,
             binders = null
         )
