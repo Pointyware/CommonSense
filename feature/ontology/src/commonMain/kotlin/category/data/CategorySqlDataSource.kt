@@ -6,6 +6,7 @@ import org.pointyware.commonsense.feature.ontology.IndependentConcept
 import org.pointyware.commonsense.feature.ontology.db.OntologyDb
 import org.pointyware.commonsense.feature.ontology.entities.Category
 import org.pointyware.commonsense.feature.ontology.local.DriverFactory
+import org.pointyware.commonsense.feature.ontology.local.Persistence
 
 
 /**
@@ -13,10 +14,10 @@ import org.pointyware.commonsense.feature.ontology.local.DriverFactory
  */
 class CategorySqlDataSource(
     private val driverFactory: DriverFactory,
-    private val inMemory: Boolean = false
+    private val persistence: Persistence = Persistence.File
 ): CategoryDataSource {
 
-    private val driver = if (inMemory) driverFactory.inMemoryDriver() else driverFactory.createDriver()
+    private val driver = driverFactory.createSqlDriver(persistence)
     private val db = OntologyDb(driver)
 
     override suspend fun createCategory(name: String): Result<Category> = runCatching {

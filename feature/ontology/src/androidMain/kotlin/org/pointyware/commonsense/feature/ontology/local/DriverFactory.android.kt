@@ -8,12 +8,12 @@ import org.pointyware.commonsense.feature.ontology.db.OntologyDb
 /**
  *
  */
-actual class DriverFactory(private val context: Context) {
-    actual fun createDriver(): SqlDriver {
-        return AndroidSqliteDriver(OntologyDb.Schema, context, "ontology.db")
-    }
-
-    actual fun inMemoryDriver(): SqlDriver {
-        return AndroidSqliteDriver(OntologyDb.Schema, context)
+class AndroidDriverFactory(private val context: Context): DriverFactory {
+    override fun createSqlDriver(path: String): SqlDriver {
+        return if (path.isEmpty()) {
+            AndroidSqliteDriver(OntologyDb.Schema, context)
+        } else {
+            AndroidSqliteDriver(OntologyDb.Schema, context, path)
+        }
     }
 }

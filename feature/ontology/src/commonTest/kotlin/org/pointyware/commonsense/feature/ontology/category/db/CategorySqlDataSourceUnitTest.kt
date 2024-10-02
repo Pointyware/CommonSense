@@ -12,6 +12,7 @@ import org.koin.dsl.module
 import org.koin.mp.KoinPlatform.getKoin
 import org.pointyware.commonsense.core.common.Uuid
 import org.pointyware.commonsense.feature.ontology.category.data.CategorySqlDataSource
+import org.pointyware.commonsense.feature.ontology.local.Persistence
 import org.pointyware.commonsense.feature.ontology.test.setupKoin
 import kotlin.test.AfterTest
 import kotlin.test.BeforeTest
@@ -30,7 +31,7 @@ class CategorySqlDataSourceUnitTest {
     fun setUp() {
         setupKoin()
         loadKoinModules(module {
-            single<CategorySqlDataSource> { CategorySqlDataSource(get(), inMemory = true) }
+            single<CategorySqlDataSource> { CategorySqlDataSource(get(), persistence = Persistence.InMemory) }
         })
         val testDispatcher = StandardTestDispatcher()
         Dispatchers.setMain(testDispatcher)

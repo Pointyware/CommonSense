@@ -7,12 +7,8 @@ import org.pointyware.commonsense.feature.ontology.db.OntologyDb
 /**
  *
  */
-actual class DriverFactory {
-    actual fun createDriver(): SqlDriver {
-        return NativeSqliteDriver(OntologyDb.Schema, DATABASE_NAME)
-    }
-
-    actual fun inMemoryDriver(): SqlDriver {
-        return NativeSqliteDriver(OntologyDb.Schema, "")
+class NativeDriverFactory : DriverFactory {
+    override fun createSqlDriver(path: String): SqlDriver {
+        return NativeSqliteDriver(OntologyDb.Schema, path)
     }
 }
