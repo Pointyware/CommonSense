@@ -1,7 +1,6 @@
 package org.pointyware.commonsense.feature.ontology.category.interactors
 
 import org.pointyware.commonsense.core.common.Uuid
-import org.pointyware.commonsense.feature.ontology.IndependentConcept
 import org.pointyware.commonsense.feature.ontology.category.data.CategoryRepository
 import org.pointyware.commonsense.feature.ontology.data.ConceptEditorController
 import org.pointyware.commonsense.feature.ontology.entities.Category
