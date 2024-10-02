@@ -7,23 +7,19 @@ import app.cash.sqldelight.db.SqlDriver
  * Extension property to get and set the version of the database.
  */
 var SqlDriver.version: Long
-    get() {
-        return this.executeQuery(
-            identifier = null,
-            sql = "PRAGMA user_version;",
-            mapper = { query -> QueryResult.Value(query.getLong(0) ?: 0L) },
-            parameters = 0,
-            binders = null,
-        ).value
-    }
+    get() = executeQuery(
+        identifier = null,
+        sql = "PRAGMA user_version;",
+        mapper = { query -> QueryResult.Value(query.getLong(0) ?: 0L) },
+        parameters = 0,
+        binders = null,
+    ).value
     set(value) {
         this.executeQuery(
             identifier = null,
-            sql = "PRAGMA user_version = ?;",
+            sql = "PRAGMA user_version = $value;",
             mapper = { QueryResult.Unit },
-            parameters = 1,
-            binders = {
-                bindLong(0, value)
-            },
+            parameters = 0,
+            binders = null
         )
     }
