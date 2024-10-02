@@ -16,7 +16,7 @@ var SqlDriver.version: Long
         binders = null,
     ).value
     set(value) {
-        this.execute(
+        execute(
             identifier = null,
             sql = "PRAGMA user_version = $value;",
             parameters = 0,
