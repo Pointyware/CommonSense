@@ -1,4 +1,4 @@
-package org.pointyware.commonsense.feature.ontology.category.data
+package org.pointyware.commonsense.feature.ontology.data
 
 import org.pointyware.commonsense.core.common.Uuid
 import org.pointyware.commonsense.core.local.db.createOrMigrate

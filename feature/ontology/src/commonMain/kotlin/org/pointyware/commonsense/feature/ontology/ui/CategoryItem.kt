@@ -1,4 +1,4 @@
-package org.pointyware.commonsense.feature.ontology.category.ui
+package org.pointyware.commonsense.feature.ontology.ui
 
 import androidx.compose.foundation.layout.Row
 import androidx.compose.material3.MaterialTheme

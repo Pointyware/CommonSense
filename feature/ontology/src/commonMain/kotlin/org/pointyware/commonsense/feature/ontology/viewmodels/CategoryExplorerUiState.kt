@@ -1,9 +1,7 @@
-package org.pointyware.commonsense.feature.ontology.category.viewmodels
+package org.pointyware.commonsense.feature.ontology.viewmodels
 
 import org.pointyware.commonsense.feature.ontology.Concept
 import org.pointyware.commonsense.feature.ontology.Category
-import org.pointyware.commonsense.feature.ontology.viewmodels.CategoryEditorUiState
-import org.pointyware.commonsense.feature.ontology.viewmodels.ConceptEditorUiState
 
 /**
  * UI-agnostic state of a category explorer.

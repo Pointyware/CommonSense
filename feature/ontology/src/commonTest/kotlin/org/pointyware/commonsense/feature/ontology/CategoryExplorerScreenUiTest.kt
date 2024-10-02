@@ -13,8 +13,8 @@ import androidx.compose.ui.test.waitUntilDoesNotExist
 import androidx.compose.ui.test.waitUntilExactlyOneExists
 import org.koin.core.context.stopKoin
 import org.koin.mp.KoinPlatform.getKoin
-import org.pointyware.commonsense.feature.ontology.category.ui.CategoryExplorerScreen
-import org.pointyware.commonsense.feature.ontology.category.viewmodels.CategoryExplorerViewModel
+import org.pointyware.commonsense.feature.ontology.ui.CategoryExplorerScreen
+import org.pointyware.commonsense.feature.ontology.viewmodels.CategoryExplorerViewModel
 import org.pointyware.commonsense.feature.ontology.test.assertEditableTextEquals
 import org.pointyware.commonsense.feature.ontology.test.setupKoin
 import kotlin.test.BeforeTest

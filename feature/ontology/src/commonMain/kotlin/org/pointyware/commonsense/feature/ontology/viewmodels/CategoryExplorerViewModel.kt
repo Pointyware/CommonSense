@@ -1,4 +1,4 @@
-package org.pointyware.commonsense.feature.ontology.category.viewmodels
+package org.pointyware.commonsense.feature.ontology.viewmodels
 
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
@@ -10,9 +10,8 @@ import kotlinx.coroutines.launch
 import org.pointyware.commonsense.core.common.Log
 import org.pointyware.commonsense.core.common.Uuid
 import org.pointyware.commonsense.core.viewmodels.ViewModel
-import org.pointyware.commonsense.feature.ontology.category.interactors.GetSelectedCategoryUseCase
-import org.pointyware.commonsense.feature.ontology.category.interactors.GetSelectedConceptUseCase
-import org.pointyware.commonsense.feature.ontology.viewmodels.ConceptEditorViewModel
+import org.pointyware.commonsense.feature.ontology.interactors.GetSelectedCategoryUseCase
+import org.pointyware.commonsense.feature.ontology.interactors.GetSelectedConceptUseCase
 
 /**
  * Maintains the state of the category explorer.

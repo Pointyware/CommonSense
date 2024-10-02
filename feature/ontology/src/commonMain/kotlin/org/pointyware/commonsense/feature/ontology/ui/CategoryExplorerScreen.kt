@@ -1,4 +1,4 @@
-package org.pointyware.commonsense.feature.ontology.category.ui
+package org.pointyware.commonsense.feature.ontology.ui
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -11,10 +11,8 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.window.Dialog
-import org.pointyware.commonsense.feature.ontology.category.viewmodels.CategoryExplorerEditorState
-import org.pointyware.commonsense.feature.ontology.category.viewmodels.CategoryExplorerViewModel
-import org.pointyware.commonsense.feature.ontology.ui.CategoryEditor
-import org.pointyware.commonsense.feature.ontology.ui.ConceptEditor
+import org.pointyware.commonsense.feature.ontology.viewmodels.CategoryExplorerEditorState
+import org.pointyware.commonsense.feature.ontology.viewmodels.CategoryExplorerViewModel
 
 /**
  * Takes a view model, binds the state to the CategoryExplorer composable, and passes events

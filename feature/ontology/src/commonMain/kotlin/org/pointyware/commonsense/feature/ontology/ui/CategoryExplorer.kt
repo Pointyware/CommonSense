@@ -1,4 +1,4 @@
-package org.pointyware.commonsense.feature.ontology.category.ui
+package org.pointyware.commonsense.feature.ontology.ui
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable

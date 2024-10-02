@@ -11,9 +11,9 @@ import org.pointyware.commonsense.core.common.Log
 import org.pointyware.commonsense.core.navigation.LocationRootScope
 import org.pointyware.commonsense.core.navigation.StaticRoute
 import org.pointyware.commonsense.feature.ontology.ConceptSpaceScreen
-import org.pointyware.commonsense.feature.ontology.category.ui.CategoryExplorerScreen
-import org.pointyware.commonsense.feature.ontology.category.viewmodels.CategoryEditorViewModel
-import org.pointyware.commonsense.feature.ontology.category.viewmodels.CategoryExplorerViewModel
+import org.pointyware.commonsense.feature.ontology.ui.CategoryExplorerScreen
+import org.pointyware.commonsense.feature.ontology.viewmodels.CategoryEditorViewModel
+import org.pointyware.commonsense.feature.ontology.viewmodels.CategoryExplorerViewModel
 import org.pointyware.commonsense.feature.ontology.ui.CategoryEditor
 import org.pointyware.commonsense.feature.ontology.ui.ConceptEditor
 import org.pointyware.commonsense.feature.ontology.viewmodels.ConceptEditorViewModel
