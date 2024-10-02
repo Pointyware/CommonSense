@@ -3,7 +3,6 @@ package org.pointyware.commonsense.feature.ontology.local
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.io.files.Path
-import kotlinx.io.files.SystemFileSystem
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 import org.pointyware.commonsense.core.common.Uuid
@@ -14,7 +13,6 @@ import org.pointyware.commonsense.feature.ontology.ConceptSpace
 import org.pointyware.commonsense.feature.ontology.IndependentConcept
 import org.pointyware.commonsense.feature.ontology.MutableConceptSpace
 import org.pointyware.commonsense.feature.ontology.mutableOntology
-import java.io.File
 
 class ConceptSpaceJsonDataSource(
     private val json: Json
