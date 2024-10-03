@@ -6,10 +6,12 @@ import androidx.compose.ui.test.assert
 import androidx.compose.ui.test.assertAll
 import androidx.compose.ui.test.assertIsEnabled
 import androidx.compose.ui.test.assertIsNotEnabled
+import androidx.compose.ui.test.filterToOne
 import androidx.compose.ui.test.hasAnyDescendant
 import androidx.compose.ui.test.hasAnySibling
 import androidx.compose.ui.test.hasContentDescription
 import androidx.compose.ui.test.hasText
+import androidx.compose.ui.test.onChildren
 import androidx.compose.ui.test.onNodeWithContentDescription
 import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.performClick
@@ -348,7 +350,9 @@ class CategoryExplorerScreenUiTest {
         - The dialog is hidden
         - And the selection state is removed
          */
-        onNodeWithText("Cancel").performClick()
+        onNodeWithContentDescription("Delete Concepts")
+            .onChildren().filterToOne(hasText("Cancel"))
+            .performClick()
 
         waitUntilDoesNotExist(hasContentDescription("Delete Concepts"))
 
