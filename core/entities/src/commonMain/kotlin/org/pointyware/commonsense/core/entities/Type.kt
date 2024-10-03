@@ -10,6 +10,8 @@ annotation class ExperimentalType
  * Describes the range of types that values can take on in the Common Sense system.
  *
  * Theoretical types conform to a type-hierarchy that is based on set membership.
+ *
+ * [Type.Int] is the only non-experimental type.
  */
 sealed interface Type {
     // region Theoretical Types
@@ -94,11 +96,13 @@ sealed interface Type {
      *
      * <sup>(1)</sup> - [null etymology](https://www.etymonline.com/word/null)
      */
+    @ExperimentalType
     data object Null: Type
 
     /**
      * A boolean is a value that can be either true or false.
      */
+    @ExperimentalType
     data object Boolean: Type
 
     /**
@@ -109,43 +113,51 @@ sealed interface Type {
     /**
      * A floating point number is composed of a sign bit, mantissa, and an exponent.
      */
+    @ExperimentalType
     data object Float: Type // Add min, max constraints or define as further type?
 
     // Collections
     /**
      * A collection is a group of objects that are treated as a single entity.
      */
+    @ExperimentalType
     data object Collection: Type
 
     // Homogenous Collections
     /**
      * A sequence is an ordered collection of objects.
      */
+    @ExperimentalType
     data object Sequence: Type
 
     /**
      * An array is a fixed-size collection of objects.
      */
+    @ExperimentalType
     data object Array: Type // Add size min, max constraints or define as further type?
 
     /**
      * A string is a special case sequence of characters.
      */
+    @ExperimentalType
     data object String: Type // Add pattern constraints or define as further type?
 
     /**
      * A set is collection of unique objects.
      */
+    @ExperimentalType
     data object Set: Type
 
     /**
      * A bag is a special case of a set where each element can appear more than once.
      */
+    @ExperimentalType
     data object Bag: Type
 
     /**
      * A map is a special case of a set where each element is a key-value pair.
      */
+    @ExperimentalType
     data object Map: Type
 
     // Heterogeneous Collections
@@ -160,12 +172,14 @@ sealed interface Type {
      * - See concepts: Struct, Record, Class, Object vs Instance
      * @see Record
      */
+    @ExperimentalType
     data object Object: Type
 
     /**
      * An interface is a collection of properties that define a contract for objects that implement
      * the interface.
      */
+    @ExperimentalType
     data object Interface: Type
 
     // endregion
