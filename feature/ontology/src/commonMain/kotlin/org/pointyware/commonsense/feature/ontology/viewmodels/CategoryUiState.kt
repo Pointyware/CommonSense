@@ -8,9 +8,9 @@ import org.pointyware.commonsense.feature.ontology.Concept
  * Represents the contents of a category.
  */
 data class CategoryUiState(
-    val selected: Category? = null,
-    val subcategories: List<Category> = emptyList(),
-    val concepts: List<Concept> = emptyList(),
+    val selected: CategoryItemUiState? = null,
+    val subcategories: List<CategoryItemUiState> = emptyList(),
+    val concepts: List<ConceptItemUiState> = emptyList(),
 )
 
 /**

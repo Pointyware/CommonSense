@@ -10,6 +10,8 @@ import kotlinx.coroutines.launch
 import org.pointyware.commonsense.core.common.Log
 import org.pointyware.commonsense.core.common.Uuid
 import org.pointyware.commonsense.core.viewmodels.ViewModel
+import org.pointyware.commonsense.feature.ontology.Category
+import org.pointyware.commonsense.feature.ontology.Concept
 import org.pointyware.commonsense.feature.ontology.interactors.GetSelectedCategoryUseCase
 import org.pointyware.commonsense.feature.ontology.interactors.GetSelectedConceptUseCase
 
@@ -61,9 +63,9 @@ class CategoryExplorerViewModel(
                 .onSuccess { info ->
                     _categoryUiState.update {
                         CategoryUiState(
-                            selected = info.subject,
-                            subcategories = info.subcategories,
-                            concepts = info.concepts
+                            selected = info.subject.toUiState(),
+                            subcategories = info.subcategories.map(Category::toUiState),
+                            concepts = info.concepts.map(Concept::toUiState)
                         )
                     }
                 }

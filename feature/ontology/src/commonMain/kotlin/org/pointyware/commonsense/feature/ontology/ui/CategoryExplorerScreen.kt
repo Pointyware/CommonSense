@@ -24,22 +24,17 @@ fun CategoryExplorerScreen(
 ) {
     val state by viewModel.state.collectAsState()
     val isLoading = state.loading // TODO: add loading state indicator
-    val mappedState = CategoryExplorerState(
-        state.currentCategory.selected,
-        state.currentCategory.subcategories,
-        state.currentCategory.concepts
-    )
 
     Box (
         modifier = Modifier.fillMaxSize(),
         contentAlignment = Alignment.Center
     ) {
         CategoryExplorer(
-            state = mappedState,
+            state = state,
             modifier = Modifier.fillMaxSize(),
-            onLongPressConcept = viewModel::onLongPressConcept,
             onCategorySelected = viewModel::onCategorySelected,
             onConceptSelected = viewModel::onConceptSelected,
+            onDeleteSelected = viewModel::onDeleteSelected,
         )
 
         Column(
