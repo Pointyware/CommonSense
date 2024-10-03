@@ -276,6 +276,7 @@ class CategoryExplorerScreenUiTest {
     /**
      * User Journey: Select and Delete Concepts - Selection, Cancel
      */
+    @Test
     fun long_pressing_concept_should_select_then_cancel() = runComposeUiTest {
         /*
         Given:
@@ -298,13 +299,44 @@ class CategoryExplorerScreenUiTest {
                 hasContentDescription("Select").or(
                     hasContentDescription("Deselect"))
             ))
+        onNodeWithText("Concept 1").assert(
+            hasAnyDescendant(
+                hasContentDescription("Deselect")))
 
         /*
         When:
+        - The "Cancel" button is pressed
+        Then:
+        - The selection state is removed
+         */
+        onNodeWithText("Cancel").performClick()
+
+        onAllNodes(hasContentDescription("Concept", substring = true))
+            .assertAll(hasAnyDescendant(
+                hasContentDescription("Select").or(
+                    hasContentDescription("Deselect"))
+            ).not())
+    }
+
+    /**
+     * User Journey: Select and Delete Concepts - Selection, Delete, Cancel
+     */
+    @Test
+    fun long_pressing_concept_should_select_then_delete_cancel() = runComposeUiTest {
+        /*
+        Given:
+        - a category is shown in the explorer with at least one concept
+         */
+        contentUnderTest()
+
+        /*
+        When:
+        - When a concept is long-pressed (mobile) or CMD+clicked (desktop/web)
         - The "Delete" menu item is tapped
         Then:
         - A confirmation dialog is shown with the number of concepts to be deleted
          */
+        onNodeWithText("Concept 1").performLongPress(mainClock)
         onNodeWithText("Delete").performClick()
 
         waitUntilExactlyOneExists(hasContentDescription("Delete Concepts"))
@@ -327,6 +359,32 @@ class CategoryExplorerScreenUiTest {
                 hasContentDescription("Select").or(
                     hasContentDescription("Deselect"))
             ).not())
+    }
+
+    /**
+     * User Journey: Select and Delete Concepts - Selection, Delete, Confirm
+     */
+    fun long_pressing_concept_should_select_then_delete_confirm() = runComposeUiTest {
+        /*
+        Given:
+        - a category is shown in the explorer with at least one concept
+         */
+        contentUnderTest()
+
+        /*
+        When:
+        - When a concept is long-pressed (mobile) or CMD+clicked (desktop/web)
+        - The "Delete" menu item is tapped
+        Then:
+        - A confirmation dialog is shown with the number of concepts to be deleted
+         */
+        onNodeWithText("Concept 1").performLongPress(mainClock)
+        onNodeWithText("Delete").performClick()
+
+        waitUntilExactlyOneExists(hasContentDescription("Delete Concepts"))
+        onNodeWithContentDescription("Delete Concepts")
+            .assert(hasAnyDescendant(hasText("1 concept will be deleted")))
+
         /*
         When:
         - The "Confirm" button is pressed
@@ -335,21 +393,14 @@ class CategoryExplorerScreenUiTest {
         - And the selected concepts are deleted
         - And the selection state is removed
          */
+        onNodeWithText("Confirm").performClick()
 
-        /*
-        When:
-        - The "Cancel" button is pressed
-        Then:
-        - The selection state is removed
-         */
-
+        waitUntilDoesNotExist(hasContentDescription("Delete Concepts"))
+        onNodeWithText("Concept 1").assertDoesNotExist()
+        onAllNodes(hasContentDescription("Concept", substring = true))
+            .assertAll(hasAnyDescendant(
+                hasContentDescription("Select").or(
+                    hasContentDescription("Deselect"))
+            ).not())
     }
-
-    /**
-     * User Journey: Select and Delete Concepts - Selection, Delete, Cancel
-     */
-
-    /**
-     * User Journey: Select and Delete Concepts - Selection, Delete, Confirm
-     */
 }
