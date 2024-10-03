@@ -63,6 +63,7 @@ class CategoryExplorerViewModel(
         viewModelScope.launch {
             getSelectedCategoryUseCase.invoke(categoryId)
                 .onSuccess { info ->
+                    _loadingState.value = false
                     _categoryUiState.update {
                         CategoryUiState(
                             selected = info.subject.toUiState(),
@@ -135,8 +136,13 @@ class CategoryExplorerViewModel(
             _loadingState.value = true
             categoryRepository.removeCategories(categories)
             categoryRepository.removeConcepts(concepts)
+            reloadCurrentCategory()
             _loadingState.value = false // TODO: maintain loading state as list of pending operations
         }
+    }
+
+    private fun reloadCurrentCategory() {
+        onCategorySelected(_categoryUiState.value.selected?.id ?: Uuid.nil())
     }
 
     init {
