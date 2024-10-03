@@ -112,7 +112,7 @@ class CategoryExplorerViewModel(
         conceptEditorViewModel.onConfirm()
     }
 
-    fun onCancel() {
+    fun onCancelEditor() {
         _editorState.value = EditorState.Disabled
     }
 
@@ -127,7 +127,27 @@ class CategoryExplorerViewModel(
     }
 
     fun onLongPressConcept(uuid: Uuid) {
-        TODO("Not yet implemented")
+        TODO("start selection state with concept selected")
+    }
+
+    fun onLongPressCategory(uuid: Uuid) {
+        TODO("start selection state with category selected")
+    }
+
+    fun onSetConceptSelected(uuid: Uuid, selected: Boolean) {
+        TODO("set concept selected")
+    }
+
+    fun onSetCategorySelected(uuid: Uuid, selected: Boolean) {
+        TODO("set category selected")
+    }
+
+    fun onDeleteSelected() {
+        TODO("delete selected items")
+    }
+
+    fun onCancelSelection() {
+        TODO("cancel selection state")
     }
 
     init {
