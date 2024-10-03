@@ -10,6 +10,9 @@ captures
 local.properties
 xcuserdata
 
+## Test Data
+/ontology.db
+
 ## Release Information
 /release.keystore
 /app-android/debug/app-android-debug.aab
