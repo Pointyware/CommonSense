@@ -128,28 +128,8 @@ class CategoryExplorerViewModel(
         _editorState.value = EditorState.Category
     }
 
-    fun onLongPressConcept(uuid: Uuid) {
-        TODO("start selection state with concept selected")
-    }
-
-    fun onLongPressCategory(uuid: Uuid) {
-        TODO("start selection state with category selected")
-    }
-
-    fun onSetConceptSelected(uuid: Uuid, selected: Boolean) {
-        TODO("set concept selected")
-    }
-
-    fun onSetCategorySelected(uuid: Uuid, selected: Boolean) {
-        TODO("set category selected")
-    }
-
-    fun onDeleteSelected() {
+    fun onDeleteSelected(concepts: List<Uuid>, categories: List<Uuid>) {
         TODO("delete selected items")
-    }
-
-    fun onCancelSelection() {
-        TODO("cancel selection state")
     }
 
     init {
