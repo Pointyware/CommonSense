@@ -9,6 +9,7 @@ import androidx.compose.ui.test.assertIsNotEnabled
 import androidx.compose.ui.test.hasAnyDescendant
 import androidx.compose.ui.test.hasContentDescription
 import androidx.compose.ui.test.hasText
+import androidx.compose.ui.test.isDialog
 import androidx.compose.ui.test.onNodeWithContentDescription
 import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.performClick
@@ -294,7 +295,7 @@ class CategoryExplorerScreenUiTest {
          */
         onNodeWithText("Concept 1").performLongPress(mainClock)
 
-        onAllNodes(hasContentDescription("Concept", substring = true))
+        onAllNodes(hasContentDescription("Concept", substring = true).and(isDialog().not()))
             .assertAll(hasAnyDescendant(
                 hasContentDescription("Select").or(
                     hasContentDescription("Deselect"))
