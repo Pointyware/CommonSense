@@ -11,8 +11,15 @@ import androidx.compose.ui.test.performTextInput
 import androidx.compose.ui.test.runComposeUiTest
 import androidx.compose.ui.test.waitUntilDoesNotExist
 import androidx.compose.ui.test.waitUntilExactlyOneExists
+import kotlinx.coroutines.runBlocking
+import org.koin.core.context.loadKoinModules
 import org.koin.core.context.stopKoin
+import org.koin.dsl.module
 import org.koin.mp.KoinPlatform.getKoin
+import org.pointyware.commonsense.core.common.Uuid
+import org.pointyware.commonsense.feature.ontology.data.CategoryDataSource
+import org.pointyware.commonsense.feature.ontology.data.CategorySqlDataSource
+import org.pointyware.commonsense.feature.ontology.local.Persistence
 import org.pointyware.commonsense.feature.ontology.ui.CategoryExplorerScreen
 import org.pointyware.commonsense.feature.ontology.viewmodels.CategoryExplorerViewModel
 import org.pointyware.commonsense.feature.ontology.test.assertEditableTextEquals
@@ -27,12 +34,21 @@ import kotlin.test.Test
 class CategoryExplorerScreenUiTest {
 
     private lateinit var viewModel: CategoryExplorerViewModel
+    private lateinit var dataSource: CategoryDataSource
 
     @BeforeTest
     fun setUp() {
         setupKoin()
+        loadKoinModules(module {
+            single<CategoryDataSource> { CategorySqlDataSource(get(), persistence = Persistence.InMemory)}
+        })
         val koin = getKoin()
         viewModel = koin.get()
+        dataSource = koin.get()
+        runBlocking {
+            dataSource.addConcept(Uuid.nil(), "Concept 1", "Description 1")
+            dataSource.addConcept(Uuid.nil(), "Concept 2", "Another Description")
+        }
     }
 
     @BeforeTest
@@ -52,14 +68,12 @@ class CategoryExplorerScreenUiTest {
         Given:
         - A concept space with concepts
          */
-        // TODO: get test repository; add concepts
 
         /*
         When:
         - The screen is displayed
         Then:
-        - The concepts are displayed // TODO
-        - The
+        - The concepts are displayed
          */
         contentUnderTest()
 
