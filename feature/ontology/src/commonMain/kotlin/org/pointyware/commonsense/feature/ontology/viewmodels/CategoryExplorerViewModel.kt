@@ -1,4 +1,4 @@
-package org.pointyware.commonsense.feature.ontology.category.viewmodels
+package org.pointyware.commonsense.feature.ontology.viewmodels
 
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
@@ -10,9 +10,11 @@ import kotlinx.coroutines.launch
 import org.pointyware.commonsense.core.common.Log
 import org.pointyware.commonsense.core.common.Uuid
 import org.pointyware.commonsense.core.viewmodels.ViewModel
-import org.pointyware.commonsense.feature.ontology.category.interactors.GetSelectedCategoryUseCase
-import org.pointyware.commonsense.feature.ontology.category.interactors.GetSelectedConceptUseCase
-import org.pointyware.commonsense.feature.ontology.viewmodels.ConceptEditorViewModel
+import org.pointyware.commonsense.feature.ontology.Category
+import org.pointyware.commonsense.feature.ontology.Concept
+import org.pointyware.commonsense.feature.ontology.data.CategoryRepository
+import org.pointyware.commonsense.feature.ontology.interactors.GetSelectedCategoryUseCase
+import org.pointyware.commonsense.feature.ontology.interactors.GetSelectedConceptUseCase
 
 /**
  * Maintains the state of the category explorer.
@@ -21,7 +23,8 @@ class CategoryExplorerViewModel(
     private val getSelectedCategoryUseCase: GetSelectedCategoryUseCase,
     private val getSelectedConceptUseCase: GetSelectedConceptUseCase,
     private val conceptEditorViewModel: ConceptEditorViewModel,
-    private val categoryEditorViewModel: CategoryEditorViewModel
+    private val categoryEditorViewModel: CategoryEditorViewModel,
+    private val categoryRepository: CategoryRepository,
 ): ViewModel() {
 
     enum class EditorState {
@@ -60,11 +63,12 @@ class CategoryExplorerViewModel(
         viewModelScope.launch {
             getSelectedCategoryUseCase.invoke(categoryId)
                 .onSuccess { info ->
+                    _loadingState.value = false
                     _categoryUiState.update {
                         CategoryUiState(
-                            selected = info.subject,
-                            subcategories = info.subcategories,
-                            concepts = info.concepts
+                            selected = info.subject.toUiState(),
+                            subcategories = info.subcategories.map(Category::toUiState),
+                            concepts = info.concepts.map(Concept::toUiState)
                         )
                     }
                 }
@@ -113,7 +117,7 @@ class CategoryExplorerViewModel(
         conceptEditorViewModel.onConfirm()
     }
 
-    fun onCancel() {
+    fun onCancelEditor() {
         _editorState.value = EditorState.Disabled
     }
 
@@ -125,6 +129,20 @@ class CategoryExplorerViewModel(
     fun onAddCategory() {
         categoryEditorViewModel.prepareFor(null)
         _editorState.value = EditorState.Category
+    }
+
+    fun onDeleteSelected(concepts: Set<Uuid>, categories: Set<Uuid>) {
+        viewModelScope.launch {
+            _loadingState.value = true
+            categoryRepository.removeCategories(categories)
+            categoryRepository.removeConcepts(concepts)
+            reloadCurrentCategory()
+            _loadingState.value = false // TODO: maintain loading state as list of pending operations
+        }
+    }
+
+    private fun reloadCurrentCategory() {
+        onCategorySelected(_categoryUiState.value.selected?.id ?: Uuid.nil())
     }
 
     init {

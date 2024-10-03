@@ -1,10 +1,10 @@
-package org.pointyware.commonsense.feature.ontology.category.interactors
+package org.pointyware.commonsense.feature.ontology.interactors
 
 import org.pointyware.commonsense.core.common.Uuid
 import org.pointyware.commonsense.feature.ontology.Concept
-import org.pointyware.commonsense.feature.ontology.category.data.CategoryRepository
+import org.pointyware.commonsense.feature.ontology.data.CategoryRepository
 import org.pointyware.commonsense.feature.ontology.data.ConceptEditorController
-import org.pointyware.commonsense.feature.ontology.entities.Category
+import org.pointyware.commonsense.feature.ontology.Category
 
 /**
  */

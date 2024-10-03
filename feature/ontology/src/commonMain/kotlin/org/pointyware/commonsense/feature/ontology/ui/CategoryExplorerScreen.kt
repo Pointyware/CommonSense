@@ -1,4 +1,4 @@
-package org.pointyware.commonsense.feature.ontology.category.ui
+package org.pointyware.commonsense.feature.ontology.ui
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -11,10 +11,8 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.window.Dialog
-import org.pointyware.commonsense.feature.ontology.category.viewmodels.CategoryExplorerEditorState
-import org.pointyware.commonsense.feature.ontology.category.viewmodels.CategoryExplorerViewModel
-import org.pointyware.commonsense.feature.ontology.ui.CategoryEditor
-import org.pointyware.commonsense.feature.ontology.ui.ConceptEditor
+import org.pointyware.commonsense.feature.ontology.viewmodels.CategoryExplorerEditorState
+import org.pointyware.commonsense.feature.ontology.viewmodels.CategoryExplorerViewModel
 
 /**
  * Takes a view model, binds the state to the CategoryExplorer composable, and passes events
@@ -26,21 +24,17 @@ fun CategoryExplorerScreen(
 ) {
     val state by viewModel.state.collectAsState()
     val isLoading = state.loading // TODO: add loading state indicator
-    val mappedState = CategoryExplorerState(
-        state.currentCategory.selected,
-        state.currentCategory.subcategories,
-        state.currentCategory.concepts
-    )
 
     Box (
         modifier = Modifier.fillMaxSize(),
         contentAlignment = Alignment.Center
     ) {
         CategoryExplorer(
-            state = mappedState,
+            state = state,
             modifier = Modifier.fillMaxSize(),
             onCategorySelected = viewModel::onCategorySelected,
             onConceptSelected = viewModel::onConceptSelected,
+            onDeleteSelected = viewModel::onDeleteSelected,
         )
 
         Column(
@@ -66,7 +60,7 @@ fun CategoryExplorerScreen(
             is CategoryExplorerEditorState.Concept -> {
                 Dialog(
                     onDismissRequest = {
-                        viewModel.onCancel()
+                        viewModel.onCancelEditor()
                     }
                 ) {
                     ConceptEditor(
@@ -74,21 +68,21 @@ fun CategoryExplorerScreen(
                         onNameChange = viewModel::onConceptNameChange,
                         onDescriptionChange = viewModel::onDescriptionChange,
                         onConfirm = viewModel::onCommitConcept,
-                        onCancel = viewModel::onCancel
+                        onCancel = viewModel::onCancelEditor
                     )
                 }
             }
             is CategoryExplorerEditorState.Category -> {
                 Dialog(
                     onDismissRequest = {
-                        viewModel.onCancel()
+                        viewModel.onCancelEditor()
                     }
                 ) {
                     CategoryEditor(
                         state = capture.category,
                         onNameChange = viewModel::onCategoryNameChange,
                         onConfirm = viewModel::onCommitCategory,
-                        onCancel = viewModel::onCancel
+                        onCancel = viewModel::onCancelEditor
                     )
                 }
             }

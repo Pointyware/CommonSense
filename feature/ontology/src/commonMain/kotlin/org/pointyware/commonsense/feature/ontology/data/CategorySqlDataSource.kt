@@ -1,11 +1,11 @@
-package org.pointyware.commonsense.feature.ontology.category.data
+package org.pointyware.commonsense.feature.ontology.data
 
 import org.pointyware.commonsense.core.common.Uuid
 import org.pointyware.commonsense.core.local.db.createOrMigrate
 import org.pointyware.commonsense.feature.ontology.Concept
 import org.pointyware.commonsense.feature.ontology.IndependentConcept
 import org.pointyware.commonsense.feature.ontology.db.OntologyDb
-import org.pointyware.commonsense.feature.ontology.entities.Category
+import org.pointyware.commonsense.feature.ontology.Category
 import org.pointyware.commonsense.feature.ontology.local.DriverFactory
 import org.pointyware.commonsense.feature.ontology.local.Persistence
 
@@ -62,5 +62,13 @@ class CategorySqlDataSource(
         db.categoryQueries.getConcepts(id.bytes) { uuid, name, description ->
             IndependentConcept(Uuid(uuid), name, description)
         }.executeAsList()
+    }
+
+    override suspend fun removeCategories(ids: Set<Uuid>): Result<Unit> = runCatching {
+        db.categoryQueries.deleteCategories(ids.map { it.bytes })
+    }
+
+    override suspend fun removeConcepts(ids: Set<Uuid>): Result<Unit> = runCatching{
+        db.categoryQueries.deleteConcepts(ids.map { it.bytes })
     }
 }

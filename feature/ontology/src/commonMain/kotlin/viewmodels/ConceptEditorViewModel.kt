@@ -10,7 +10,7 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import org.pointyware.commonsense.core.viewmodels.ViewModel
 import org.pointyware.commonsense.feature.ontology.Concept
-import org.pointyware.commonsense.feature.ontology.category.interactors.CreateNewConceptUseCase
+import org.pointyware.commonsense.feature.ontology.interactors.CreateNewConceptUseCase
 
 /**
  * Maintains the state of a Concept Editor UI, reflected in [state].

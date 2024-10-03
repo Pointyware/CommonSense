@@ -1,9 +1,4 @@
-package org.pointyware.commonsense.feature.ontology.category.viewmodels
-
-import org.pointyware.commonsense.feature.ontology.Concept
-import org.pointyware.commonsense.feature.ontology.entities.Category
-import org.pointyware.commonsense.feature.ontology.viewmodels.CategoryEditorUiState
-import org.pointyware.commonsense.feature.ontology.viewmodels.ConceptEditorUiState
+package org.pointyware.commonsense.feature.ontology.viewmodels
 
 /**
  * UI-agnostic state of a category explorer.
@@ -21,12 +16,6 @@ data class CategoryExplorerUiState(
         val Loading = CategoryExplorerUiState(true, CategoryUiState())
     }
 }
-
-data class CategoryUiState(
-    val selected: Category? = null,
-    val subcategories: List<Category> = emptyList(),
-    val concepts: List<Concept> = emptyList(),
-)
 
 sealed interface CategoryExplorerEditorState {
     data object Disabled : CategoryExplorerEditorState

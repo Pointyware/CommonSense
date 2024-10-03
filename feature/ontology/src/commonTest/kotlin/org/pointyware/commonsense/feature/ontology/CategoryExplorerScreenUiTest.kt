@@ -2,21 +2,38 @@ package org.pointyware.commonsense.feature.ontology
 
 import androidx.compose.ui.test.ComposeUiTest
 import androidx.compose.ui.test.ExperimentalTestApi
+import androidx.compose.ui.test.assert
+import androidx.compose.ui.test.assertAll
 import androidx.compose.ui.test.assertIsEnabled
 import androidx.compose.ui.test.assertIsNotEnabled
+import androidx.compose.ui.test.filterToOne
+import androidx.compose.ui.test.hasAnyDescendant
+import androidx.compose.ui.test.hasAnySibling
 import androidx.compose.ui.test.hasContentDescription
+import androidx.compose.ui.test.hasText
+import androidx.compose.ui.test.onChildren
+import androidx.compose.ui.test.onNodeWithContentDescription
 import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.performClick
 import androidx.compose.ui.test.performTextInput
 import androidx.compose.ui.test.runComposeUiTest
+import androidx.compose.ui.test.waitUntilAtLeastOneExists
 import androidx.compose.ui.test.waitUntilDoesNotExist
 import androidx.compose.ui.test.waitUntilExactlyOneExists
+import kotlinx.coroutines.runBlocking
+import org.koin.core.context.loadKoinModules
 import org.koin.core.context.stopKoin
+import org.koin.dsl.module
 import org.koin.mp.KoinPlatform.getKoin
-import org.pointyware.commonsense.feature.ontology.category.ui.CategoryExplorerScreen
-import org.pointyware.commonsense.feature.ontology.category.viewmodels.CategoryExplorerViewModel
+import org.pointyware.commonsense.core.common.Uuid
+import org.pointyware.commonsense.feature.ontology.data.CategoryDataSource
+import org.pointyware.commonsense.feature.ontology.data.CategorySqlDataSource
+import org.pointyware.commonsense.feature.ontology.local.Persistence
 import org.pointyware.commonsense.feature.ontology.test.assertEditableTextEquals
+import org.pointyware.commonsense.feature.ontology.test.performLongPress
 import org.pointyware.commonsense.feature.ontology.test.setupKoin
+import org.pointyware.commonsense.feature.ontology.ui.CategoryExplorerScreen
+import org.pointyware.commonsense.feature.ontology.viewmodels.CategoryExplorerViewModel
 import kotlin.test.BeforeTest
 import kotlin.test.Test
 
@@ -27,12 +44,21 @@ import kotlin.test.Test
 class CategoryExplorerScreenUiTest {
 
     private lateinit var viewModel: CategoryExplorerViewModel
+    private lateinit var dataSource: CategoryDataSource
 
     @BeforeTest
     fun setUp() {
         setupKoin()
+        loadKoinModules(module {
+            single<CategoryDataSource> { CategorySqlDataSource(get(), persistence = Persistence.InMemory)}
+        })
         val koin = getKoin()
         viewModel = koin.get()
+        dataSource = koin.get()
+        runBlocking {
+            dataSource.addConcept(Uuid.nil(), "Concept 1", "Description 1")
+            dataSource.addConcept(Uuid.nil(), "Concept 2", "Another Description")
+        }
     }
 
     @BeforeTest
@@ -52,14 +78,12 @@ class CategoryExplorerScreenUiTest {
         Given:
         - A concept space with concepts
          */
-        // TODO: get test repository; add concepts
 
         /*
         When:
         - The screen is displayed
         Then:
-        - The concepts are displayed // TODO
-        - The
+        - The concepts are displayed
          */
         contentUnderTest()
 
@@ -250,5 +274,136 @@ class CategoryExplorerScreenUiTest {
         onNodeWithText("Cancel").performClick()
         waitUntilDoesNotExist(hasContentDescription("Category Editor"))
         // TODO: add test for new category absence
+    }
+
+    /**
+     * User Journey: Select and Delete Concepts - Selection, Cancel
+     */
+    @Test
+    fun long_pressing_concept_should_select_then_cancel() = runComposeUiTest {
+        /*
+        Given:
+        - a category is shown in the explorer with at least one concept
+         */
+        contentUnderTest()
+
+        /*
+        When:
+        - When a concept is long-pressed (mobile) or CMD+clicked (desktop/web)
+        Then:
+        - Checkboxes are shown next to all concepts
+        - And the long-pressed concept is selected
+        - And the "Delete" and "Cancel" buttons are shown
+         */
+        onNodeWithText("Concept 1").performLongPress()
+
+        waitUntilAtLeastOneExists(hasContentDescription("Select"))
+        onNodeWithText("Concept 1").assert(
+            hasAnySibling(
+                hasContentDescription("Deselect"))
+        )
+
+        /*
+        When:
+        - The "Cancel" button is pressed
+        Then:
+        - The selection state is removed
+         */
+        onNodeWithText("Cancel").performClick()
+
+        onAllNodes(hasContentDescription("Concept", substring = true))
+            .assertAll(hasAnyDescendant(
+                hasContentDescription("Select").or(
+                    hasContentDescription("Deselect"))
+            ).not())
+    }
+
+    /**
+     * User Journey: Select and Delete Concepts - Selection, Delete, Cancel
+     */
+    @Test
+    fun long_pressing_concept_should_select_then_delete_cancel() = runComposeUiTest {
+        /*
+        Given:
+        - a category is shown in the explorer with at least one concept
+         */
+        contentUnderTest()
+
+        /*
+        When:
+        - When a concept is long-pressed (mobile) or CMD+clicked (desktop/web)
+        - The "Delete" menu item is tapped
+        Then:
+        - A confirmation dialog is shown with the number of concepts to be deleted
+         */
+        onNodeWithText("Concept 1").performLongPress()
+        onNodeWithText("Delete").performClick()
+
+        waitUntilExactlyOneExists(hasContentDescription("Delete Concepts"))
+        onNodeWithContentDescription("Delete Concepts")
+            .assert(hasAnyDescendant(hasText("You are about to delete 1 concepts and 0 categories.")))
+
+        /*
+        When:
+        - The "Cancel" button is pressed
+        Then:
+        - The dialog is hidden
+        - And the selection state is removed
+         */
+        onNodeWithContentDescription("Delete Concepts")
+            .onChildren().filterToOne(hasText("Cancel"))
+            .performClick()
+
+        waitUntilDoesNotExist(hasContentDescription("Delete Concepts"))
+
+        onAllNodes(hasContentDescription("Concept", substring = true))
+            .assertAll(hasAnyDescendant(
+                hasContentDescription("Select").or(
+                    hasContentDescription("Deselect"))
+            ).not())
+    }
+
+    /**
+     * User Journey: Select and Delete Concepts - Selection, Delete, Confirm
+     */
+    @Test
+    fun long_pressing_concept_should_select_then_delete_confirm() = runComposeUiTest {
+        /*
+        Given:
+        - a category is shown in the explorer with at least one concept
+         */
+        contentUnderTest()
+
+        /*
+        When:
+        - When a concept is long-pressed (mobile) or CMD+clicked (desktop/web)
+        - The "Delete" menu item is tapped
+        Then:
+        - A confirmation dialog is shown with the number of concepts to be deleted
+         */
+        onNodeWithText("Concept 1").performLongPress()
+        onNodeWithText("Delete").performClick()
+
+        waitUntilExactlyOneExists(hasContentDescription("Delete Concepts"))
+        onNodeWithContentDescription("Delete Concepts")
+            .assert(hasAnyDescendant(hasText("You are about to delete 1 concepts and 0 categories.")))
+
+        /*
+        When:
+        - The "Confirm" button is pressed
+        Then:
+        - The dialog is hidden
+        - And the selected concepts are deleted
+        - And the selection state is removed
+         */
+        onNodeWithText("Confirm").performClick()
+
+        waitUntilDoesNotExist(hasContentDescription("Delete Concepts"))
+        onNodeWithText("Concept 1").assertDoesNotExist()
+        onAllNodes(hasContentDescription("Concept", substring = true))
+            .assertAll(hasAnyDescendant(
+                hasContentDescription("Select").or(
+                    hasContentDescription("Deselect"))
+            ).not())
     }
 }

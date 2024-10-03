@@ -1,4 +1,4 @@
-package org.pointyware.commonsense.feature.ontology.category.viewmodels
+package org.pointyware.commonsense.feature.ontology.viewmodels
 
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -9,9 +9,8 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import org.pointyware.commonsense.core.viewmodels.ViewModel
-import org.pointyware.commonsense.feature.ontology.category.interactors.CreateNewCategoryUseCase
-import org.pointyware.commonsense.feature.ontology.entities.Category
-import org.pointyware.commonsense.feature.ontology.viewmodels.CategoryEditorUiState
+import org.pointyware.commonsense.feature.ontology.interactors.CreateNewCategoryUseCase
+import org.pointyware.commonsense.feature.ontology.Category
 
 /**
  * Maintains the state of a Category Editor UI, reflected in [state].
