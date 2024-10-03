@@ -2,12 +2,18 @@ package org.pointyware.commonsense.feature.ontology
 
 import androidx.compose.ui.test.ComposeUiTest
 import androidx.compose.ui.test.ExperimentalTestApi
+import androidx.compose.ui.test.assert
+import androidx.compose.ui.test.assertAll
 import androidx.compose.ui.test.assertIsEnabled
 import androidx.compose.ui.test.assertIsNotEnabled
+import androidx.compose.ui.test.hasAnyDescendant
 import androidx.compose.ui.test.hasContentDescription
+import androidx.compose.ui.test.hasText
+import androidx.compose.ui.test.onNodeWithContentDescription
 import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.performClick
 import androidx.compose.ui.test.performTextInput
+import androidx.compose.ui.test.performTouchInput
 import androidx.compose.ui.test.runComposeUiTest
 import androidx.compose.ui.test.waitUntilDoesNotExist
 import androidx.compose.ui.test.waitUntilExactlyOneExists
@@ -23,6 +29,7 @@ import org.pointyware.commonsense.feature.ontology.local.Persistence
 import org.pointyware.commonsense.feature.ontology.ui.CategoryExplorerScreen
 import org.pointyware.commonsense.feature.ontology.viewmodels.CategoryExplorerViewModel
 import org.pointyware.commonsense.feature.ontology.test.assertEditableTextEquals
+import org.pointyware.commonsense.feature.ontology.test.performLongPress
 import org.pointyware.commonsense.feature.ontology.test.setupKoin
 import kotlin.test.BeforeTest
 import kotlin.test.Test
@@ -267,44 +274,82 @@ class CategoryExplorerScreenUiTest {
     }
 
     /**
-     * User Journey: Select and Delete Concepts
+     * User Journey: Select and Delete Concepts - Selection, Cancel
      */
-    fun long_pressing_concept_should_select() = runComposeUiTest {
-        /*
-        Given a category is selected in the explorer with at least one concept
-
-    When the concept is long-pressed (mobile) or CMD+clicked (desktop/web)
-        Then show checkboxes next to all concepts
-        And the long-pressed concept is selected
-        And delete and cancel buttons are shown
-        When the delete button is tapped
-            Then a confirmation dialog is shown with the number of concepts to be deleted
-                When the "Cancel" button is pressed
-                    Then the dialog is hidden
-                    And the selection state is removed
-                When the "Confirm" button is pressed
-                    Then the dialog is hidden
-                    And the selected concepts are deleted
-                    And the selection state is removed
-        When the cancel button is tapped
-            Then the selection state is removed
-
-         */
-
+    fun long_pressing_concept_should_select_then_cancel() = runComposeUiTest {
         /*
         Given:
-        - A concept space with concepts
+        - a category is shown in the explorer with at least one concept
+         */
+        contentUnderTest()
+
+        /*
+        When:
+        - When a concept is long-pressed (mobile) or CMD+clicked (desktop/web)
+        Then:
+        - Checkboxes are shown next to all concepts
+        - And the long-pressed concept is selected
+        - And the "Delete" and "Cancel" buttons are shown
+         */
+        onNodeWithText("Concept 1").performLongPress(mainClock)
+
+        onAllNodes(hasContentDescription("Concept", substring = true))
+            .assertAll(hasAnyDescendant(
+                hasContentDescription("Select").or(
+                    hasContentDescription("Deselect"))
+            ))
+
+        /*
+        When:
+        - The "Delete" menu item is tapped
+        Then:
+        - A confirmation dialog is shown with the number of concepts to be deleted
+         */
+        onNodeWithText("Delete").performClick()
+
+        waitUntilExactlyOneExists(hasContentDescription("Delete Concepts"))
+        onNodeWithContentDescription("Delete Concepts")
+            .assert(hasAnyDescendant(hasText("1 concept will be deleted")))
+
+        /*
+        When:
+        - The "Cancel" button is pressed
+        Then:
+        - The dialog is hidden
+        - And the selection state is removed
+         */
+        onNodeWithText("Cancel").performClick()
+
+        waitUntilDoesNotExist(hasContentDescription("Delete Concepts"))
+
+        onAllNodes(hasContentDescription("Concept", substring = true))
+            .assertAll(hasAnyDescendant(
+                hasContentDescription("Select").or(
+                    hasContentDescription("Deselect"))
+            ).not())
+        /*
+        When:
+        - The "Confirm" button is pressed
+        Then:
+        - The dialog is hidden
+        - And the selected concepts are deleted
+        - And the selection state is removed
          */
 
         /*
         When:
-        - The screen is displayed
+        - The "Cancel" button is pressed
         Then:
-        - The concepts are displayed
+        - The selection state is removed
          */
 
-        /*
-
-         */
     }
+
+    /**
+     * User Journey: Select and Delete Concepts - Selection, Delete, Cancel
+     */
+
+    /**
+     * User Journey: Select and Delete Concepts - Selection, Delete, Confirm
+     */
 }
