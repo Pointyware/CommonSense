@@ -25,7 +25,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.window.Dialog
 import org.pointyware.commonsense.core.common.Uuid
+import org.pointyware.commonsense.core.ui.rememberSelectionController
 import org.pointyware.commonsense.feature.ontology.viewmodels.CategoryExplorerUiState
 
 /**
@@ -44,29 +46,75 @@ fun CategoryExplorer(
     Column(
         modifier = modifier
     ) {
-        var isSelectionActive by remember { mutableStateOf(false) }
-        var selectedConcepts by remember { mutableStateOf(listOf<Uuid>()) }
-        var selectedCategories by remember { mutableStateOf(listOf<Uuid>()) }
+        val conceptSelectionController = rememberSelectionController<Uuid>()
+        val categorySelectionController = rememberSelectionController<Uuid>()
+        val selectionActive = conceptSelectionController.isSelectionActive.value || categorySelectionController.isSelectionActive.value
 
         AnimatedVisibility(
-            visible = isSelectionActive,
+            visible = selectionActive,
         ) {
+            var confirmDialog by remember { mutableStateOf(false) }
             Row(
                 horizontalArrangement = Arrangement.End
             ) {
                 Button(
-                    onClick = { },
+                    onClick = {
+                        confirmDialog = true
+                    },
                 ) {
                     Text(
                         text = "Delete"
                     )
                 }
                 Button(
-                    onClick = { },
+                    onClick = {
+                        conceptSelectionController.deactivate()
+                        categorySelectionController.deactivate()
+                    },
                 ) {
                     Text(
                         text = "Cancel"
                     )
+                }
+            }
+            if (confirmDialog) {
+                Dialog(
+                    onDismissRequest = {
+                        conceptSelectionController.deactivate()
+                        categorySelectionController.deactivate()
+                    }
+                ) {
+                    Column {
+                        Text(
+                            "You are about to delete ${conceptSelectionController.selectedItems.value.size} concepts and ${categorySelectionController.selectedItems.value.size} categories."
+                        )
+                        Row {
+                            Button(
+                                onClick = {
+                                    confirmDialog = false
+                                    onDeleteSelected(
+                                        conceptSelectionController.selectedItems.value.toList(),
+                                        categorySelectionController.selectedItems.value.toList()
+                                    )
+                                },
+                            ) {
+                                Text(
+                                    text = "Confirm"
+                                )
+                            }
+                            Button(
+                                onClick = {
+                                    confirmDialog = false
+                                    conceptSelectionController.deactivate()
+                                    categorySelectionController.deactivate()
+                                },
+                            ) {
+                                Text(
+                                    text = "Cancel"
+                                )
+                            }
+                        }
+                    }
                 }
             }
         }
@@ -90,42 +138,42 @@ fun CategoryExplorer(
         ) {
             items(currentCategory.subcategories) { category ->
                 CategoryItem(
-                    value = category.copy(selected = selectedCategories.contains(category.id)),
-                    showCheckbox = isSelectionActive,
+                    value = category.copy(selected = categorySelectionController.isSelected(category.id)),
+                    showCheckbox = selectionActive,
                     onCheckedChange = { isChecked ->
                         if (isChecked) {
-                            selectedCategories += category.id
+                            categorySelectionController.select(category.id)
                         } else {
-                            selectedCategories -= category.id
+                            categorySelectionController.deselect(category.id)
                         }
                     },
                     modifier = Modifier
                         .onClick(
                             onClick = { onCategorySelected(category.id) },
                             onLongClick = {
-                                selectedCategories += category.id
-                                isSelectionActive = true
+                                categorySelectionController.select(category.id)
+                                categorySelectionController.activate()
                             }
                         ),
                 )
             }
             items(currentCategory.concepts) { concept ->
                 ConceptItem(
-                    value = concept.copy(selected = selectedConcepts.contains(concept.id)),
-                    showCheckbox = isSelectionActive,
+                    value = concept.copy(selected = conceptSelectionController.isSelected(concept.id)),
+                    showCheckbox = selectionActive,
                     onCheckedChange = { isChecked ->
                         if (isChecked) {
-                            selectedConcepts += concept.id
+                            conceptSelectionController.select(concept.id)
                         } else {
-                            selectedConcepts -= concept.id
+                            conceptSelectionController.deselect(concept.id)
                         }
                     },
                     modifier = Modifier
                         .onClick(
                             onClick = { onConceptSelected(concept.id) },
                             onLongClick = {
-                                selectedConcepts += concept.id
-                                isSelectionActive = true
+                                conceptSelectionController.select(concept.id)
+                                conceptSelectionController.activate()
                             }
                         ),
                 )
