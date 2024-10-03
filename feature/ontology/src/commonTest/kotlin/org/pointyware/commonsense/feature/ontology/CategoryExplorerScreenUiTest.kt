@@ -364,6 +364,7 @@ class CategoryExplorerScreenUiTest {
     /**
      * User Journey: Select and Delete Concepts - Selection, Delete, Confirm
      */
+    @Test
     fun long_pressing_concept_should_select_then_delete_confirm() = runComposeUiTest {
         /*
         Given:
