@@ -22,6 +22,8 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.semantics.contentDescription
+import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.unit.dp
 import org.pointyware.commonsense.core.common.Uuid
 import org.pointyware.commonsense.feature.ontology.viewmodels.CategoryExplorerUiState
@@ -42,7 +44,7 @@ fun CategoryExplorer(
     Column(
         modifier = modifier
     ) {
-        var isSelectionActive by remember { mutableStateOf(false) }
+        var isSelectionActive by remember { mutableStateOf(true) }
         var selectedConcepts by remember { mutableStateOf(listOf<Uuid>()) }
         var selectedCategories by remember { mutableStateOf(listOf<Uuid>()) }
 
@@ -82,6 +84,9 @@ fun CategoryExplorer(
         }
         LazyColumn(
             modifier = modifier
+                .semantics {
+                    contentDescription = "Category Contents"
+                }
         ) {
             items(currentCategory.subcategories) { category ->
                 CategoryItem(
