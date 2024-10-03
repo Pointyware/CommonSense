@@ -157,7 +157,8 @@ sealed interface Type {
      * In the Common Sense system, an object is a collection of properties that are defined by a
      * type template.
      *
-     * - See also Struct, Record, Class, Object vs Instance
+     * - See concepts: Struct, Record, Class, Object vs Instance
+     * @see Record
      */
     data object Object: Type
 
