@@ -44,7 +44,7 @@ fun CategoryExplorer(
     Column(
         modifier = modifier
     ) {
-        var isSelectionActive by remember { mutableStateOf(true) }
+        var isSelectionActive by remember { mutableStateOf(false) }
         var selectedConcepts by remember { mutableStateOf(listOf<Uuid>()) }
         var selectedCategories by remember { mutableStateOf(listOf<Uuid>()) }
 
