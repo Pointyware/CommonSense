@@ -265,4 +265,46 @@ class CategoryExplorerScreenUiTest {
         waitUntilDoesNotExist(hasContentDescription("Category Editor"))
         // TODO: add test for new category absence
     }
+
+    /**
+     * User Journey: Select and Delete Concepts
+     */
+    fun long_pressing_concept_should_select() = runComposeUiTest {
+        /*
+        Given a category is selected in the explorer with at least one concept
+
+    When the concept is long-pressed (mobile) or CMD+clicked (desktop/web)
+        Then show checkboxes next to all concepts
+        And the long-pressed concept is selected
+        And delete and cancel buttons are shown
+        When the delete button is tapped
+            Then a confirmation dialog is shown with the number of concepts to be deleted
+                When the "Cancel" button is pressed
+                    Then the dialog is hidden
+                    And the selection state is removed
+                When the "Confirm" button is pressed
+                    Then the dialog is hidden
+                    And the selected concepts are deleted
+                    And the selection state is removed
+        When the cancel button is tapped
+            Then the selection state is removed
+
+         */
+
+        /*
+        Given:
+        - A concept space with concepts
+         */
+
+        /*
+        When:
+        - The screen is displayed
+        Then:
+        - The concepts are displayed
+         */
+
+        /*
+
+         */
+    }
 }
