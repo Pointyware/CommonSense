@@ -12,7 +12,7 @@ var SqlDriver.version: Long
         identifier = null,
         sql = "PRAGMA user_version;",
         mapper = { query ->
-            query.next()
+            query.next() // Android Driver does not prime the cursor
             QueryResult.Value(query.getLong(0) ?: 0L)
         },
         parameters = 0,
