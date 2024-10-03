@@ -40,13 +40,6 @@ fun CommonSenseApp(
             modifier = modifier,
             topBar = {
                 CenterAlignedTopAppBar(
-//                    colors = TopAppBarColors(
-//                        containerColor =
-//                        navigationIconContentColor =
-//                        titleContentColor =
-//                        actionIconContentColor =
-//                        scrolledContainerColor =
-//                    ),
                     navigationIcon = {
                         val stack = navController.backList.collectAsState()
                         if (stack.value.isNotEmpty()) {
