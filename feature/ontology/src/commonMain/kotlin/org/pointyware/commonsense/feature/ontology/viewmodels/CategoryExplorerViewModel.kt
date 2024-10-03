@@ -126,6 +126,10 @@ class CategoryExplorerViewModel(
         _editorState.value = EditorState.Category
     }
 
+    fun onLongPressConcept(uuid: Uuid) {
+        TODO("Not yet implemented")
+    }
+
     init {
         viewModelScope.launch {
             conceptEditorViewModel.onFinish.collect {

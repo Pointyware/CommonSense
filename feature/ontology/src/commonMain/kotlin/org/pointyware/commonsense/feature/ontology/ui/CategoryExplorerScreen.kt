@@ -37,6 +37,7 @@ fun CategoryExplorerScreen(
         CategoryExplorer(
             state = mappedState,
             modifier = Modifier.fillMaxSize(),
+            onLongPressConcept = viewModel::onLongPressConcept,
             onCategorySelected = viewModel::onCategorySelected,
             onConceptSelected = viewModel::onConceptSelected,
         )

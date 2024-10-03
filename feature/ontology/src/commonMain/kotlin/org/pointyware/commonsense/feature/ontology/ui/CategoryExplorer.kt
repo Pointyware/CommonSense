@@ -1,5 +1,6 @@
 package org.pointyware.commonsense.feature.ontology.ui
 
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
@@ -8,6 +9,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.onClick
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -28,10 +30,12 @@ data class CategoryExplorerState(
 /**
  * Displays the contents of the current category, including subcategories and concepts.
  */
+@OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun CategoryExplorer(
     state: CategoryExplorerState,
     modifier: Modifier = Modifier,
+    onLongPressConcept: (Uuid)->Unit,
     onCategorySelected: (Uuid)->Unit,
     onConceptSelected: (Uuid)->Unit,
 ) {
@@ -62,7 +66,11 @@ fun CategoryExplorer(
             items(state.concepts) { concept ->
                 ConceptItem(
                     value = concept,
-                    modifier = Modifier.clickable { onConceptSelected(concept.id) }
+                    modifier = Modifier
+                        .onClick(
+                            onClick = { onConceptSelected(concept.id) },
+                            onLongClick = { onLongPressConcept(concept.id) }
+                        ),
                 )
             }
         }
