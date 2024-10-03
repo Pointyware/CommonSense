@@ -65,7 +65,7 @@ fun CategoryExplorerScreen(
             is CategoryExplorerEditorState.Concept -> {
                 Dialog(
                     onDismissRequest = {
-                        viewModel.onCancel()
+                        viewModel.onCancelEditor()
                     }
                 ) {
                     ConceptEditor(
@@ -73,21 +73,21 @@ fun CategoryExplorerScreen(
                         onNameChange = viewModel::onConceptNameChange,
                         onDescriptionChange = viewModel::onDescriptionChange,
                         onConfirm = viewModel::onCommitConcept,
-                        onCancel = viewModel::onCancel
+                        onCancel = viewModel::onCancelEditor
                     )
                 }
             }
             is CategoryExplorerEditorState.Category -> {
                 Dialog(
                     onDismissRequest = {
-                        viewModel.onCancel()
+                        viewModel.onCancelEditor()
                     }
                 ) {
                     CategoryEditor(
                         state = capture.category,
                         onNameChange = viewModel::onCategoryNameChange,
                         onConfirm = viewModel::onCommitCategory,
-                        onCancel = viewModel::onCancel
+                        onCancel = viewModel::onCancelEditor
                     )
                 }
             }
