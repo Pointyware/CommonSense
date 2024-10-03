@@ -55,3 +55,11 @@ getConcepts:
 SELECT uuid, name, description
 FROM concept
 WHERE categoryId = (SELECT creationId FROM category WHERE uuid = ?);
+
+-- Delete the given list of concepts
+deleteConcepts:
+DELETE FROM concept WHERE uuid IN ?;
+
+-- Delete the given list of categories and all their children
+deleteCategories:
+DELETE FROM category WHERE uuid IN ?; -- TODO: delete all children; foreign key cascade?

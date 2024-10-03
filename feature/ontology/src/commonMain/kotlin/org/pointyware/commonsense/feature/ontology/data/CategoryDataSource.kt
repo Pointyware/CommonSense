@@ -11,4 +11,6 @@ interface CategoryDataSource {
     suspend fun getSubcategories(id: Uuid): Result<List<Category>>
     suspend fun addConcept(subject: Uuid, name: String, description: String): Result<Concept>
     suspend fun getConcepts(id: Uuid): Result<List<Concept>>
+    suspend fun removeCategories(ids: Set<Uuid>): Result<Unit>
+    suspend fun removeConcepts(ids: Set<Uuid>): Result<Unit>
 }

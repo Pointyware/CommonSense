@@ -40,7 +40,7 @@ fun CategoryExplorer(
     modifier: Modifier = Modifier,
     onCategorySelected: (Uuid)->Unit,
     onConceptSelected: (Uuid)->Unit,
-    onDeleteSelected: (concepts:List<Uuid>, categories:List<Uuid>)->Unit,
+    onDeleteSelected: (concepts:Set<Uuid>, categories:Set<Uuid>)->Unit,
 ) {
     val currentCategory = state.currentCategory
     Column(
@@ -84,7 +84,11 @@ fun CategoryExplorer(
                         categorySelectionController.deactivate()
                     }
                 ) {
-                    Column {
+                    Column(
+                        modifier = Modifier.semantics {
+                            contentDescription = "Delete Concepts"
+                        }
+                    ) {
                         Text(
                             "You are about to delete ${conceptSelectionController.selectedItems.value.size} concepts and ${categorySelectionController.selectedItems.value.size} categories."
                         )
@@ -93,8 +97,8 @@ fun CategoryExplorer(
                                 onClick = {
                                     confirmDialog = false
                                     onDeleteSelected(
-                                        conceptSelectionController.selectedItems.value.toList(),
-                                        categorySelectionController.selectedItems.value.toList()
+                                        conceptSelectionController.selectedItems.value,
+                                        categorySelectionController.selectedItems.value
                                     )
                                 },
                             ) {

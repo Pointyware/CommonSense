@@ -14,6 +14,8 @@ interface CategoryRepository {
     suspend fun getConcepts(id: Uuid): Result<List<Concept>>
     suspend fun addConcept(subject: Uuid, newConcept: Concept): Result<Concept>
     suspend fun addCategory(subject: Uuid, newCategory: Category): Result<Category>
+    suspend fun removeCategories(ids: Set<Uuid>): Result<Unit>
+    suspend fun removeConcepts(ids: Set<Uuid>): Result<Unit>
 }
 
 /**
@@ -45,5 +47,13 @@ class CategoryRepositoryImpl(
 
     override suspend fun addCategory(subject: Uuid, newCategory: Category): Result<Category> {
         return categoryDataSource.addCategory(subject, newCategory.name)
+    }
+
+    override suspend fun removeCategories(ids: Set<Uuid>): Result<Unit> {
+        return categoryDataSource.removeCategories(ids)
+    }
+
+    override suspend fun removeConcepts(ids: Set<Uuid>): Result<Unit> {
+        return categoryDataSource.removeConcepts(ids)
     }
 }

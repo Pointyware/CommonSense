@@ -12,6 +12,7 @@ import org.pointyware.commonsense.core.common.Uuid
 import org.pointyware.commonsense.core.viewmodels.ViewModel
 import org.pointyware.commonsense.feature.ontology.Category
 import org.pointyware.commonsense.feature.ontology.Concept
+import org.pointyware.commonsense.feature.ontology.data.CategoryRepository
 import org.pointyware.commonsense.feature.ontology.interactors.GetSelectedCategoryUseCase
 import org.pointyware.commonsense.feature.ontology.interactors.GetSelectedConceptUseCase
 
@@ -22,7 +23,8 @@ class CategoryExplorerViewModel(
     private val getSelectedCategoryUseCase: GetSelectedCategoryUseCase,
     private val getSelectedConceptUseCase: GetSelectedConceptUseCase,
     private val conceptEditorViewModel: ConceptEditorViewModel,
-    private val categoryEditorViewModel: CategoryEditorViewModel
+    private val categoryEditorViewModel: CategoryEditorViewModel,
+    private val categoryRepository: CategoryRepository,
 ): ViewModel() {
 
     enum class EditorState {
@@ -128,8 +130,13 @@ class CategoryExplorerViewModel(
         _editorState.value = EditorState.Category
     }
 
-    fun onDeleteSelected(concepts: List<Uuid>, categories: List<Uuid>) {
-        TODO("delete selected items")
+    fun onDeleteSelected(concepts: Set<Uuid>, categories: Set<Uuid>) {
+        viewModelScope.launch {
+            _loadingState.value = true
+            categoryRepository.removeCategories(categories)
+            categoryRepository.removeConcepts(concepts)
+            _loadingState.value = false // TODO: maintain loading state as list of pending operations
+        }
     }
 
     init {

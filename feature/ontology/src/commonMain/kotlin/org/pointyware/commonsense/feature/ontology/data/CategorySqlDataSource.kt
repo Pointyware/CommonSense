@@ -63,4 +63,12 @@ class CategorySqlDataSource(
             IndependentConcept(Uuid(uuid), name, description)
         }.executeAsList()
     }
+
+    override suspend fun removeCategories(ids: Set<Uuid>): Result<Unit> = runCatching {
+        db.categoryQueries.deleteCategories(ids.map { it.bytes })
+    }
+
+    override suspend fun removeConcepts(ids: Set<Uuid>): Result<Unit> = runCatching{
+        db.categoryQueries.deleteConcepts(ids.map { it.bytes })
+    }
 }

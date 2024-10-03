@@ -339,7 +339,7 @@ class CategoryExplorerScreenUiTest {
 
         waitUntilExactlyOneExists(hasContentDescription("Delete Concepts"))
         onNodeWithContentDescription("Delete Concepts")
-            .assert(hasAnyDescendant(hasText("1 concept will be deleted")))
+            .assert(hasAnyDescendant(hasText("You are about to delete 1 concepts and 0 categories.")))
 
         /*
         When:
@@ -382,7 +382,7 @@ class CategoryExplorerScreenUiTest {
 
         waitUntilExactlyOneExists(hasContentDescription("Delete Concepts"))
         onNodeWithContentDescription("Delete Concepts")
-            .assert(hasAnyDescendant(hasText("1 concept will be deleted")))
+            .assert(hasAnyDescendant(hasText("You are about to delete 1 concepts and 0 categories.")))
 
         /*
         When:
