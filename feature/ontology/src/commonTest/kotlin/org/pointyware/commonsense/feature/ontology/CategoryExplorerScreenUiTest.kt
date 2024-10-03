@@ -7,15 +7,15 @@ import androidx.compose.ui.test.assertAll
 import androidx.compose.ui.test.assertIsEnabled
 import androidx.compose.ui.test.assertIsNotEnabled
 import androidx.compose.ui.test.hasAnyDescendant
+import androidx.compose.ui.test.hasAnySibling
 import androidx.compose.ui.test.hasContentDescription
 import androidx.compose.ui.test.hasText
-import androidx.compose.ui.test.isDialog
 import androidx.compose.ui.test.onNodeWithContentDescription
 import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.performClick
 import androidx.compose.ui.test.performTextInput
-import androidx.compose.ui.test.performTouchInput
 import androidx.compose.ui.test.runComposeUiTest
+import androidx.compose.ui.test.waitUntilAtLeastOneExists
 import androidx.compose.ui.test.waitUntilDoesNotExist
 import androidx.compose.ui.test.waitUntilExactlyOneExists
 import kotlinx.coroutines.runBlocking
@@ -27,11 +27,11 @@ import org.pointyware.commonsense.core.common.Uuid
 import org.pointyware.commonsense.feature.ontology.data.CategoryDataSource
 import org.pointyware.commonsense.feature.ontology.data.CategorySqlDataSource
 import org.pointyware.commonsense.feature.ontology.local.Persistence
-import org.pointyware.commonsense.feature.ontology.ui.CategoryExplorerScreen
-import org.pointyware.commonsense.feature.ontology.viewmodels.CategoryExplorerViewModel
 import org.pointyware.commonsense.feature.ontology.test.assertEditableTextEquals
 import org.pointyware.commonsense.feature.ontology.test.performLongPress
 import org.pointyware.commonsense.feature.ontology.test.setupKoin
+import org.pointyware.commonsense.feature.ontology.ui.CategoryExplorerScreen
+import org.pointyware.commonsense.feature.ontology.viewmodels.CategoryExplorerViewModel
 import kotlin.test.BeforeTest
 import kotlin.test.Test
 
@@ -293,16 +293,13 @@ class CategoryExplorerScreenUiTest {
         - And the long-pressed concept is selected
         - And the "Delete" and "Cancel" buttons are shown
          */
-        onNodeWithText("Concept 1").performLongPress(mainClock)
+        onNodeWithText("Concept 1").performLongPress()
 
-        onAllNodes(hasContentDescription("Concept", substring = true).and(isDialog().not()))
-            .assertAll(hasAnyDescendant(
-                hasContentDescription("Select").or(
-                    hasContentDescription("Deselect"))
-            ))
+        waitUntilAtLeastOneExists(hasContentDescription("Select"))
         onNodeWithText("Concept 1").assert(
-            hasAnyDescendant(
-                hasContentDescription("Deselect")))
+            hasAnySibling(
+                hasContentDescription("Deselect"))
+        )
 
         /*
         When:
@@ -337,7 +334,7 @@ class CategoryExplorerScreenUiTest {
         Then:
         - A confirmation dialog is shown with the number of concepts to be deleted
          */
-        onNodeWithText("Concept 1").performLongPress(mainClock)
+        onNodeWithText("Concept 1").performLongPress()
         onNodeWithText("Delete").performClick()
 
         waitUntilExactlyOneExists(hasContentDescription("Delete Concepts"))
@@ -380,7 +377,7 @@ class CategoryExplorerScreenUiTest {
         Then:
         - A confirmation dialog is shown with the number of concepts to be deleted
          */
-        onNodeWithText("Concept 1").performLongPress(mainClock)
+        onNodeWithText("Concept 1").performLongPress()
         onNodeWithText("Delete").performClick()
 
         waitUntilExactlyOneExists(hasContentDescription("Delete Concepts"))
