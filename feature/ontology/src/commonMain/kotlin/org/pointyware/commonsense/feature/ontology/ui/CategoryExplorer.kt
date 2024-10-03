@@ -102,7 +102,10 @@ fun CategoryExplorer(
                     modifier = Modifier
                         .onClick(
                             onClick = { onCategorySelected(category.id) },
-                            onLongClick = { isSelectionActive = true }
+                            onLongClick = {
+                                selectedCategories += category.id
+                                isSelectionActive = true
+                            }
                         ),
                 )
             }
@@ -120,7 +123,10 @@ fun CategoryExplorer(
                     modifier = Modifier
                         .onClick(
                             onClick = { onConceptSelected(concept.id) },
-                            onLongClick = { isSelectionActive = true }
+                            onLongClick = {
+                                selectedConcepts += concept.id
+                                isSelectionActive = true
+                            }
                         ),
                 )
             }
