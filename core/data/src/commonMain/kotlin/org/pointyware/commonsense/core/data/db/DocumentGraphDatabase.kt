@@ -26,6 +26,15 @@ interface DocumentGraphDatabase {
     suspend fun registerType(name: String, properties: Map<String, Type>): Result<DocumentType>
 
     /**
+     * Modifies the existing type identified by the [id] with the given [name] if provided, and
+     * any [properties] that are provided.
+     *
+     * The given [properties] should contain all the final properties of the type. Any properties
+     * excluded will be dropped from the type.
+     */
+    suspend fun modifyType(id: Uuid, name: String? = null, properties: Map<String, Type>): Result<DocumentType>
+
+    /**
      * Creates a new document of the given type.
      *
      * @param type The type of the document.
