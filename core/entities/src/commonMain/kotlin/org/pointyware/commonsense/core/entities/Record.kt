@@ -7,6 +7,6 @@ package org.pointyware.commonsense.core.entities
  */
 data class Record(
     val title: String,
-    val properties: Set<Field> = emptySet()
+    val fields: Set<Field<*>> = emptySet()
 ): Type {
 }
