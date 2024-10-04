@@ -3,9 +3,10 @@ package org.pointyware.commonsense.core.entities
 /**
  * A Field is a part of a Record that defines a property of a Concept.
  */
-data class Field(
+data class Field<T:Type>(
     val name: String,
-    val type: Type
+    val type: T,
+    var value: Value<T>
 ) {
 
 }
