@@ -2,14 +2,15 @@ package org.pointyware.commonsense.core.data.org.pointyware.commonsense.core.dat
 
 import org.pointyware.commonsense.core.common.Uuid
 import org.pointyware.commonsense.core.entities.Type
+import org.pointyware.commonsense.core.entities.Value
 
 /**
  * Represents a document that can be stored in a graph database. A node in a graph.
  */
 interface Document {
     val id: Uuid
-    val type: Uuid
-    val attributes: Map<String, Any>
+    val type: DocumentType
+    val attributes: Map<String, Value<*>>
 }
 
 class PropertyKey(val name: String, val type: Type)
