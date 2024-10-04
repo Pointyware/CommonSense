@@ -27,18 +27,10 @@ sealed interface Type {
     }
 
     /**
-     * A complex number is a value composed of a real part and an imaginary part.
-     */
-    @ExperimentalType
-    interface Complex: Number {
-
-    }
-
-    /**
      * An imaginary number is a value that can be represented as a real number multiplied by the square root of -1.
      */
     @ExperimentalType
-    interface Imaginary: Complex {
+    interface Imaginary: Number {
 
     }
 
@@ -46,7 +38,7 @@ sealed interface Type {
      * A real number is a value that can be represented on a number line.
      */
     @ExperimentalType
-    interface Real: Complex {
+    interface Real: Number {
 
     }
 
@@ -82,6 +74,15 @@ sealed interface Type {
     @ExperimentalType
     interface Transcendental: Real {
 
+    }
+
+    /**
+     * A complex number is a value composed of a real part and an imaginary part.
+     */
+    @ExperimentalType
+    interface Complex: Number {
+        val real: Real
+        val imaginary: Imaginary
     }
 
     // endregion
