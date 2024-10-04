@@ -23,6 +23,8 @@ interface DocumentGraphDatabase {
      * optional parent. The parent type must be registered before the child type. Child properties
      * can not conflict with parent properties.
      *
+     * TODO: allow specifying defaults?
+     *
      * @param name The name of the type.
      * @param properties The properties of the type.
      * @param parent The parent type of the new type.
@@ -48,6 +50,8 @@ interface DocumentGraphDatabase {
      */
     suspend fun createDocument(type: DocumentType, attributes: Map<String, Any>): Result<Document>
 
+    suspend fun createDocuments() // TODO:
+
     /**
      * Creates a relation between two documents.
      *
@@ -56,6 +60,8 @@ interface DocumentGraphDatabase {
      * @param type The UUID of the relation type.
      */
     suspend fun createRelation(from: Uuid, to: Uuid, type: Uuid, label: Any): Result<Relation>
+
+    suspend fun createRelations() // TODO:
 
     /**
      * Create a new edge between two documents.
@@ -116,12 +122,16 @@ interface DocumentGraphDatabase {
      */
     suspend fun removeRelation(id: Uuid)
 
+    suspend fun removeRelations() // TODO:
+
     /**
      * Removes all documents of a given type from the database.
      *
      * @param type The UUID of the type.
      */
     suspend fun removeDocumentsOfType(type: Uuid)
+
+    suspend fun removeDocuments() // TODO:
 
     /**
      * Removes all relations of a given type from the database.
@@ -142,4 +152,20 @@ interface DocumentGraphDatabase {
      * @param id The UUID of the document.
      */
     suspend fun removeDocument(id: Uuid): Result<Unit>
+
+    // region Advanced
+
+    suspend fun filterDocuments(type: Uuid, filter: (Document) -> Boolean): List<Document>
+
+    suspend fun filterRelations(type: Uuid, filter: (Relation) -> Boolean): List<Relation>
+
+    suspend fun traverseBfs(start: Uuid, type: Uuid, maxDepth: Int): List<Document>
+    suspend fun traverseDfs(start: Uuid, type: Uuid, maxDepth: Int): List<Document>
+
+    interface StructuralQuery
+    suspend fun findMatching(query: StructuralQuery): List<Document>
+
+    // endregion
 }
+
+// TODO: add more exception types for helpful errors
