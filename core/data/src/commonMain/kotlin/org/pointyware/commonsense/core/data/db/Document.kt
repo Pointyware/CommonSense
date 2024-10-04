@@ -20,4 +20,5 @@ class PropertyKey(val name: String, val type: Type)
 interface DocumentType {
     val id: Uuid
     val properties: Map<String, Type>
+    val parent: DocumentType?
 }

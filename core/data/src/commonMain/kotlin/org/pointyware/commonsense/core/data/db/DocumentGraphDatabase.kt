@@ -19,11 +19,16 @@ interface DocumentGraphDatabase {
     /**
      * Registers a new type of document in the database.
      *
+     * For now only class-like relationships are supported. Each document type allows a single
+     * optional parent. The parent type must be registered before the child type. Child properties
+     * can not conflict with parent properties.
+     *
      * @param name The name of the type.
      * @param properties The properties of the type.
+     * @param parent The parent type of the new type.
      * @return The UUID of the new type.
      */
-    suspend fun registerType(name: String, properties: Map<String, Type>): Result<DocumentType>
+    suspend fun registerType(name: String, properties: Map<String, Type>, parent: Uuid?): Result<DocumentType>
 
     /**
      * Modifies the existing type identified by the [id] with the given [name] if provided, and
