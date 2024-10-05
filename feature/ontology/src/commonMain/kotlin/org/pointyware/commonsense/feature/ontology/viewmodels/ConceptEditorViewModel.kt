@@ -8,6 +8,7 @@ import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import org.pointyware.commonsense.core.entities.Value
 import org.pointyware.commonsense.core.viewmodels.ViewModel
 import org.pointyware.commonsense.feature.ontology.Concept
 import org.pointyware.commonsense.feature.ontology.interactors.CreateNewConceptUseCase
@@ -40,6 +41,10 @@ interface ConceptEditorViewModel {
      * Update the state with a new description.
      */
     fun onDescriptionChange(newDescription: String)
+
+    fun onFieldNameChange(newName: String)
+
+    fun onFieldValueChange(newValue: Value<*>)
 
     /**
      * Cancel the changes and close the editor.
