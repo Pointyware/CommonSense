@@ -5,12 +5,10 @@ import org.pointyware.commonsense.core.entities.Value
 import org.pointyware.commonsense.core.viewmodels.ViewModel
 
 /**
- * TODO: describe purpose/intent of ClassEditorViewModel
  *
  * @see ConceptEditorViewModel
  */
 interface ClassEditorViewModel {
-
 
     fun onFieldNameChange(newName: String)
 
