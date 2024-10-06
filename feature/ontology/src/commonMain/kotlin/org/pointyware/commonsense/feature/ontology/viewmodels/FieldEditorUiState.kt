@@ -10,7 +10,7 @@ import org.pointyware.commonsense.core.entities.Value
 /**
  *
  */
-open class FieldEditorUiState<T: Type>(
+open class FieldEditorUiState<out T: Type>(
     val name: String,
     val type: T,
     val value: Value<T>
