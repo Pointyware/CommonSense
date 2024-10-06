@@ -59,6 +59,12 @@ class RecordEditorViewModel(
     }
 
     fun removeField(index: Int) {
-        TODO("Not yet implemented")
+        mutableState.update {
+            it.fields.getOrNull(index)?.let { removedField ->
+                it.copy(
+                    fields = it.fields - removedField
+                )
+            } ?: it
+        }
     }
 }
