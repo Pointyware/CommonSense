@@ -5,6 +5,7 @@
 package org.pointyware.commonsense.feature.ontology.ui
 
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.material3.Button
@@ -30,6 +31,8 @@ fun RecordEditor(
     onFieldTypeChanged: (index: Int, newType: Type)->Unit,
     onFieldValueChanged: (index: Int, newValue: Value<*>)->Unit,
     onFieldRemoved: (index: Int)->Unit,
+    onConfirm: ()->Unit,
+    onCancel: ()->Unit,
 ) {
     Column(
         modifier = modifier
@@ -59,6 +62,24 @@ fun RecordEditor(
                         text = "Add Field"
                     )
                 }
+            }
+        }
+        Row(
+
+        ) {
+            Button(
+                onClick = onCancel
+            ) {
+                Text(
+                    text = "Cancel"
+                )
+            }
+            Button(
+                onClick = onConfirm
+            ) {
+                Text(
+                    text = "Confirm"
+                )
             }
         }
     }
