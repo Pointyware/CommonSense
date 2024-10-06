@@ -63,6 +63,7 @@ fun CategoryExplorerScreen(
                     state = capture.record,
                     onNameChange = viewModel::onRecordNameChange,
                     onFieldAdded = viewModel::addField,
+                    onFieldNameChange = viewModel::setFieldName,
                     onFieldTypeChanged = viewModel::setFieldType,
                     onFieldValueChanged = viewModel::setFieldValue,
                     onFieldRemoved = viewModel::removeField,
