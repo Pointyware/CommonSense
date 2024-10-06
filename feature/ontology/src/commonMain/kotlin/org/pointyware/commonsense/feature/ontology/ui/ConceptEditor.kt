@@ -21,6 +21,12 @@ import org.pointyware.commonsense.feature.ontology.viewmodels.ConceptEditorUiSta
  * Allows a user to edit the properties of a new or existing concept.
  */
 @Composable
+@Deprecated(
+    "Record preferred over concept",
+    ReplaceWith(
+        expression = "RecordEditor"
+    )
+)
 fun ConceptEditor(
     state: ConceptEditorUiState,
     modifier: Modifier = Modifier,
