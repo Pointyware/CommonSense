@@ -19,6 +19,7 @@ import androidx.compose.ui.Modifier
 import org.pointyware.commonsense.core.entities.Type
 import org.pointyware.commonsense.core.entities.Value
 import org.pointyware.commonsense.core.ui.IntField
+import org.pointyware.commonsense.core.ui.StringField
 import org.pointyware.commonsense.feature.ontology.viewmodels.FieldEditorUiState
 
 /**
@@ -45,6 +46,12 @@ fun FieldEditorRowItem(
         when (val capture = state.value) {
             is Value.IntValue -> {
                 IntField(
+                    value = capture,
+                    onValueChange = onFieldValueChange
+                )
+            }
+            is Value.StringValue -> {
+                StringField(
                     value = capture,
                     onValueChange = onFieldValueChange
                 )
