@@ -14,6 +14,9 @@ annotation class ExperimentalType
  * [Type.Int] is the only non-experimental type.
  */
 sealed interface Type {
+
+    val name: kotlin.String
+
     // region Theoretical Types
 
     /**
@@ -98,68 +101,101 @@ sealed interface Type {
      * <sup>(1)</sup> - [null etymology](https://www.etymonline.com/word/null)
      */
     @ExperimentalType
-    data object Null: Type
+    data object Null: Type {
+        override val name: kotlin.String
+            get() = "Null"
+    }
 
     /**
      * A boolean is a value that can be either true or false.
      */
     @ExperimentalType
-    data object Boolean: Type
+    data object Boolean: Type {
+        override val name: kotlin.String
+            get() = "Boolean"
+    }
 
     /**
      * An integer is a value that can be represented as a whole number.
      */
-    data object Int: Type // Add min, max constraints or define as further type?
+    data object Int: Type { // Add min, max constraints or define as further type?
+        override val name: kotlin.String
+            get() = "Int"
+    }
 
     /**
      * A floating point number is composed of a sign bit, mantissa, and an exponent.
      */
     @ExperimentalType
-    data object Float: Type // Add min, max constraints or define as further type?
+    data object Float: Type { // Add min, max constraints or define as further type?
+        override val name: kotlin.String
+            get() = "Float"
+    }
 
     // Collections
     /**
      * A collection is a group of objects that are treated as a single entity.
      */
     @ExperimentalType
-    data object Collection: Type
+    data object Collection: Type {
+        override val name: kotlin.String
+            get() = "Collection<E>"
+    }
 
     // Homogenous Collections
     /**
      * A sequence is an ordered collection of objects.
      */
     @ExperimentalType
-    data object Sequence: Type
+    data object Sequence: Type {
+        override val name: kotlin.String
+            get() = "Sequence<E>"
+    }
 
     /**
      * An array is a fixed-size collection of objects.
      */
     @ExperimentalType
-    data object Array: Type // Add size min, max constraints or define as further type?
+    data object Array: Type { // Add size min, max constraints or define as further type?
+        override val name: kotlin.String
+            get() = "Array<E>"
+    }
 
     /**
      * A string is a special case sequence of characters.
      */
     @ExperimentalType
-    data object String: Type // Add pattern constraints or define as further type?
+    data object String: Type { // Add pattern constraints or define as further type?
+        override val name: kotlin.String
+            get() = "String|Array<Char>"
+    }
 
     /**
      * A set is collection of unique objects.
      */
     @ExperimentalType
-    data object Set: Type
+    data object Set: Type {
+        override val name: kotlin.String
+            get() = "Set<E>"
+    }
 
     /**
      * A bag is a special case of a set where each element can appear more than once.
      */
     @ExperimentalType
-    data object Bag: Type
+    data object Bag: Type {
+        override val name: kotlin.String
+            get() = "Bag<E>"
+    }
 
     /**
      * A map is a special case of a set where each element is a key-value pair.
      */
     @ExperimentalType
-    data object Map: Type
+    data object Map: Type {
+        override val name: kotlin.String
+            get() = "Map<K,V>"
+    }
 
     // Heterogeneous Collections
 
@@ -174,14 +210,21 @@ sealed interface Type {
      * @see Record
      */
     @ExperimentalType
-    data object Object: Type
+    data object Object: Type {
+        override val name: kotlin.String
+            get() = "Object"
+    }
 
     /**
      * An interface is a collection of properties that define a contract for objects that implement
      * the interface.
      */
     @ExperimentalType
-    data object Interface: Type
+    data class Interface(
+        override val name: kotlin.String,
+        val fields: List<Field<*>>
+    ): Type {
+    }
 
     // endregion
 }

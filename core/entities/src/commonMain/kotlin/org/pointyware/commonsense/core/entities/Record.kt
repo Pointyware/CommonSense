@@ -6,7 +6,7 @@ package org.pointyware.commonsense.core.entities
  * Each Concept belongs to a Class and has a set of Properties.
  */
 data class Record(
-    val title: String,
+    override val name: String,
     val fields: Set<Field<*>> = emptySet()
 ): Type {
 }
