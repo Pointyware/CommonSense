@@ -46,6 +46,10 @@ class RecordEditorViewModel(
         }
     }
 
+    fun setFieldName(index: Int, newName: String) {
+        TODO("Not yet implemented")
+    }
+
     fun setFieldType(index: Int, type: Type) {
         TODO("Not yet implemented")
     }
