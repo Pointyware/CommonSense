@@ -4,6 +4,7 @@
 
 package org.pointyware.commonsense.feature.ontology.ui
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Row
 import androidx.compose.material3.Button
 import androidx.compose.material3.DropdownMenu
@@ -17,6 +18,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import org.pointyware.commonsense.core.entities.Type
 import org.pointyware.commonsense.core.entities.Value
+import org.pointyware.commonsense.core.ui.IntField
 import org.pointyware.commonsense.feature.ontology.viewmodels.FieldEditorUiState
 
 /**
@@ -27,6 +29,7 @@ fun FieldEditorRowItem(
     state: FieldEditorUiState<*>,
     modifier: Modifier = Modifier,
     onFieldNameChange: (String)->Unit,
+    typeList: List<Type>,
     onFieldTypeChange: (Type)->Unit,
     onFieldValueChange: (Value<*>)->Unit,
     onRemove: ()->Unit
@@ -39,7 +42,18 @@ fun FieldEditorRowItem(
             onValueChange = onFieldNameChange
         )
 
-        // TODO: dropdown menu for available types?
+        when (val capture = state.value) {
+            is Value.IntValue -> {
+                IntField(
+                    value = capture,
+                    onValueChange = onFieldValueChange
+                )
+            }
+            else -> {
+                println("Unsupported type: $capture")
+            }
+        }
+
         var selectType by remember { mutableStateOf(false) }
         Button(
             onClick = { selectType = true }
@@ -48,9 +62,13 @@ fun FieldEditorRowItem(
                 expanded = selectType,
                 onDismissRequest = { selectType = false }
             ) {
-                // TODO: available types
-
-
+                typeList.forEach { type ->
+                    Row(
+                        modifier = Modifier.clickable { onFieldTypeChange(type) }
+                    ) {
+                        Text(type.name)
+                    }
+                }
             }
             Text(
                 text = "Select Type"
