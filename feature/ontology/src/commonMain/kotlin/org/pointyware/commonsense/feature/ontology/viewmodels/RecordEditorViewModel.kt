@@ -15,9 +15,21 @@ import org.pointyware.commonsense.core.viewmodels.ViewModel
 /**
  *
  */
-class RecordEditorViewModel(): ViewModel() {
+class RecordEditorViewModel(
 
-    private val mutableState = MutableStateFlow(RecordEditorUiState("untitled", emptyList()))
+): ViewModel() {
+
+    // TODO: load from type repository ^^
+    private val loadedTypes = listOf(
+        Type.Int,
+        Record("FooBar"),
+    )
+
+    private val mutableState = MutableStateFlow(RecordEditorUiState(
+        name = "untitled",
+        fields = emptyList(),
+        availableTypes = loadedTypes,
+    ))
     val state: StateFlow<RecordEditorUiState>
         get() = mutableState.asStateFlow()
 
