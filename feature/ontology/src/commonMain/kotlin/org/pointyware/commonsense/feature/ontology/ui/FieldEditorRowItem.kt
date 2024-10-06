@@ -26,8 +26,8 @@ import org.pointyware.commonsense.feature.ontology.viewmodels.FieldEditorUiState
  * Allows the user to edit a single field as a row item in a column scope
  */
 @Composable
-fun FieldEditorRowItem(
-    state: FieldEditorUiState<*>,
+fun <T:Type> FieldEditorRowItem(
+    state: FieldEditorUiState<T>,
     modifier: Modifier = Modifier,
     onFieldNameChange: (String)->Unit,
     typeList: List<Type>,

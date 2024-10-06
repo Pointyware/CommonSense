@@ -91,14 +91,19 @@ class RecordEditorViewModel(
     fun setFieldValue(index: Int, value: Value<*>) {
         mutableState.update {
             it.fields.getOrNull(index)?.let { originalField ->
-                val mutableFields = it.fields.toMutableList()
-                mutableFields[index] = FieldEditorUiState(
-                    originalField.name,
-                    originalField.type,
-                    value as Value<Type>
-                )
+                val newFields = it.fields.mapIndexed { i, item ->
+                    if (index == i) {
+                        FieldEditorUiState(
+                            item.name,
+                            item.type,
+                            value as Value<Type>
+                        )
+                    } else {
+                        item
+                    }
+                }
                 it.copy(
-                    fields = mutableFields.toList()
+                    fields = newFields
                 )
             } ?: it
         }
