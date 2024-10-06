@@ -7,6 +7,8 @@ package org.pointyware.commonsense.feature.ontology.viewmodels
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.update
+import org.pointyware.commonsense.core.entities.Field
 import org.pointyware.commonsense.core.entities.Record
 import org.pointyware.commonsense.core.entities.Type
 import org.pointyware.commonsense.core.entities.Value
@@ -47,15 +49,59 @@ class RecordEditorViewModel(
     }
 
     fun setFieldName(index: Int, newName: String) {
-        TODO("Not yet implemented")
+        mutableState.update {
+            it.fields.getOrNull(index)?.let { field ->
+                val mutableFields = it.fields.toMutableList()
+                mutableFields[index] = FieldEditorUiState(
+                    newName,
+                    field.type,
+                    field.value
+                )
+                it.copy(
+                    fields = mutableFields.toList()
+                )
+            } ?: it
+        }
     }
 
     fun setFieldType(index: Int, type: Type) {
-        TODO("Not yet implemented")
+        mutableState.update {
+            it.fields.getOrNull(index)?.let { field ->
+                val mutableFields = it.fields.toMutableList()
+                val newValue: Value<*> = when (type) {
+                    is Type.Int -> {
+                        Value.IntValue(0)
+                    }
+                    else -> {
+                        Value.StringValue("Unsupported Type")
+                    }
+                }
+                mutableFields[index] = FieldEditorUiState(
+                    name = field.name,
+                    type = type,
+                    value = newValue as Value<Type>
+                )
+                it.copy(
+                    fields = mutableFields.toList()
+                )
+            } ?: it
+        }
     }
 
     fun setFieldValue(index: Int, value: Value<*>) {
-        TODO("Not yet implemented")
+        mutableState.update {
+            it.fields.getOrNull(index)?.let { originalField ->
+                val mutableFields = it.fields.toMutableList()
+                mutableFields[index] = FieldEditorUiState(
+                    originalField.name,
+                    originalField.type,
+                    value as Value<Type>
+                )
+                it.copy(
+                    fields = mutableFields.toList()
+                )
+            } ?: it
+        }
     }
 
     fun removeField(index: Int) {
