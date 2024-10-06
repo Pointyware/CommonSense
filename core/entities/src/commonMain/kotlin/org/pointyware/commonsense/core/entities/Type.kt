@@ -224,6 +224,7 @@ sealed interface Type {
         override val name: kotlin.String,
         val fields: List<Field<*>>
     ): Type {
+        // TODO: interface focus on function signatures
     }
 
     // endregion
