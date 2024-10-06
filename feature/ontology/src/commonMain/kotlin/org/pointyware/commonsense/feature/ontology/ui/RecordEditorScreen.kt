@@ -5,10 +5,10 @@ import androidx.compose.ui.Modifier
 import org.pointyware.commonsense.feature.ontology.viewmodels.ClassEditorUiState
 
 /**
- * Allows a user to create a new type of class.
+ * Allows a user to create a new type of record.
  */
 @Composable
-fun ClassEditorScreen(
+fun RecordEditorScreen(
     state: ClassEditorUiState,
     modifier: Modifier = Modifier,
 ) {
