@@ -17,4 +17,6 @@ sealed interface Value<T: Type> {
     class ComplexValue(val real: Type.Real, val imaginary: Type.Imaginary): Value<Type.Complex>
 
     class IntValue(val rawValue: Int): Value<Type.Int>
+
+    class StringValue(val rawValue: String): Value<Type.String>
 }
