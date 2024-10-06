@@ -40,7 +40,10 @@ class RecordEditorViewModel(
     }
 
     fun addField() {
-        TODO("delegate to RecordEditorViewModel")
+        mutableState.update {
+            val newField = Field("new field", Type.Int, Value.IntValue(0))
+            it.copy(fields = it.fields + FieldEditorUiState(newField.name, newField.type, newField.value))
+        }
     }
 
     fun setFieldType(index: Int, type: Type) {
