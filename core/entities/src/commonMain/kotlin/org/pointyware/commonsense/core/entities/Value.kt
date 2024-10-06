@@ -10,7 +10,7 @@ annotation class ExperimentalValue
  * Realizes the range of values that types express in the Common Sense system.
  * @see Type
  */
-sealed interface Value<T: Type> {
+sealed interface Value<out T: Type> {
 
     @OptIn(ExperimentalType::class)
     @ExperimentalValue
