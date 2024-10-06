@@ -69,21 +69,6 @@ fun CategoryExplorerScreen(
                     onFieldRemoved = viewModel::removeField,
                 )
             }
-            is CategoryExplorerEditorState.Concept -> {
-                Dialog(
-                    onDismissRequest = {
-                        viewModel.onCancelEditor()
-                    }
-                ) {
-                    ConceptEditor(
-                        state = capture.concept,
-                        onNameChange = viewModel::onConceptNameChange,
-                        onDescriptionChange = viewModel::onDescriptionChange,
-                        onConfirm = viewModel::onCommitConcept,
-                        onCancel = viewModel::onCancelEditor
-                    )
-                }
-            }
             is CategoryExplorerEditorState.Category -> {
                 Dialog(
                     onDismissRequest = {
