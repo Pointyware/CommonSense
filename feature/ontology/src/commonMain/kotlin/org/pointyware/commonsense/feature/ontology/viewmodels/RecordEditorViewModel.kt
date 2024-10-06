@@ -4,10 +4,14 @@
 
 package org.pointyware.commonsense.feature.ontology.viewmodels
 
+import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.launch
 import org.pointyware.commonsense.core.entities.Field
 import org.pointyware.commonsense.core.entities.Record
 import org.pointyware.commonsense.core.entities.Type
@@ -27,13 +31,34 @@ class RecordEditorViewModel(
         Record("FooBar"),
     )
 
-    private val mutableState = MutableStateFlow(RecordEditorUiState(
+    private fun newRecordState() = RecordEditorUiState(
         name = "untitled",
         fields = emptyList(),
         availableTypes = loadedTypes,
-    ))
+    )
+
+    private val mutableState = MutableStateFlow(newRecordState())
     val state: StateFlow<RecordEditorUiState>
         get() = mutableState.asStateFlow()
+
+    private val mutableOnFinish = MutableSharedFlow<Unit>()
+    val onFinish: SharedFlow<Unit> get() = mutableOnFinish.asSharedFlow()
+
+    fun prepareFor(record: Record?) {
+        mutableState.value = record?.let {
+            RecordEditorUiState(
+                name = it.name,
+                fields = it.fields.map {
+                    FieldEditorUiState(
+                        it.name,
+                        it.type,
+                        it.value
+                    )
+                },
+                availableTypes = loadedTypes
+            )
+        } ?: newRecordState()
+    }
 
     fun onRecordNameChange(newName: String) {
         mutableState.update {
@@ -116,6 +141,19 @@ class RecordEditorViewModel(
                     fields = it.fields - removedField
                 )
             } ?: it
+        }
+    }
+
+    fun onConfirm() {
+        viewModelScope.launch {
+            // TODO: submit edits
+            mutableOnFinish.emit(Unit)
+        }
+    }
+
+    fun onCancel() {
+        viewModelScope.launch {
+            mutableOnFinish.emit(Unit)
         }
     }
 }
