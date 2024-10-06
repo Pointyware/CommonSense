@@ -4,6 +4,12 @@
 
 package org.pointyware.commonsense.feature.ontology.ui
 
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.itemsIndexed
+import androidx.compose.material3.Button
+import androidx.compose.material3.Text
+import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import org.pointyware.commonsense.core.entities.Type
@@ -19,10 +25,39 @@ fun RecordEditor(
     modifier: Modifier = Modifier,
     onNameChange: (String)->Unit,
     onFieldAdded: ()->Unit,
+    onFieldNameChange: (index: Int, newName: String)->Unit,
     onFieldTypeChanged: (index: Int, newType: Type)->Unit,
     onFieldValueChanged: (index: Int, newValue: Value<*>)->Unit,
     onFieldRemoved: (index: Int)->Unit,
 ) {
-
-
+    Column(
+        modifier = modifier
+    ) {
+        TextField(
+            value = state.name,
+            onValueChange = onNameChange
+        )
+        LazyColumn(
+            modifier = Modifier.weight(1f)
+        ) {
+            itemsIndexed(state.fields) { index, item ->
+                FieldEditorRowItem(
+                    state = item,
+                    onFieldNameChange = { onFieldNameChange(index, it) },
+                    onFieldTypeChange = { onFieldTypeChanged(index, it) },
+                    onFieldValueChange = { onFieldValueChanged(index, it) },
+                    onRemove = { onFieldRemoved(index) }
+                )
+            }
+            item {
+                Button(
+                    onClick = onFieldAdded
+                ) {
+                    Text(
+                        text = "Add Field"
+                    )
+                }
+            }
+        }
+    }
 }
