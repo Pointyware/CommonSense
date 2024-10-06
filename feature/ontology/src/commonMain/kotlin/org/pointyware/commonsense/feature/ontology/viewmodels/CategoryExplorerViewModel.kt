@@ -32,7 +32,7 @@ class CategoryExplorerViewModel(
 
     enum class EditorState {
         Disabled,
-        Concept,
+        Record,
         Category
     }
 
@@ -41,13 +41,13 @@ class CategoryExplorerViewModel(
     private val _editorState = MutableStateFlow(EditorState.Disabled)
 
     val state: StateFlow<CategoryExplorerUiState> get() = combine(
-        _loadingState, _categoryUiState, recordEditorViewModel.state, conceptEditorViewModel.state, categoryEditorViewModel.state, _editorState
-    ) { loading, currentCategory, recordEditor, conceptEditor, categoryEditor, editorState ->
+        _loadingState, _categoryUiState, recordEditorViewModel.state, categoryEditorViewModel.state, _editorState
+    ) { loading, currentCategory, recordEditor, categoryEditor, editorState ->
         CategoryExplorerUiState(
             loading = loading,
             currentCategory = currentCategory,
             editorState = when (editorState) {
-                EditorState.Concept -> CategoryExplorerEditorState.Concept(conceptEditor)
+                EditorState.Record -> CategoryExplorerEditorState.Record(recordEditor)
                 EditorState.Category -> CategoryExplorerEditorState.Category(categoryEditor)
                 EditorState.Disabled -> CategoryExplorerEditorState.Disabled
             },
@@ -98,7 +98,9 @@ class CategoryExplorerViewModel(
             getSelectedConceptUseCase.invoke(categoryId = category.id, conceptId = conceptId)
                 .onSuccess {
                     conceptEditorViewModel.prepareFor(it)
-                    _editorState.value = EditorState.Concept
+                    // TODO: replace with record version
+//                    recordEditorViewModel.prepareFor(it)
+                    _editorState.value = EditorState.Record
                 }
                 .onFailure {
                     // TODO: post error to user
@@ -126,7 +128,7 @@ class CategoryExplorerViewModel(
 
     fun onAddCard() {
         conceptEditorViewModel.prepareFor(null)
-        _editorState.value = EditorState.Concept
+        _editorState.value = EditorState.Record
     }
 
     fun onAddCategory() {
@@ -154,6 +156,10 @@ class CategoryExplorerViewModel(
 
     fun addField() {
         recordEditorViewModel.addField()
+    }
+
+    fun setFieldName(index: Int, newName: String) {
+        recordEditorViewModel.setFieldName(index, newName)
     }
 
     fun setFieldType(index: Int, type: Type) {
