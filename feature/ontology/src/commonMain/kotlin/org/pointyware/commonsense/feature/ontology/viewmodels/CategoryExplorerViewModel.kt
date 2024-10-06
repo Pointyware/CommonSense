@@ -25,7 +25,6 @@ class CategoryExplorerViewModel(
     private val getSelectedCategoryUseCase: GetSelectedCategoryUseCase,
     private val getSelectedConceptUseCase: GetSelectedConceptUseCase,
     private val recordEditorViewModel: RecordEditorViewModel,
-    private val conceptEditorViewModel: ConceptEditorViewModel,
     private val categoryEditorViewModel: CategoryEditorViewModel,
     private val categoryRepository: CategoryRepository,
 ): ViewModel() {
@@ -97,7 +96,6 @@ class CategoryExplorerViewModel(
             val category = _categoryUiState.value.selected ?: return@launch
             getSelectedConceptUseCase.invoke(categoryId = category.id, conceptId = conceptId)
                 .onSuccess {
-                    conceptEditorViewModel.prepareFor(it)
                     // TODO: replace with record version
 //                    recordEditorViewModel.prepareFor(it)
                     _editorState.value = EditorState.Record
@@ -110,16 +108,8 @@ class CategoryExplorerViewModel(
         }
     }
 
-    fun onConceptNameChange(name: String) {
-        conceptEditorViewModel.onNameChange(name)
-    }
-
-    fun onDescriptionChange(description: String) {
-        conceptEditorViewModel.onDescriptionChange(description)
-    }
-
-    fun onCommitConcept() {
-        conceptEditorViewModel.onConfirm()
+    fun onConfirmRecord() {
+        recordEditorViewModel.onConfirm()
     }
 
     fun onCancelEditor() {
@@ -127,7 +117,7 @@ class CategoryExplorerViewModel(
     }
 
     fun onAddCard() {
-        conceptEditorViewModel.prepareFor(null)
+        recordEditorViewModel.prepareFor(null)
         _editorState.value = EditorState.Record
     }
 
@@ -176,7 +166,7 @@ class CategoryExplorerViewModel(
 
     init {
         viewModelScope.launch {
-            conceptEditorViewModel.onFinish.collect {
+            recordEditorViewModel.onFinish.collect {
                 _editorState.value = EditorState.Disabled
             }
         }
