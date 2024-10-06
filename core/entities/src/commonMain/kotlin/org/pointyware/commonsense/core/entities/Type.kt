@@ -164,7 +164,6 @@ sealed interface Type {
     /**
      * A string is a special case sequence of characters.
      */
-    @ExperimentalType
     data object String: Type { // Add pattern constraints or define as further type?
         override val name: kotlin.String
             get() = "String|Array<Char>"
