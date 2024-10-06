@@ -11,6 +11,6 @@ import org.pointyware.commonsense.core.entities.Type
  */
 data class RecordEditorUiState(
     val name: String,
-    val fields: List<FieldEditorUiState<*>>,
+    val fields: List<FieldEditorUiState<Type>>,
     val availableTypes: List<Type>
 )
