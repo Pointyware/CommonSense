@@ -45,10 +45,7 @@ fun RecordEditor(
                 FieldEditorRowItem(
                     state = item,
                     onFieldNameChange = { onFieldNameChange(index, it) },
-                    typeList = listOf(
-                        Type.Int,
-                        Record("FooBar"),
-                    ),
+                    typeList = state.availableTypes,
                     onFieldTypeChange = { onFieldTypeChanged(index, it) },
                     onFieldValueChange = { onFieldValueChanged(index, it) },
                     onRemove = { onFieldRemoved(index) }

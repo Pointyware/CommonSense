@@ -4,10 +4,13 @@
 
 package org.pointyware.commonsense.feature.ontology.viewmodels
 
+import org.pointyware.commonsense.core.entities.Type
+
 /**
  *
  */
 data class RecordEditorUiState(
     val name: String,
-    val fields: List<FieldEditorUiState<*>>
+    val fields: List<FieldEditorUiState<*>>,
+    val availableTypes: List<Type>
 )
