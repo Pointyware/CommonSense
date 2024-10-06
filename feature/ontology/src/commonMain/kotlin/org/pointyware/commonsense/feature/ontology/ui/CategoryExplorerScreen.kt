@@ -72,6 +72,8 @@ fun CategoryExplorerScreen(
                         onFieldTypeChanged = viewModel::setFieldType,
                         onFieldValueChanged = viewModel::setFieldValue,
                         onFieldRemoved = viewModel::removeField,
+                        onConfirm = viewModel::onConfirmRecord,
+                        onCancel = viewModel::onCancelEditor
                     )
                 }
             }
