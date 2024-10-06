@@ -163,7 +163,7 @@ class CategoryExplorerViewModel(
     }
 
     fun setFieldType(index: Int, type: Type) {
-        recordEditorViewModel.addField()
+        recordEditorViewModel.setFieldType(index, type)
     }
 
     fun setFieldValue(index: Int, value: Value<*>) {
