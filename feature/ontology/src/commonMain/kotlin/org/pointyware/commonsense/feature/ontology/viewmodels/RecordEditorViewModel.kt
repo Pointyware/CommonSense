@@ -34,7 +34,9 @@ class RecordEditorViewModel(
         get() = mutableState.asStateFlow()
 
     fun onRecordNameChange(newName: String) {
-        TODO("Not yet implemented")
+        mutableState.update {
+            it.copy(name = newName)
+        }
     }
 
     fun addField() {
