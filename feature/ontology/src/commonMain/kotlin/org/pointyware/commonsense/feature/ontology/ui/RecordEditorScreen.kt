@@ -2,14 +2,14 @@ package org.pointyware.commonsense.feature.ontology.ui
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import org.pointyware.commonsense.feature.ontology.viewmodels.ClassEditorUiState
+import org.pointyware.commonsense.feature.ontology.viewmodels.RecordEditorUiState
 
 /**
  * Allows a user to create a new type of record.
  */
 @Composable
 fun RecordEditorScreen(
-    state: ClassEditorUiState,
+    state: RecordEditorUiState,
     modifier: Modifier = Modifier,
 ) {
     /*
