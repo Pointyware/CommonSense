@@ -9,6 +9,8 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import org.pointyware.commonsense.core.common.Log
 import org.pointyware.commonsense.core.common.Uuid
+import org.pointyware.commonsense.core.entities.Type
+import org.pointyware.commonsense.core.entities.Value
 import org.pointyware.commonsense.core.viewmodels.ViewModel
 import org.pointyware.commonsense.feature.ontology.Category
 import org.pointyware.commonsense.feature.ontology.Concept
@@ -22,6 +24,7 @@ import org.pointyware.commonsense.feature.ontology.interactors.GetSelectedConcep
 class CategoryExplorerViewModel(
     private val getSelectedCategoryUseCase: GetSelectedCategoryUseCase,
     private val getSelectedConceptUseCase: GetSelectedConceptUseCase,
+    private val recordEditorViewModel: RecordEditorViewModel,
     private val conceptEditorViewModel: ConceptEditorViewModel,
     private val categoryEditorViewModel: CategoryEditorViewModel,
     private val categoryRepository: CategoryRepository,
@@ -38,8 +41,8 @@ class CategoryExplorerViewModel(
     private val _editorState = MutableStateFlow(EditorState.Disabled)
 
     val state: StateFlow<CategoryExplorerUiState> get() = combine(
-        _loadingState, _categoryUiState, conceptEditorViewModel.state, categoryEditorViewModel.state, _editorState
-    ) { loading, currentCategory, conceptEditor, categoryEditor, editorState ->
+        _loadingState, _categoryUiState, recordEditorViewModel.state, conceptEditorViewModel.state, categoryEditorViewModel.state, _editorState
+    ) { loading, currentCategory, recordEditor, conceptEditor, categoryEditor, editorState ->
         CategoryExplorerUiState(
             loading = loading,
             currentCategory = currentCategory,
@@ -143,6 +146,26 @@ class CategoryExplorerViewModel(
 
     private fun reloadCurrentCategory() {
         onCategorySelected(_categoryUiState.value.selected?.id ?: Uuid.nil())
+    }
+
+    fun onRecordNameChange(newName: String) {
+        recordEditorViewModel.onRecordNameChange(newName)
+    }
+
+    fun addField() {
+        recordEditorViewModel.addField()
+    }
+
+    fun setFieldType(index: Int, type: Type) {
+        recordEditorViewModel.addField()
+    }
+
+    fun setFieldValue(index: Int, value: Value<*>) {
+        recordEditorViewModel.setFieldValue(index, value)
+    }
+
+    fun removeField(index: Int) {
+        recordEditorViewModel.removeField(index)
     }
 
     init {

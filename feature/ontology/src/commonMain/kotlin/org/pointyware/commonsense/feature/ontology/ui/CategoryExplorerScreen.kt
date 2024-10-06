@@ -57,6 +57,17 @@ fun CategoryExplorerScreen(
         }
 
         when (val capture = state.editorState) {
+            is CategoryExplorerEditorState.Record -> {
+
+                RecordEditor(
+                    state = capture.record,
+                    onNameChange = viewModel::onRecordNameChange,
+                    onFieldAdded = viewModel::addField,
+                    onFieldTypeChanged = viewModel::setFieldType,
+                    onFieldValueChanged = viewModel::setFieldValue,
+                    onFieldRemoved = viewModel::removeField,
+                )
+            }
             is CategoryExplorerEditorState.Concept -> {
                 Dialog(
                     onDismissRequest = {
