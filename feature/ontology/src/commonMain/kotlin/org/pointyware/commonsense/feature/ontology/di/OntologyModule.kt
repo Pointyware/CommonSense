@@ -35,6 +35,7 @@ import org.pointyware.commonsense.feature.ontology.ui.ConceptSpaceUiStateMapper
 import org.pointyware.commonsense.feature.ontology.viewmodels.ConceptEditorViewModel
 import org.pointyware.commonsense.feature.ontology.viewmodels.ConceptEditorViewModelImpl
 import org.pointyware.commonsense.feature.ontology.viewmodels.ConceptSpaceViewModel
+import org.pointyware.commonsense.feature.ontology.viewmodels.RecordEditorViewModel
 
 /**
  *
@@ -113,6 +114,7 @@ fun ontologyViewModelModule() = module {
     singleOf(::CategoryExplorerViewModel)
     singleOf(::ConceptEditorViewModelImpl) { bind<ConceptEditorViewModel>() }
     singleOf(::CategoryEditorViewModelImpl) { bind<CategoryEditorViewModel>() }
+    singleOf(::RecordEditorViewModel)
 }
 
 fun ontologyUiModule() = module {
