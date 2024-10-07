@@ -156,4 +156,24 @@ class RecordEditorViewModel(
             mutableOnFinish.emit(Unit)
         }
     }
+
+    fun onFieldAdded() {
+        TODO("Not yet implemented")
+    }
+
+    fun onFieldNameChange(index: Int, newName: String) {
+
+    }
+
+    fun onFieldTypeChange(index: Int, newType: Type) {
+
+    }
+
+    fun onFieldValueChange(index: Int, newValue: Value<*>) {
+
+    }
+
+    fun onFieldRemoved(index: Int) {
+
+    }
 }
