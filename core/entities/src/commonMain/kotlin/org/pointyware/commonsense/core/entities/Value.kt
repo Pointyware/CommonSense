@@ -25,4 +25,6 @@ sealed interface Value<out T: Type> {
     class IntValue(val rawValue: Int): Value<Type.Int>
 
     class StringValue(val rawValue: String): Value<Type.String>
+
+    class Instance(val attributes: Attribute<*>): Value<Record>
 }
