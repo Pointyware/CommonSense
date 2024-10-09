@@ -6,7 +6,7 @@ package org.pointyware.commonsense.core.entities
 data class Field<T:Type>(
     val name: String,
     val type: T,
-    var value: Value<T>
+    val defaultValue: Value<T>? = null
 ) {
 
 }
