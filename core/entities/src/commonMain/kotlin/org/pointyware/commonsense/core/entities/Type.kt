@@ -214,6 +214,7 @@ sealed interface Type {
             get() = "Object"
     }
 
+
     /**
      * An interface is a collection of properties that define a contract for objects that implement
      * the interface.
@@ -224,6 +225,17 @@ sealed interface Type {
         val fields: List<Field<*>>
     ): Type {
         // TODO: interface focus on function signatures
+    }
+
+    /**
+     * A form of Schema that is used to define the structure of a Concept.
+     *
+     * Each Concept belongs to a Class and has a set of Properties.
+     */
+    data class Record(
+        override val name: kotlin.String,
+        val fields: kotlin.collections.Set<Field<*>> = emptySet()
+    ): Type {
     }
 
     // endregion
