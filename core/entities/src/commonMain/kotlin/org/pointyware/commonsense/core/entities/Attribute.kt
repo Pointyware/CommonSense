@@ -5,7 +5,7 @@
 package org.pointyware.commonsense.core.entities
 
 /**
- * An [Attribute] is a part of a [Value.Instance] that defines a [Field] of a [Record].
+ * An [Attribute] is a part of a [Value.Instance] that defines a [Field] of a [Type.Record].
  */
 data class Attribute<T:Type>(
     val name: String,
