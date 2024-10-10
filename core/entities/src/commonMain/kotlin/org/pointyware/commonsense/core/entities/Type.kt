@@ -1,5 +1,8 @@
 package org.pointyware.commonsense.core.entities
 
+import kotlin.uuid.ExperimentalUuidApi
+import kotlin.uuid.Uuid
+
 @RequiresOptIn(
     message = "This API is experimental and may change in the future.",
     level = RequiresOptIn.Level.WARNING
@@ -232,8 +235,10 @@ sealed interface Type {
      *
      * Each Concept belongs to a Class and has a set of Properties.
      */
+    @OptIn(ExperimentalUuidApi::class)
     data class Record(
         override val name: kotlin.String,
+        val uuid: Uuid,
         val fields: kotlin.collections.Set<Field<*>> = emptySet()
     ): Type {
     }
