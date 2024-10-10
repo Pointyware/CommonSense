@@ -21,6 +21,8 @@ import org.pointyware.commonsense.feature.ontology.data.ConceptEditorController
 import org.pointyware.commonsense.feature.ontology.data.ConceptEditorControllerImpl
 import org.pointyware.commonsense.feature.ontology.data.ConceptSpaceRepository
 import org.pointyware.commonsense.feature.ontology.data.ConceptSpaceRepositoryImpl
+import org.pointyware.commonsense.feature.ontology.data.RecordsDataSource
+import org.pointyware.commonsense.feature.ontology.data.RecordsSqlDataSource
 import org.pointyware.commonsense.feature.ontology.data.SimpleArrangementController
 import org.pointyware.commonsense.feature.ontology.interactors.AddNewNodeUseCase
 import org.pointyware.commonsense.feature.ontology.interactors.GetActiveConceptSpaceUseCase
@@ -64,6 +66,7 @@ expect fun ontologyLocalPlatformModule(): Module
 
 fun ontologyLocalModule() = module {
     single<CategoryDataSource> { CategorySqlDataSource(get()) }
+    single<RecordsDataSource> { RecordsSqlDataSource(get())}
 
     includes(
         ontologyLocalPlatformModule()
