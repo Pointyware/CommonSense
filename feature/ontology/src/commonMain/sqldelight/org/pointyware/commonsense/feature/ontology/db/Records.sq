@@ -1,0 +1,78 @@
+-- Type table
+CREATE TABLE type (
+  creationId INTEGER PRIMARY KEY NOT NULL,
+  name TEXT NOT NULL,
+  description TEXT
+);
+INSERT INTO type(name, description)
+VALUES ('int', 'A 32-bit signed integer'),
+       ('float', 'A 64-bit floating point number'),
+       ('text', 'A string of text'),
+       ('record', 'A named set of fields');
+
+-- Record table
+CREATE TABLE record (
+  creationId INTEGER PRIMARY KEY NOT NULL,
+  uuid BLOB NOT NULL, -- 16 bytes
+  name TEXT NOT NULL
+);
+
+-- Field table
+CREATE TABLE field (
+  creationId INTEGER PRIMARY KEY NOT NULL,
+  recordId INTEGER NOT NULL,
+  name TEXT NOT NULL,
+  type INTEGER NOT NULL, -- FOREIGN KEY REFERENCES type(creationId),
+  default_value INTEGER NOT NULL -- FOREIGN KEY REFERENCES int_value(creationId),
+);
+
+-- Instance table
+CREATE TABLE instance (
+  creationId INTEGER PRIMARY KEY NOT NULL,
+  recordId INTEGER NOT NULL,
+  uuid BLOB NOT NULL, -- 16 bytes
+  name TEXT NOT NULL
+);
+
+-- Attribute table
+CREATE TABLE attribute (
+  instanceId INTEGER NOT NULL,
+  fieldId INTEGER NOT NULL,
+  value TEXT NOT NULL
+);
+
+-- Int Value table
+CREATE TABLE int_value (
+  creationId INTEGER PRIMARY KEY NOT NULL,
+  instanceId INTEGER, -- Null for default values
+  attributeId INTEGER NOT NULL,
+  value INTEGER NOT NULL
+);
+
+-- Float Value table
+CREATE TABLE float_value (
+  creationId INTEGER PRIMARY KEY NOT NULL,
+  instanceId INTEGER, -- Null for default values
+  attributeId INTEGER NOT NULL,
+  value REAL NOT NULL
+);
+
+-- Text Value table
+CREATE TABLE text_value (
+  creationId INTEGER PRIMARY KEY NOT NULL,
+  instanceId INTEGER, -- Null for default values
+  attributeId INTEGER NOT NULL,
+  value TEXT NOT NULL
+);
+
+-- Create a new Record type template
+-- createRecord:
+
+-- Add a Field to a Record
+-- addField:
+
+-- Create a new Instance from a Record type
+-- createInstance:
+
+-- Define an Instance Attribute
+-- defineAttribute:
