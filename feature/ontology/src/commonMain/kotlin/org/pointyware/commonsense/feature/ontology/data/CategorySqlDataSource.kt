@@ -13,6 +13,7 @@ import org.pointyware.commonsense.feature.ontology.local.Persistence
 /**
  *
  */
+@Deprecated("Use RecordsSqlDataSource")
 class CategorySqlDataSource(
     private val driverFactory: DriverFactory,
     private val persistence: Persistence = Persistence.File
