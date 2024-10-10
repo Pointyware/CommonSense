@@ -11,14 +11,14 @@ VALUES ('int', 'A 32-bit signed integer'),
        ('record', 'A named set of fields');
 
 -- Record table
-CREATE TABLE record (
+CREATE TABLE records (
   creationId INTEGER PRIMARY KEY NOT NULL,
   uuid BLOB NOT NULL, -- 16 bytes
   name TEXT NOT NULL
 );
 
 -- Field table
-CREATE TABLE field (
+CREATE TABLE fields (
   creationId INTEGER PRIMARY KEY NOT NULL,
   recordId INTEGER NOT NULL,
   name TEXT NOT NULL,
@@ -27,22 +27,21 @@ CREATE TABLE field (
 );
 
 -- Instance table
-CREATE TABLE instance (
+CREATE TABLE instances (
   creationId INTEGER PRIMARY KEY NOT NULL,
   recordId INTEGER NOT NULL,
-  uuid BLOB NOT NULL, -- 16 bytes
-  name TEXT NOT NULL
+  uuid BLOB NOT NULL -- 16 bytes
 );
 
 -- Attribute table
-CREATE TABLE attribute (
+CREATE TABLE attributes (
   instanceId INTEGER NOT NULL,
   fieldId INTEGER NOT NULL,
   value TEXT NOT NULL
 );
 
 -- Int Value table
-CREATE TABLE int_value (
+CREATE TABLE int_values (
   creationId INTEGER PRIMARY KEY NOT NULL,
   instanceId INTEGER, -- Null for default values
   attributeId INTEGER NOT NULL,
@@ -50,7 +49,7 @@ CREATE TABLE int_value (
 );
 
 -- Float Value table
-CREATE TABLE float_value (
+CREATE TABLE float_values (
   creationId INTEGER PRIMARY KEY NOT NULL,
   instanceId INTEGER, -- Null for default values
   attributeId INTEGER NOT NULL,
@@ -58,7 +57,7 @@ CREATE TABLE float_value (
 );
 
 -- Text Value table
-CREATE TABLE text_value (
+CREATE TABLE text_values (
   creationId INTEGER PRIMARY KEY NOT NULL,
   instanceId INTEGER, -- Null for default values
   attributeId INTEGER NOT NULL,
