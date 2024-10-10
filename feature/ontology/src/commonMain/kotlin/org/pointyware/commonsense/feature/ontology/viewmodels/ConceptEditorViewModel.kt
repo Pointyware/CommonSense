@@ -8,6 +8,8 @@ import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import org.pointyware.commonsense.core.entities.Type
+import org.pointyware.commonsense.core.entities.Value
 import org.pointyware.commonsense.core.viewmodels.ViewModel
 import org.pointyware.commonsense.feature.ontology.Concept
 import org.pointyware.commonsense.feature.ontology.interactors.CreateNewConceptUseCase
@@ -34,12 +36,21 @@ interface ConceptEditorViewModel {
     /**
      * Update the state with a new name.
      */
+    @Deprecated("Use onFieldValueChange instead",
+        ReplaceWith("onFieldValueChange(\"name\", newName)"))
     fun onNameChange(newName: String)
 
     /**
      * Update the state with a new description.
      */
+    @Deprecated("Use onFieldValueChange instead",
+        ReplaceWith("onFieldValueChange(\"description\", newDescription)"))
     fun onDescriptionChange(newDescription: String)
+
+    /**
+     * Update the state with a new field value.
+     */
+    fun <T: Type> onFieldValueChange(fieldName: String, newValue: Value<T>)
 
     /**
      * Cancel the changes and close the editor.
@@ -74,17 +85,30 @@ class ConceptEditorViewModelImpl(
         )
     }
 
+    @Deprecated(
+        "Use onFieldValueChange instead",
+        replaceWith = ReplaceWith("onFieldValueChange(\"name\", newName)")
+    )
     override fun onNameChange(newName: String) {
         mutableState.update {
             it.copy(name = newName)
         }
     }
 
+    @Deprecated(
+        "Use onFieldValueChange instead",
+        replaceWith = ReplaceWith("onFieldValueChange(\"description\", newDescription)")
+    )
     override fun onDescriptionChange(newDescription: String) {
         mutableState.update {
             it.copy(description = newDescription)
         }
     }
+
+    override fun <T : Type> onFieldValueChange(fieldName: String, newValue: Value<T>) {
+        TODO("Not yet implemented")
+    }
+
     override fun onCancel() {
         viewModelScope.launch {
             mutableOnFinish.emit(Unit)

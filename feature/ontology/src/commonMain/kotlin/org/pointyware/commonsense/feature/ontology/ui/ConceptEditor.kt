@@ -21,6 +21,12 @@ import org.pointyware.commonsense.feature.ontology.viewmodels.ConceptEditorUiSta
  * Allows a user to edit the properties of a new or existing concept.
  */
 @Composable
+@Deprecated(
+    "Record preferred over concept",
+    ReplaceWith(
+        expression = "RecordEditor"
+    )
+)
 fun ConceptEditor(
     state: ConceptEditorUiState,
     modifier: Modifier = Modifier,
@@ -37,7 +43,7 @@ fun ConceptEditor(
             var expanded by remember { mutableStateOf(false) }
             Button(onClick = { expanded = true }) {
                 Text("Select Template")
-            }
+            } // TODO: load templates and allow user to select existing one or (New Template)
             DropdownMenu(
                 expanded = expanded,
                 onDismissRequest = { expanded = false }

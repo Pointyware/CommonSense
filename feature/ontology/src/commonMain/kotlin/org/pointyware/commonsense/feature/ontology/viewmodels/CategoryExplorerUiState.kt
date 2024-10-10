@@ -19,9 +19,9 @@ data class CategoryExplorerUiState(
 
 sealed interface CategoryExplorerEditorState {
     data object Disabled : CategoryExplorerEditorState
-    data class Concept(
-        val concept: ConceptEditorUiState
-    ) : CategoryExplorerEditorState
+    data class Record(
+        val record: RecordEditorUiState
+    ): CategoryExplorerEditorState
     data class Category(
         val category: CategoryEditorUiState
     ) : CategoryExplorerEditorState

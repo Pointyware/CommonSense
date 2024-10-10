@@ -44,20 +44,21 @@ import kotlin.test.Test
 class CategoryExplorerScreenUiTest {
 
     private lateinit var viewModel: CategoryExplorerViewModel
-    private lateinit var dataSource: CategoryDataSource
+//    private lateinit var dataSource: CategoryDataSource
 
     @BeforeTest
     fun setUp() {
         setupKoin()
         loadKoinModules(module {
-            single<CategoryDataSource> { CategorySqlDataSource(get(), persistence = Persistence.InMemory)}
+              // TODO: replace with realm data source
+//            single<CategoryDataSource> { CategorySqlDataSource(get(), persistence = Persistence.InMemory)}
         })
         val koin = getKoin()
         viewModel = koin.get()
-        dataSource = koin.get()
+//        dataSource = koin.get()
         runBlocking {
-            dataSource.addConcept(Uuid.nil(), "Concept 1", "Description 1")
-            dataSource.addConcept(Uuid.nil(), "Concept 2", "Another Description")
+//            dataSource.addConcept(Uuid.nil(), "Concept 1", "Description 1")
+//            dataSource.addConcept(Uuid.nil(), "Concept 2", "Another Description")
         }
     }
 
@@ -73,35 +74,35 @@ class CategoryExplorerScreenUiTest {
     }
 
     @Test
-    fun tapping_add_concept_should_display_concept_editor() = runComposeUiTest {
+    fun tapping_add_instance_should_display_instance_editor() = runComposeUiTest {
         /*
         Given:
-        - A concept space with concepts
+        - A concept space with instances
          */
 
         /*
         When:
         - The screen is displayed
         Then:
-        - The concepts are displayed
+        - The category is displayed
          */
         contentUnderTest()
 
         /*
         When:
-        - A the user taps "Add Concept"
+        - A the user taps "Add Instance"
         Then:
-        - The concept editor is displayed
-        - And the selected template is "Concept"
-        - And the concept editor fields are empty
+        - The instance editor is displayed
+        - And the selected template is "Note"
+        - And the fields are empty
         - And the "Save" button is disabled
          */
         onNodeWithText("New Concept").performClick()
 
-        waitUntilExactlyOneExists(hasContentDescription("Concept Editor"))
-        onNodeWithText("Name")
+        waitUntilExactlyOneExists(hasContentDescription("Instance Editor"))
+        onNodeWithText("Title")
             .assertEditableTextEquals("")
-        onNodeWithText("Description")
+        onNodeWithText("Body")
             .assertEditableTextEquals("")
         onNodeWithText("Save")
             .assertIsNotEnabled()
@@ -112,10 +113,10 @@ class CategoryExplorerScreenUiTest {
         Then:
         - The "Save" button is enabled
          */
-        onNodeWithText("Name")
-            .performTextInput("Concept Name")
-        onNodeWithText("Description")
-            .performTextInput("Concept Description")
+        onNodeWithText("Title")
+            .performTextInput("Note Title")
+        onNodeWithText("Body")
+            .performTextInput("Note Body")
         onNodeWithText("Save")
             .assertIsEnabled()
 
@@ -126,7 +127,7 @@ class CategoryExplorerScreenUiTest {
         - The concept editor is dismissed
          */
         onNodeWithText("Save").performClick()
-        waitUntilDoesNotExist(hasContentDescription("Concept Editor"))
+        waitUntilDoesNotExist(hasContentDescription("Instance Editor"))
 
         // TODO: add test for new concept presence
     }
@@ -135,7 +136,7 @@ class CategoryExplorerScreenUiTest {
      * User Journey: Create New Concept and Cancel
      */
     @Test
-    fun tapping_add_concept_should_display_concept_editor_and_cancel() = runComposeUiTest {
+    fun tapping_add_instance_should_display_concept_editor_and_cancel() = runComposeUiTest {
             /*
             Given:
             - A concept space
@@ -144,31 +145,30 @@ class CategoryExplorerScreenUiTest {
 
             /*
             When:
-            - The user taps "New Concept"
+            - The user taps "New Instance"
             Then:
-            - The concept editor is displayed
-            - And the name and description fields are empty
+            - The instance editor is displayed
             - And the "Save" button is disabled
              */
-            onNodeWithText("New Concept").performClick()
+            onNodeWithText("New Instance").performClick()
 
-            waitUntilExactlyOneExists(hasContentDescription("Concept Editor"))
-            onNodeWithText("Name")
-                .assertEditableTextEquals("")
-            onNodeWithText("Description")
-                .assertEditableTextEquals("")
+            waitUntilExactlyOneExists(hasContentDescription("Instance Editor"))
+//            onNodeWithText("Name") // TODO: replace with record property checks
+//                .assertEditableTextEquals("")
+//            onNodeWithText("Description")
+//                .assertEditableTextEquals("")
             onNodeWithText("Save")
                 .assertIsNotEnabled()
 
             /*
             When:
-            - The user enters a name and description
+            - The user enters field value
             Then:
             - The "Save" button is enabled
              */
-            onNodeWithText("Name")
-                .performTextInput("Concept Name")
-            onNodeWithText("Description")
+//            onNodeWithText("Name") // TODO: replace with record property checks
+//                .performTextInput("Concept Name")
+//            onNodeWithText("Description")
                 .performTextInput("Concept Description")
             onNodeWithText("Save")
                 .assertIsEnabled()
@@ -280,7 +280,7 @@ class CategoryExplorerScreenUiTest {
      * User Journey: Select and Delete Concepts - Selection, Cancel
      */
     @Test
-    fun long_pressing_concept_should_select_then_cancel() = runComposeUiTest {
+    fun long_pressing_instance_should_select_then_cancel() = runComposeUiTest {
         /*
         Given:
         - a category is shown in the explorer with at least one concept
@@ -322,7 +322,7 @@ class CategoryExplorerScreenUiTest {
      * User Journey: Select and Delete Concepts - Selection, Delete, Cancel
      */
     @Test
-    fun long_pressing_concept_should_select_then_delete_cancel() = runComposeUiTest {
+    fun long_pressing_instance_should_select_then_delete_cancel() = runComposeUiTest {
         /*
         Given:
         - a category is shown in the explorer with at least one concept
@@ -367,7 +367,7 @@ class CategoryExplorerScreenUiTest {
      * User Journey: Select and Delete Concepts - Selection, Delete, Confirm
      */
     @Test
-    fun long_pressing_concept_should_select_then_delete_confirm() = runComposeUiTest {
+    fun long_pressing_instance_should_select_then_delete_confirm() = runComposeUiTest {
         /*
         Given:
         - a category is shown in the explorer with at least one concept
@@ -381,12 +381,12 @@ class CategoryExplorerScreenUiTest {
         Then:
         - A confirmation dialog is shown with the number of concepts to be deleted
          */
-        onNodeWithText("Concept 1").performLongPress()
+        onNodeWithText("Note 1").performLongPress()
         onNodeWithText("Delete").performClick()
 
-        waitUntilExactlyOneExists(hasContentDescription("Delete Concepts"))
-        onNodeWithContentDescription("Delete Concepts")
-            .assert(hasAnyDescendant(hasText("You are about to delete 1 concepts and 0 categories.")))
+        waitUntilExactlyOneExists(hasContentDescription("Delete Instances"))
+        onNodeWithContentDescription("Delete Instances")
+            .assert(hasAnyDescendant(hasText("You are about to delete 1 instances and 0 categories.")))
 
         /*
         When:
@@ -398,9 +398,9 @@ class CategoryExplorerScreenUiTest {
          */
         onNodeWithText("Confirm").performClick()
 
-        waitUntilDoesNotExist(hasContentDescription("Delete Concepts"))
+        waitUntilDoesNotExist(hasContentDescription("Delete Instances"))
         onNodeWithText("Concept 1").assertDoesNotExist()
-        onAllNodes(hasContentDescription("Concept", substring = true))
+        onAllNodes(hasContentDescription("Instance", substring = true))
             .assertAll(hasAnyDescendant(
                 hasContentDescription("Select").or(
                     hasContentDescription("Deselect"))

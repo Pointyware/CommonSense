@@ -9,6 +9,8 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import org.pointyware.commonsense.core.common.Log
 import org.pointyware.commonsense.core.common.Uuid
+import org.pointyware.commonsense.core.entities.Type
+import org.pointyware.commonsense.core.entities.Value
 import org.pointyware.commonsense.core.viewmodels.ViewModel
 import org.pointyware.commonsense.feature.ontology.Category
 import org.pointyware.commonsense.feature.ontology.Concept
@@ -22,14 +24,14 @@ import org.pointyware.commonsense.feature.ontology.interactors.GetSelectedConcep
 class CategoryExplorerViewModel(
     private val getSelectedCategoryUseCase: GetSelectedCategoryUseCase,
     private val getSelectedConceptUseCase: GetSelectedConceptUseCase,
-    private val conceptEditorViewModel: ConceptEditorViewModel,
+    private val recordEditorViewModel: RecordEditorViewModel,
     private val categoryEditorViewModel: CategoryEditorViewModel,
     private val categoryRepository: CategoryRepository,
 ): ViewModel() {
 
     enum class EditorState {
         Disabled,
-        Concept,
+        Record,
         Category
     }
 
@@ -38,13 +40,13 @@ class CategoryExplorerViewModel(
     private val _editorState = MutableStateFlow(EditorState.Disabled)
 
     val state: StateFlow<CategoryExplorerUiState> get() = combine(
-        _loadingState, _categoryUiState, conceptEditorViewModel.state, categoryEditorViewModel.state, _editorState
-    ) { loading, currentCategory, conceptEditor, categoryEditor, editorState ->
+        _loadingState, _categoryUiState, recordEditorViewModel.state, categoryEditorViewModel.state, _editorState
+    ) { loading, currentCategory, recordEditor, categoryEditor, editorState ->
         CategoryExplorerUiState(
             loading = loading,
             currentCategory = currentCategory,
             editorState = when (editorState) {
-                EditorState.Concept -> CategoryExplorerEditorState.Concept(conceptEditor)
+                EditorState.Record -> CategoryExplorerEditorState.Record(recordEditor)
                 EditorState.Category -> CategoryExplorerEditorState.Category(categoryEditor)
                 EditorState.Disabled -> CategoryExplorerEditorState.Disabled
             },
@@ -94,8 +96,9 @@ class CategoryExplorerViewModel(
             val category = _categoryUiState.value.selected ?: return@launch
             getSelectedConceptUseCase.invoke(categoryId = category.id, conceptId = conceptId)
                 .onSuccess {
-                    conceptEditorViewModel.prepareFor(it)
-                    _editorState.value = EditorState.Concept
+                    // TODO: replace with record version
+//                    recordEditorViewModel.prepareFor(it)
+                    _editorState.value = EditorState.Record
                 }
                 .onFailure {
                     // TODO: post error to user
@@ -105,16 +108,8 @@ class CategoryExplorerViewModel(
         }
     }
 
-    fun onConceptNameChange(name: String) {
-        conceptEditorViewModel.onNameChange(name)
-    }
-
-    fun onDescriptionChange(description: String) {
-        conceptEditorViewModel.onDescriptionChange(description)
-    }
-
-    fun onCommitConcept() {
-        conceptEditorViewModel.onConfirm()
+    fun onConfirmRecord() {
+        recordEditorViewModel.onConfirm()
     }
 
     fun onCancelEditor() {
@@ -122,8 +117,8 @@ class CategoryExplorerViewModel(
     }
 
     fun onAddCard() {
-        conceptEditorViewModel.prepareFor(null)
-        _editorState.value = EditorState.Concept
+        recordEditorViewModel.prepareFor(null)
+        _editorState.value = EditorState.Record
     }
 
     fun onAddCategory() {
@@ -145,9 +140,33 @@ class CategoryExplorerViewModel(
         onCategorySelected(_categoryUiState.value.selected?.id ?: Uuid.nil())
     }
 
+    fun onRecordNameChange(newName: String) {
+        recordEditorViewModel.onRecordNameChange(newName)
+    }
+
+    fun addField() {
+        recordEditorViewModel.addField()
+    }
+
+    fun setFieldName(index: Int, newName: String) {
+        recordEditorViewModel.setFieldName(index, newName)
+    }
+
+    fun setFieldType(index: Int, type: Type) {
+        recordEditorViewModel.setFieldType(index, type)
+    }
+
+    fun setFieldValue(index: Int, value: Value<*>) {
+        recordEditorViewModel.setFieldValue(index, value)
+    }
+
+    fun removeField(index: Int) {
+        recordEditorViewModel.removeField(index)
+    }
+
     init {
         viewModelScope.launch {
-            conceptEditorViewModel.onFinish.collect {
+            recordEditorViewModel.onFinish.collect {
                 _editorState.value = EditorState.Disabled
             }
         }

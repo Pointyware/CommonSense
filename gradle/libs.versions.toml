@@ -19,6 +19,7 @@ material3 = "1.3.0"
 mockative = "2.0.1"
 mockk = "1.13.12"
 commonSense = "0.1.0"
+realm = "3.0.0"
 sqlDelight = "2.0.2"
 truth = "1.1.3"
 
@@ -56,6 +57,7 @@ ktor-server-netty = { module = "io.ktor:ktor-server-netty", version.ref = "ktor"
 mockative = { module = "io.mockative:mockative", version.ref = "mockative" }
 mockativeSymbolProcessor = { module = "io.mockative:mockative-processor", version.ref = "mockative" }
 mockk = { module = "io.mockk:mockk", version.ref = "mockk" }
+realm-base = { module = "io.realm.kotlin:library-base", version.ref = "realm" }
 sqlDelight-runtime = { module = "app.cash.sqldelight:runtime", version.ref = "sqlDelight" }
 sqlDelight-android = { module = "app.cash.sqldelight:android-driver", version.ref = "sqlDelight" }
 sqlDelight-native = { module = "app.cash.sqldelight:native-driver", version.ref = "sqlDelight" }
@@ -74,6 +76,7 @@ kotlinMultiplatform = { id = "org.jetbrains.kotlin.multiplatform", version.ref =
 kotlinSerialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
 ksp                 = { id = "com.google.devtools.ksp", version.ref = "ksp" }
 ktor                = { id = "io.ktor.plugin", version.ref = "ktor" }
+realm               = { id = "io.realm.kotlin", version.ref = "realm" }
 sqlDelight          = { id = "app.cash.sqldelight", version.ref = "sqlDelight" }
 
 commonsense-compose = { id = "org.pointyware.commonsense.compose-convention", version = "0.1.0" }

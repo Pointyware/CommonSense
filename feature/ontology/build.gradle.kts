@@ -11,6 +11,7 @@ plugins {
     alias(libs.plugins.compose.compiler)
     alias(libs.plugins.ksp)
     alias(libs.plugins.sqlDelight)
+    alias(libs.plugins.realm)
 }
 
 kotlin {
@@ -64,6 +65,8 @@ kotlin {
                 implementation(libs.kotlinx.io.core)
                 implementation(libs.kotlinx.io.bytestring)
                 implementation(libs.kotlinx.serialization.json)
+
+                implementation(libs.realm.base)
 
                 implementation(libs.koin.core)
 
