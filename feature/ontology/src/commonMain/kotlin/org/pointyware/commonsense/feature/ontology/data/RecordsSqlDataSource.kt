@@ -51,7 +51,7 @@ class RecordsSqlDataSource(
         Type.Record("name", recordId)
     }
 
-    override suspend fun getRecord(id: org.pointyware.commonsense.core.common.Uuid): Result<Type.Record> {
+    override suspend fun getRecord(id: Uuid): Result<Type.Record> = runCatching {
         TODO("Not yet implemented")
     }
 
