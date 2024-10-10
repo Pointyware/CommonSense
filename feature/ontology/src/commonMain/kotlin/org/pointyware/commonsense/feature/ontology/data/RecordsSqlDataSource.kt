@@ -65,8 +65,15 @@ class RecordsSqlDataSource(
 
     override suspend fun <T : Type> setAttribute(
         original: Value.Instance,
+        fieldName: String,
         value: Value<T>
-    ): Result<Value.Instance> {
-        TODO("Not yet implemented")
+    ): Result<Value.Instance> = runCatching {
+        val instanceId: Uuid = TODO("original.uuid")
+        val recordId: Uuid = TODO("original.record.uuid")
+        // TODO: db.recordsQueries.defineIntAttribute(instanceId.toByteArray(), recordId.toByteArray(), fieldName, value)
+        val newAttribute: Attribute<T> = TODO("Construct new Attribute")
+        Value.Instance(
+            original.attributes + newAttribute
+        )
     }
 }
