@@ -40,8 +40,15 @@ class RecordsSqlDataSource(
         name: String,
         type: T,
         defaultValue: Value<T>
-    ): Result<Type.Record> {
-        TODO("Not yet implemented")
+    ): Result<Type.Record> = runCatching {
+        val recordId = original.uuid
+        // TODO: check that value type matches given type
+        // TODO: determine how to store default value
+        db.recordsQueries.addField(recordId.toByteArray(), name, type.name, TODO())
+        // TODO: db.recordQueries.createIntValue(defaultValue.value, recordId.toByteArray(), null)
+        // TODO: db.recordQueries.createInstanceValue(defaultValue.value, recordId.toByteArray(), null)
+
+        Type.Record("name", recordId)
     }
 
     override suspend fun getRecord(id: org.pointyware.commonsense.core.common.Uuid): Result<Type.Record> {
