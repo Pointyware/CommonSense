@@ -4,6 +4,7 @@
 
 package org.pointyware.commonsense.feature.ontology.data
 
+import org.pointyware.commonsense.core.entities.Attribute
 import org.pointyware.commonsense.core.entities.Type
 import org.pointyware.commonsense.core.entities.Value
 import org.pointyware.commonsense.core.local.db.createOrMigrate
@@ -35,7 +36,7 @@ class RecordsSqlDataSource(
     }
 
     override suspend fun <T : Type> addField(
-        recordId: org.pointyware.commonsense.core.common.Uuid,
+        original: Type.Record,
         name: String,
         type: T,
         defaultValue: Value<T>
@@ -48,15 +49,15 @@ class RecordsSqlDataSource(
     }
 
     override suspend fun createInstance(
-        recordId: org.pointyware.commonsense.core.common.Uuid,
-        name: String
-    ): Result<Value.Instance> {
-        TODO("Not yet implemented")
+        template: Type.Record,
+    ): Result<Value.Instance> = runCatching {
+        val newUuid = Uuid.random()
+        db.recordsQueries.createInstance(template.uuid.toByteArray(), newUuid.toByteArray())
+        Value.Instance(emptySet())
     }
 
     override suspend fun <T : Type> setAttribute(
-        instanceId: org.pointyware.commonsense.core.common.Uuid,
-        fieldId: org.pointyware.commonsense.core.common.Uuid,
+        original: Value.Instance,
         value: Value<T>
     ): Result<Value.Instance> {
         TODO("Not yet implemented")
