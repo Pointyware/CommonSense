@@ -30,9 +30,8 @@ class RecordsSqlDataSource(
 
     override suspend fun createRecord(name: String): Result<Type.Record> = runCatching {
         val newUuid = Uuid.random()
-//        db.recordQueries.insertRecord(newUuid.bytes, name)
-//        Type.Record(newUuid, name)
-        TODO()
+        db.recordsQueries.createRecord(newUuid.toByteArray(), name)
+        Type.Record(name, newUuid)
     }
 
     override suspend fun <T : Type> addField(
