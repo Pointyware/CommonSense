@@ -66,12 +66,32 @@ CREATE TABLE text_values (
 
 -- Create a new Record type template
 -- createRecord:
+INSERT INTO records (uuid, name)
+VALUES (?, ?);
 
 -- Add a Field to a Record
 -- addField:
+INSERT INTO fields (recordId, name, type, default_value)
+VALUES (
+  (SELECT creationId FROM records WHERE uuid = ?),
+  ?,
+  (SELECT creationId FROM type WHERE name = ?),
+  (SELECT creationId FROM int_values WHERE value = ?)
+);
 
 -- Create a new Instance from a Record type
 -- createInstance:
+INSERT INTO instances (recordId, uuid)
+VALUES (
+  (SELECT creationId FROM records WHERE uuid = ?),
+  ?
+);
 
 -- Define an Instance Attribute
 -- defineAttribute:
+INSERT INTO attributes (instanceId, fieldId, value)
+VALUES (
+  (SELECT creationId FROM instances WHERE uuid = ?),
+  (SELECT creationId FROM fields WHERE recordId = (SELECT recordId FROM instances WHERE uuid = ?) AND name = ?),
+  ?
+);
