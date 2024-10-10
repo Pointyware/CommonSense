@@ -1,4 +1,4 @@
--- Type table
+-- Type enumeration table
 CREATE TABLE type (
   creationId INTEGER PRIMARY KEY NOT NULL,
   name TEXT NOT NULL,
@@ -8,7 +8,7 @@ INSERT INTO type(name, description)
 VALUES ('int', 'A 32-bit signed integer'),
        ('float', 'A 64-bit floating point number'),
        ('text', 'A string of text'),
-       ('record', 'A named set of fields');
+       ('instance', 'A set of values that conform to a specific record');
 
 -- Record table
 CREATE TABLE records (
@@ -26,19 +26,13 @@ CREATE TABLE fields (
   default_value INTEGER NOT NULL -- FOREIGN KEY REFERENCES int_value(creationId),
 );
 
--- Instance table
-CREATE TABLE instances (
-  creationId INTEGER PRIMARY KEY NOT NULL,
-  recordId INTEGER NOT NULL,
-  uuid BLOB NOT NULL -- 16 bytes
+-- Instance Field Type table: associates an instance-type field with a specific record
+CREATE TABLE instance_fields (
+  fieldId INTEGER PRIMARY KEY, -- FOREIGN KEY REFERENCES fields(creationId)
+  recordTypeId INTEGER -- FOREIGN KEY REFERENCES records(creationId)
 );
 
--- Attribute table
-CREATE TABLE attributes (
-  instanceId INTEGER NOT NULL,
-  fieldId INTEGER NOT NULL,
-  value TEXT NOT NULL
-);
+-- All Values Below
 
 -- Int Value table
 CREATE TABLE int_values (
@@ -62,6 +56,13 @@ CREATE TABLE text_values (
   instanceId INTEGER, -- Null for default values
   attributeId INTEGER NOT NULL,
   value TEXT NOT NULL
+);
+
+-- Instance table
+CREATE TABLE instances (
+  creationId INTEGER PRIMARY KEY NOT NULL,
+  recordId INTEGER NOT NULL,
+  uuid BLOB NOT NULL -- 16 bytes
 );
 
 -- Create a new Record type template
