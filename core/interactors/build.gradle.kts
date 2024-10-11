@@ -76,7 +76,7 @@ kotlin {
 
 android {
     namespace = "org.pointyware.commonsense.core.interactors"
-    compileSdk = 34
+    compileSdk = 35
     defaultConfig {
         minSdk = 21
     }

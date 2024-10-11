@@ -140,7 +140,7 @@ dependencies {
 
 android {
     namespace = "org.pointyware.commonsense.feature.epistemology"
-    compileSdk = 34
+    compileSdk = 35
     defaultConfig {
         minSdk = 21
     }
