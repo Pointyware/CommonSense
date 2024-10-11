@@ -12,14 +12,14 @@ VALUES ('int', 'A 32-bit signed integer'),
 
 -- Record table
 CREATE TABLE records (
-  creationId INTEGER PRIMARY KEY NOT NULL,
+  id INTEGER PRIMARY KEY NOT NULL,
   uuid BLOB NOT NULL, -- 16 bytes
   name TEXT NOT NULL
 );
 
 -- Field table
 CREATE TABLE fields (
-  creationId INTEGER PRIMARY KEY NOT NULL,
+  id INTEGER PRIMARY KEY NOT NULL,
   recordId INTEGER NOT NULL,
   name TEXT NOT NULL,
   type INTEGER NOT NULL, -- FOREIGN KEY REFERENCES type(creationId),
@@ -29,40 +29,59 @@ CREATE TABLE fields (
 -- Instance Field Type table: associates an instance-type field with a specific record
 CREATE TABLE instance_fields (
   fieldId INTEGER PRIMARY KEY, -- FOREIGN KEY REFERENCES fields(creationId)
-  recordTypeId INTEGER -- FOREIGN KEY REFERENCES records(creationId)
+  recordTypeId INTEGER, -- FOREIGN KEY REFERENCES records(creationId),
+  FOREIGN KEY (fieldId) REFERENCES fields(id),
+  FOREIGN KEY (recordTypeId) REFERENCES records(id)
+);
+
+-- Instance table
+CREATE TABLE instances (
+  id INTEGER PRIMARY KEY NOT NULL,
+  recordId INTEGER NOT NULL,
+  uuid BLOB NOT NULL -- 16 bytes
 );
 
 -- All Values Below
 
 -- Int Value table
 CREATE TABLE int_values (
-  creationId INTEGER PRIMARY KEY NOT NULL,
   instanceId INTEGER, -- Null for default values
-  attributeId INTEGER NOT NULL,
-  value INTEGER NOT NULL
+  fieldId INTEGER NOT NULL,
+  value INTEGER NOT NULL,
+  PRIMARY KEY (instanceId, fieldId),
+  FOREIGN KEY (instanceId) REFERENCES instances(id),
+  FOREIGN KEY (fieldId) REFERENCES fields(id)
 );
 
 -- Float Value table
 CREATE TABLE float_values (
-  creationId INTEGER PRIMARY KEY NOT NULL,
   instanceId INTEGER, -- Null for default values
-  attributeId INTEGER NOT NULL,
-  value REAL NOT NULL
+  fieldId INTEGER NOT NULL,
+  value REAL NOT NULL,
+  PRIMARY KEY (instanceId, fieldId),
+  FOREIGN KEY (instanceId) REFERENCES instances(id),
+  FOREIGN KEY (fieldId) REFERENCES fields(id)
 );
 
 -- Text Value table
 CREATE TABLE text_values (
-  creationId INTEGER PRIMARY KEY NOT NULL,
   instanceId INTEGER, -- Null for default values
-  attributeId INTEGER NOT NULL,
-  value TEXT NOT NULL
+  fieldId INTEGER NOT NULL,
+  value TEXT NOT NULL,
+  PRIMARY KEY (instanceId, fieldId),
+  FOREIGN KEY (instanceId) REFERENCES instances(id),
+  FOREIGN KEY (fieldId) REFERENCES fields(id)
 );
 
--- Instance table
-CREATE TABLE instances (
-  creationId INTEGER PRIMARY KEY NOT NULL,
-  recordId INTEGER NOT NULL,
-  uuid BLOB NOT NULL -- 16 bytes
+-- Instance Value table
+CREATE TABLE instance_values (
+  instanceId INTEGER NOT NULL,
+  fieldId INTEGER NOT NULL,
+  instanceValueId INTEGER NOT NULL,
+  PRIMARY KEY (instanceId, fieldId),
+  FOREIGN KEY (instanceValueId) REFERENCES instances(id),
+  FOREIGN KEY (fieldId) REFERENCES fields(id),
+  FOREIGN KEY (instanceId) REFERENCES instances(id)
 );
 
 -- Create a new Record type template
@@ -74,25 +93,25 @@ VALUES (?, ?);
 addField:
 INSERT INTO fields (recordId, name, type, default_value)
 VALUES (
-  (SELECT creationId FROM records WHERE uuid = ?),
+  (SELECT id FROM records WHERE uuid = ?),
   ?,
   (SELECT creationId FROM type WHERE name = ?),
-  (SELECT creationId FROM int_values WHERE value = ?)
+  (SELECT id FROM int_values WHERE value = ?)
 );
 
 -- Create a new Instance from a Record type
 createInstance:
 INSERT INTO instances (recordId, uuid)
 VALUES (
-  (SELECT creationId FROM records WHERE uuid = ?),
+  (SELECT id FROM records WHERE uuid = ?),
   ?
 );
 
--- Define an Instance Attribute
-defineAttribute:
-INSERT INTO attributes (instanceId, fieldId, value)
+-- Set an Instance Value
+setInstanceIntValue:
+INSERT INTO int_values (instanceId, fieldId, value)
 VALUES (
-  (SELECT creationId FROM instances WHERE uuid = ?),
-  (SELECT creationId FROM fields WHERE recordId = (SELECT recordId FROM instances WHERE uuid = ?) AND name = ?),
+  (SELECT id FROM instances WHERE uuid = ?),
+  (SELECT id FROM fields WHERE recordId = (SELECT recordId FROM instances WHERE uuid = ?) AND name = ?),
   ?
 );
