@@ -2,13 +2,14 @@
 CREATE TABLE type (
   creationId INTEGER PRIMARY KEY NOT NULL,
   name TEXT NOT NULL,
-  description TEXT
+  description TEXT,
+  value_table TEXT
 );
-INSERT INTO type(name, description)
-VALUES ('int', 'A 32-bit signed integer'),
-       ('float', 'A 64-bit floating point number'),
-       ('text', 'A string of text'),
-       ('instance', 'A set of values that conform to a specific record');
+INSERT INTO type(name, description, value_table)
+VALUES ('int', 'A 32-bit signed integer', 'int_values'),
+       ('float', 'A 64-bit floating point number', 'float_values'),
+       ('text', 'A string of text', 'text_values'),
+       ('instance', 'A set of values that conform to a specific record', 'instance_values');
 
 -- Record table
 CREATE TABLE records (
