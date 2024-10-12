@@ -23,8 +23,12 @@ CREATE TABLE fields (
   id INTEGER PRIMARY KEY NOT NULL,
   recordId INTEGER NOT NULL,
   name TEXT NOT NULL,
-  type INTEGER NOT NULL, -- FOREIGN KEY REFERENCES type(creationId),
-  default_value INTEGER NOT NULL -- FOREIGN KEY REFERENCES int_value(creationId),
+  type INTEGER NOT NULL,
+   -- Functionally Boolean: 0 for false, 1 for true;
+   --   table depends on type; row will be value with fieldId = id and instanceId = null
+  default_value INTEGER NOT NULL,
+  FOREIGN KEY (recordId) REFERENCES records(id),
+  FOREIGN KEY (type) REFERENCES type(creationId)
 );
 
 -- Instance Field Type table: associates an instance-type field with a specific record
