@@ -1,6 +1,9 @@
+@file:OptIn(ExperimentalUuidApi::class)
+
 package org.pointyware.commonsense.feature.ontology
 
-import org.pointyware.commonsense.core.common.Uuid
+import kotlin.uuid.ExperimentalUuidApi
+import kotlin.uuid.Uuid
 
 /**
  * A singular concept in an ontology. A concept is a node in the ontology graph.
