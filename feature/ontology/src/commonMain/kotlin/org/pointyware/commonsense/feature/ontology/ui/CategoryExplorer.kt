@@ -90,7 +90,7 @@ fun CategoryExplorer(
                         }
                     ) {
                         Text(
-                            "You are about to delete ${conceptSelectionController.selectedItems.value.size} concepts and ${categorySelectionController.selectedItems.value.size} categories."
+                            "You are about to delete ${conceptSelectionController.selectedItems.value.size} instances and ${categorySelectionController.selectedItems.value.size} categories."
                         )
                         Row {
                             Button(
