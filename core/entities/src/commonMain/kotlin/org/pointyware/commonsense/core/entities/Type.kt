@@ -112,7 +112,6 @@ sealed interface Type {
     /**
      * A boolean is a value that can be either true or false.
      */
-    @ExperimentalType
     data object Boolean: Type {
         override val name: kotlin.String
             get() = "Boolean"
