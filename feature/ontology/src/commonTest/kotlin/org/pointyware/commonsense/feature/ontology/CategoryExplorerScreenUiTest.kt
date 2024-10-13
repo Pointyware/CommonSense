@@ -355,7 +355,7 @@ class CategoryExplorerScreenUiTest {
         Then:
         - A confirmation dialog is shown with the number of concepts to be deleted
          */
-        onNodeWithText("Concept 1").performLongPress()
+        onNodeWithText("Foo", substring = true).performLongPress()
         onNodeWithText("Delete").performClick()
 
         waitUntilExactlyOneExists(hasContentDescription("Delete Records"))
