@@ -89,6 +89,16 @@ CREATE TABLE instance_values (
   FOREIGN KEY (instanceId) REFERENCES instances(id)
 );
 
+-- Type change trigger
+CREATE TRIGGER type_change
+BEFORE UPDATE OF type ON fields
+BEGIN
+  DELETE FROM int_values WHERE fieldId = "OLD.id" AND instanceId IS NULL;
+  DELETE FROM float_values WHERE fieldId = "OLD.id" AND instanceId IS NULL;
+  DELETE FROM text_values WHERE fieldId = "OLD.id" AND instanceId IS NULL;
+  DELETE FROM instance_values WHERE fieldId = "OLD.id" AND instanceId IS NULL;
+END;
+
 -- Create a new Record type template
 createRecord:
 INSERT INTO records (uuid, name)
