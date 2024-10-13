@@ -12,7 +12,7 @@ import kotlin.uuid.Uuid
 @OptIn(ExperimentalUuidApi::class)
 interface RecordsDataSource {
     suspend fun createRecord(name: String): Result<Type.Record>
-    suspend fun <T:Type> addField(original: Type.Record, name: String, type: T, defaultValue: Value<T>): Result<Type.Record>
+    suspend fun <T:Type> addField(original: Type.Record, name: String, type: T, defaultValue: Value<T>?): Result<Type.Record>
     suspend fun getRecord(id: Uuid): Result<Type.Record>
 
     suspend fun createInstance(template: Type.Record): Result<Value.Instance>
