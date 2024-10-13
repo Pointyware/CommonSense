@@ -39,7 +39,7 @@ class RecordsSqlDataSource(
         original: Type.Record,
         name: String,
         type: T,
-        defaultValue: Value<T>
+        defaultValue: Value<T>?
     ): Result<Type.Record> = runCatching {
         val recordId = original.uuid
         // TODO: check that value type matches given type
