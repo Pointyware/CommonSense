@@ -88,6 +88,9 @@ class CategoryExplorerScreenUiTest {
             val zooInstance: Value.Instance = dataSource.createInstance(zooRecord).getOrThrow()
             val fooInstance: Value.Instance = dataSource.createInstance(fooRecord).getOrThrow()
             dataSource.setAttribute(zooInstance, ZooRecord.kar.name, Value.IntValue(42))
+            dataSource.setAttribute(fooInstance, FooRecord.bar.name, Value.BoolValue(true))
+            dataSource.setAttribute(zooInstance, ZooRecord.kaz.name, fooInstance)
+            dataSource.setAttribute(fooInstance, FooRecord.baz.name, zooInstance)
         }
     }
 
