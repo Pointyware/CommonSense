@@ -25,9 +25,10 @@ import org.koin.core.context.loadKoinModules
 import org.koin.core.context.stopKoin
 import org.koin.dsl.module
 import org.koin.mp.KoinPlatform.getKoin
-import org.pointyware.commonsense.core.common.Uuid
-import org.pointyware.commonsense.feature.ontology.data.CategoryDataSource
-import org.pointyware.commonsense.feature.ontology.data.CategorySqlDataSource
+import org.pointyware.commonsense.core.entities.Type
+import org.pointyware.commonsense.core.entities.Value
+import org.pointyware.commonsense.feature.ontology.data.RecordsDataSource
+import org.pointyware.commonsense.feature.ontology.data.RecordsSqlDataSource
 import org.pointyware.commonsense.feature.ontology.local.Persistence
 import org.pointyware.commonsense.feature.ontology.test.assertEditableTextEquals
 import org.pointyware.commonsense.feature.ontology.test.performLongPress
@@ -44,21 +45,49 @@ import kotlin.test.Test
 class CategoryExplorerScreenUiTest {
 
     private lateinit var viewModel: CategoryExplorerViewModel
-//    private lateinit var dataSource: CategoryDataSource
+    private lateinit var dataSource: RecordsDataSource
+
+    private val ZooRecord = object {
+        val name = "Zoo"
+        val kar = object {
+            val name = "kar"
+        }
+        val kaz = object {
+            val name = "kaz"
+        }
+    }
+
+    private val FooRecord = object {
+        val name = "Foo"
+        val bar = object {
+            val name = "bar"
+        }
+        val baz = object {
+            val name = "baz"
+        }
+    }
 
     @BeforeTest
     fun setUp() {
         setupKoin()
         loadKoinModules(module {
-              // TODO: replace with realm data source
-//            single<CategoryDataSource> { CategorySqlDataSource(get(), persistence = Persistence.InMemory)}
+            single<RecordsDataSource> { RecordsSqlDataSource(get(), persistence = Persistence.InMemory) }
         })
         val koin = getKoin()
         viewModel = koin.get()
-//        dataSource = koin.get()
+        dataSource = koin.get()
         runBlocking {
-//            dataSource.addConcept(Uuid.nil(), "Concept 1", "Description 1")
-//            dataSource.addConcept(Uuid.nil(), "Concept 2", "Another Description")
+            val zooRecord: Type.Record = dataSource.createRecord("Zoo").getOrThrow()
+            dataSource.addField(zooRecord, ZooRecord.kar.name, Type.Int, Value.IntValue(36))
+            val fooRecord: Type.Record = dataSource.createRecord("Foo").getOrThrow()
+            dataSource.addField(fooRecord, FooRecord.bar.name, Type.Boolean, Value.BoolValue(false))
+
+            dataSource.addField(zooRecord, ZooRecord.kaz.name, fooRecord, null)
+            dataSource.addField(fooRecord, FooRecord.baz.name, zooRecord, null)
+
+            val zooInstance: Value.Instance = dataSource.createInstance(zooRecord).getOrThrow()
+            val fooInstance: Value.Instance = dataSource.createInstance(fooRecord).getOrThrow()
+            dataSource.setAttribute(zooInstance, ZooRecord.kar.name, Value.IntValue(42))
         }
     }
 
