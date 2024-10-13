@@ -13,7 +13,7 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import org.pointyware.commonsense.core.entities.Field
-import org.pointyware.commonsense.core.entities.Record
+import org.pointyware.commonsense.core.entities.Type.Record
 import org.pointyware.commonsense.core.entities.Type
 import org.pointyware.commonsense.core.entities.Value
 import org.pointyware.commonsense.core.viewmodels.ViewModel
@@ -52,7 +52,7 @@ class RecordEditorViewModel(
                     FieldEditorUiState(
                         it.name,
                         it.type,
-                        it.value
+                        it.defaultValue
                     )
                 },
                 availableTypes = loadedTypes
@@ -69,7 +69,7 @@ class RecordEditorViewModel(
     fun addField() {
         mutableState.update {
             val newField = Field("new field", Type.Int, Value.IntValue(0))
-            it.copy(fields = it.fields + FieldEditorUiState(newField.name, newField.type, newField.value))
+            it.copy(fields = it.fields + FieldEditorUiState(newField.name, newField.type, newField.defaultValue))
         }
     }
 
