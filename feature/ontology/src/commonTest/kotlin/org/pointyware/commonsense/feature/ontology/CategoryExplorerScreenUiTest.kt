@@ -37,35 +37,19 @@ import org.pointyware.commonsense.feature.ontology.ui.CategoryExplorerScreen
 import org.pointyware.commonsense.feature.ontology.viewmodels.CategoryExplorerViewModel
 import kotlin.test.BeforeTest
 import kotlin.test.Test
+import kotlin.uuid.ExperimentalUuidApi
 
 /**
  *
  */
-@OptIn(ExperimentalTestApi::class)
+@OptIn(ExperimentalTestApi::class, ExperimentalUuidApi::class)
 class CategoryExplorerScreenUiTest {
 
     private lateinit var viewModel: CategoryExplorerViewModel
     private lateinit var dataSource: RecordsDataSource
 
-    private val ZooRecord = object {
-        val name = "Zoo"
-        val kar = object {
-            val name = "kar"
-        }
-        val kaz = object {
-            val name = "kaz"
-        }
-    }
-
-    private val FooRecord = object {
-        val name = "Foo"
-        val bar = object {
-            val name = "bar"
-        }
-        val baz = object {
-            val name = "baz"
-        }
-    }
+    private lateinit var zooRecord: Type.Record
+    private lateinit var fooRecord: Type.Record
 
     @BeforeTest
     fun setUp() {
@@ -78,19 +62,22 @@ class CategoryExplorerScreenUiTest {
         dataSource = koin.get()
         runBlocking {
             val zooRecord: Type.Record = dataSource.createRecord("Zoo").getOrThrow()
-            dataSource.addField(zooRecord, ZooRecord.kar.name, Type.Int, Value.IntValue(36))
+            dataSource.addField(zooRecord, "kar", Type.Int, Value.IntValue(36))
             val fooRecord: Type.Record = dataSource.createRecord("Foo").getOrThrow()
-            dataSource.addField(fooRecord, FooRecord.bar.name, Type.Boolean, Value.BoolValue(false))
+            dataSource.addField(fooRecord, "bar", Type.Boolean, Value.BoolValue(false))
 
-            dataSource.addField(zooRecord, ZooRecord.kaz.name, fooRecord, null)
-            dataSource.addField(fooRecord, FooRecord.baz.name, zooRecord, null)
+            dataSource.addField(zooRecord, "kaz", fooRecord, null)
+            dataSource.addField(fooRecord, "baz", zooRecord, null)
 
             val zooInstance: Value.Instance = dataSource.createInstance(zooRecord).getOrThrow()
             val fooInstance: Value.Instance = dataSource.createInstance(fooRecord).getOrThrow()
-            dataSource.setAttribute(zooInstance, ZooRecord.kar.name, Value.IntValue(42))
-            dataSource.setAttribute(fooInstance, FooRecord.bar.name, Value.BoolValue(true))
-            dataSource.setAttribute(zooInstance, ZooRecord.kaz.name, fooInstance)
-            dataSource.setAttribute(fooInstance, FooRecord.baz.name, zooInstance)
+            dataSource.setAttribute(zooInstance, "kar", Value.IntValue(42))
+            dataSource.setAttribute(fooInstance, "bar", Value.BoolValue(true))
+            dataSource.setAttribute(zooInstance, "kaz", fooInstance)
+            dataSource.setAttribute(fooInstance, "baz", zooInstance)
+
+            this@CategoryExplorerScreenUiTest.fooRecord = dataSource.getRecord(fooRecord.uuid).getOrThrow()
+            this@CategoryExplorerScreenUiTest.zooRecord = dataSource.getRecord(zooRecord.uuid).getOrThrow()
         }
     }
 
