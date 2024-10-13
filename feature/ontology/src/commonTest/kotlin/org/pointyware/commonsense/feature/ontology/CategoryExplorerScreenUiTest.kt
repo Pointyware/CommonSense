@@ -358,9 +358,9 @@ class CategoryExplorerScreenUiTest {
         onNodeWithText("Concept 1").performLongPress()
         onNodeWithText("Delete").performClick()
 
-        waitUntilExactlyOneExists(hasContentDescription("Delete Concepts"))
-        onNodeWithContentDescription("Delete Concepts")
-            .assert(hasAnyDescendant(hasText("You are about to delete 1 concepts and 0 categories.")))
+        waitUntilExactlyOneExists(hasContentDescription("Delete Records"))
+        onNodeWithContentDescription("Delete Records")
+            .assert(hasAnyDescendant(hasText("You are about to delete 1 records and 0 categories.")))
 
         /*
         When:
@@ -369,13 +369,13 @@ class CategoryExplorerScreenUiTest {
         - The dialog is hidden
         - And the selection state is removed
          */
-        onNodeWithContentDescription("Delete Concepts")
+        onNodeWithContentDescription("Delete Records")
             .onChildren().filterToOne(hasText("Cancel"))
             .performClick()
 
         waitUntilDoesNotExist(hasContentDescription("Delete Concepts"))
 
-        onAllNodes(hasContentDescription("Concept", substring = true))
+        onAllNodes(hasContentDescription("Record", substring = true))
             .assertAll(hasAnyDescendant(
                 hasContentDescription("Select").or(
                     hasContentDescription("Deselect"))
