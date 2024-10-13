@@ -17,10 +17,13 @@ import org.pointyware.commonsense.core.entities.Type.Record
 import org.pointyware.commonsense.core.entities.Type
 import org.pointyware.commonsense.core.entities.Value
 import org.pointyware.commonsense.core.viewmodels.ViewModel
+import kotlin.uuid.ExperimentalUuidApi
+import kotlin.uuid.Uuid
 
 /**
  *
  */
+@OptIn(ExperimentalUuidApi::class)
 class RecordEditorViewModel(
 
 ): ViewModel() {
@@ -28,7 +31,7 @@ class RecordEditorViewModel(
     // TODO: load from type repository ^^
     private val loadedTypes = listOf(
         Type.Int,
-        Record("FooBar"),
+        Record("FooBar", uuid = Uuid.random()),
     )
 
     private fun newRecordState() = RecordEditorUiState(
