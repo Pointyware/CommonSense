@@ -1,8 +1,12 @@
+@file:OptIn(ExperimentalUuidApi::class)
+
 package org.pointyware.commonsense.feature.ontology.viewmodels
 
-import org.pointyware.commonsense.core.common.Uuid
+import org.pointyware.commonsense.core.entities.Value
 import org.pointyware.commonsense.feature.ontology.Category
 import org.pointyware.commonsense.feature.ontology.Concept
+import kotlin.uuid.ExperimentalUuidApi
+import kotlin.uuid.Uuid
 
 /**
  * Represents the contents of a category.
@@ -33,4 +37,13 @@ data class ConceptItemUiState(
     val selected: Boolean = false,
 )
 
+@Deprecated("Prefer Record/Instances")
 fun Concept.toUiState() = ConceptItemUiState(id, name)
+
+fun Value.Instance.toUiState(): ConceptItemUiState {
+    val itemName = type.name + " " + attributes.joinToString { it.name }
+    return ConceptItemUiState(
+        id,
+        itemName
+    )
+}
