@@ -101,6 +101,8 @@ kotlin {
                 implementation(compose.preview) // android/desktop support
                 implementation(compose.desktop.currentOs)
 
+                implementation(libs.kotlinx.coroutinesSwing)
+
                 implementation(libs.sqlDelight.jvm)
             }
         }
@@ -119,6 +121,8 @@ kotlin {
                 implementation(libs.koin.core)
                 implementation(libs.koin.android)
                 implementation(libs.androidx.composePreview)
+
+                implementation(libs.kotlinx.coroutinesAndroid)
 
                 implementation(libs.sqlDelight.android)
             }
