@@ -1,5 +1,8 @@
 package org.pointyware.commonsense.core.entities
 
+import kotlin.uuid.ExperimentalUuidApi
+import kotlin.uuid.Uuid
+
 @RequiresOptIn(
     message = "This API is experimental and may change in the future.",
     level = RequiresOptIn.Level.WARNING
@@ -28,5 +31,10 @@ sealed interface Value<out T: Type> {
 
     class BoolValue(val rawValue: Boolean): Value<Type.Boolean>
 
-    class Instance(val attributes: Set<Attribute<*>>): Value<Type.Record>
+    @OptIn(ExperimentalUuidApi::class)
+    class Instance(
+        val id: Uuid,
+        val type: Type.Record,
+        val attributes: Set<Attribute<*>>
+    ): Value<Type.Record>
 }
