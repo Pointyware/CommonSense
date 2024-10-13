@@ -13,7 +13,7 @@ import org.pointyware.commonsense.core.entities.Value
 open class FieldEditorUiState<out T: Type>(
     val name: String,
     val type: T,
-    val value: Value<T>
+    val value: Value<T>? = null
 )
 
 /**
