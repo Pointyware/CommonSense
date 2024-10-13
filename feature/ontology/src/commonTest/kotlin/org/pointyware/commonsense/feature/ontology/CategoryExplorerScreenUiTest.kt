@@ -116,7 +116,7 @@ class CategoryExplorerScreenUiTest {
         - And the fields are empty
         - And the "Save" button is disabled
          */
-        onNodeWithText("New Concept").performClick()
+        onNodeWithText("New Record").performClick()
 
         waitUntilExactlyOneExists(hasContentDescription("Instance Editor"))
         onNodeWithText("Title")
