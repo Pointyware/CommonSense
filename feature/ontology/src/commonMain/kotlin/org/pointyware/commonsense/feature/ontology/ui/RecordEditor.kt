@@ -13,8 +13,8 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import org.pointyware.commonsense.core.entities.Record
 import org.pointyware.commonsense.core.entities.Type
+import org.pointyware.commonsense.core.entities.Type.Record
 import org.pointyware.commonsense.core.entities.Value
 import org.pointyware.commonsense.feature.ontology.viewmodels.RecordEditorUiState
 
