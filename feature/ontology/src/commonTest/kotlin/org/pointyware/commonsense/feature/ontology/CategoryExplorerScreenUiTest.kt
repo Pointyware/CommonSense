@@ -78,6 +78,10 @@ class CategoryExplorerScreenUiTest {
 
             this@CategoryExplorerScreenUiTest.fooRecord = dataSource.getRecord(fooRecord.uuid).getOrThrow()
             this@CategoryExplorerScreenUiTest.zooRecord = dataSource.getRecord(zooRecord.uuid).getOrThrow()
+
+            val noteRecord = dataSource.createRecord("Note").getOrThrow()
+            dataSource.addField(noteRecord, "Title", Type.String, Value.StringValue("Note Title"))
+            dataSource.addField(noteRecord, "Body", Type.String, Value.StringValue("Note Body"))
         }
     }
 
@@ -116,7 +120,7 @@ class CategoryExplorerScreenUiTest {
         - And the fields are empty
         - And the "Save" button is disabled
          */
-        onNodeWithText("New Record").performClick()
+        onNodeWithText("New Instance").performClick()
 
         waitUntilExactlyOneExists(hasContentDescription("Instance Editor"))
         onNodeWithText("Title")
@@ -155,7 +159,7 @@ class CategoryExplorerScreenUiTest {
      * User Journey: Create New Concept and Cancel
      */
     @Test
-    fun tapping_add_instance_should_display_concept_editor_and_cancel() = runComposeUiTest {
+    fun tapping_add_instance_should_display_instance_editor_and_cancel() = runComposeUiTest {
             /*
             Given:
             - A concept space
@@ -314,10 +318,10 @@ class CategoryExplorerScreenUiTest {
         - And the long-pressed concept is selected
         - And the "Delete" and "Cancel" buttons are shown
          */
-        onNodeWithText("Concept 1").performLongPress()
+        onNodeWithText("Foo", substring = true).performLongPress()
 
         waitUntilAtLeastOneExists(hasContentDescription("Select"))
-        onNodeWithText("Concept 1").assert(
+        onNodeWithText("Foo", substring = true).assert(
             hasAnySibling(
                 hasContentDescription("Deselect"))
         )
@@ -330,7 +334,7 @@ class CategoryExplorerScreenUiTest {
          */
         onNodeWithText("Cancel").performClick()
 
-        onAllNodes(hasContentDescription("Concept", substring = true))
+        onAllNodes(hasContentDescription("Instance", substring = true))
             .assertAll(hasAnyDescendant(
                 hasContentDescription("Select").or(
                     hasContentDescription("Deselect"))
@@ -358,9 +362,9 @@ class CategoryExplorerScreenUiTest {
         onNodeWithText("Foo", substring = true).performLongPress()
         onNodeWithText("Delete").performClick()
 
-        waitUntilExactlyOneExists(hasContentDescription("Delete Records"))
-        onNodeWithContentDescription("Delete Records")
-            .assert(hasAnyDescendant(hasText("You are about to delete 1 records and 0 categories.")))
+        waitUntilExactlyOneExists(hasContentDescription("Delete Instances"))
+        onNodeWithContentDescription("Delete Instances")
+            .assert(hasAnyDescendant(hasText("You are about to delete 1 instances and 0 categories.")))
 
         /*
         When:
@@ -369,13 +373,13 @@ class CategoryExplorerScreenUiTest {
         - The dialog is hidden
         - And the selection state is removed
          */
-        onNodeWithContentDescription("Delete Records")
+        onNodeWithContentDescription("Delete Instances")
             .onChildren().filterToOne(hasText("Cancel"))
             .performClick()
 
-        waitUntilDoesNotExist(hasContentDescription("Delete Concepts"))
+        waitUntilDoesNotExist(hasContentDescription("Delete Instances"))
 
-        onAllNodes(hasContentDescription("Record", substring = true))
+        onAllNodes(hasContentDescription("Instance", substring = true))
             .assertAll(hasAnyDescendant(
                 hasContentDescription("Select").or(
                     hasContentDescription("Deselect"))
