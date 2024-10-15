@@ -17,6 +17,7 @@ private const val VERSION_VALUE_4 = 0x40.toByte()
  * Minimal implementation of Universal Uniform Identifier.
  */
 @Serializable
+@Deprecated("Use kotlin-uuid")
 data class Uuid(
     val bytes: ByteArray
 ) {
