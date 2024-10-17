@@ -10,7 +10,6 @@ import org.koin.core.context.loadKoinModules
 import org.koin.core.context.stopKoin
 import org.koin.dsl.module
 import org.koin.mp.KoinPlatform.getKoin
-import org.pointyware.commonsense.core.common.Uuid
 import org.pointyware.commonsense.feature.ontology.data.CategorySqlDataSource
 import org.pointyware.commonsense.feature.ontology.local.Persistence
 import org.pointyware.commonsense.feature.ontology.test.setupKoin
@@ -21,8 +20,10 @@ import kotlin.test.assertEquals
 import kotlin.test.assertNotEquals
 import kotlin.test.assertNotNull
 import kotlin.test.assertTrue
+import kotlin.uuid.ExperimentalUuidApi
+import kotlin.uuid.Uuid
 
-@OptIn(ExperimentalCoroutinesApi::class)
+@OptIn(ExperimentalCoroutinesApi::class, ExperimentalUuidApi::class)
 class CategorySqlDataSourceUnitTest {
 
     private lateinit var dataSource: CategorySqlDataSource
@@ -65,7 +66,7 @@ class CategorySqlDataSourceUnitTest {
 
         assertTrue(result.isSuccess)
         assertNotNull(result.getOrNull()?.id)
-        assertNotEquals(Uuid.nil(), result.getOrThrow().id)
+        assertNotEquals(Uuid.random(), result.getOrThrow().id)
     }
 
     //suspend fun addCategory(subject: Uuid, name: String): Result<Category>
@@ -91,7 +92,7 @@ class CategorySqlDataSourceUnitTest {
 
         assertTrue(result.isSuccess)
         assertNotNull(result.getOrNull()?.id)
-        assertNotEquals(Uuid.nil(), result.getOrThrow().id)
+        assertNotEquals(Uuid.random(), result.getOrThrow().id)
     }
 
     //suspend fun getCategory(id: Uuid): Result<Category>
@@ -115,7 +116,7 @@ class CategorySqlDataSourceUnitTest {
 
         assertTrue(result.isSuccess)
         assertNotNull(result.getOrNull()?.id)
-        assertNotEquals(Uuid.nil(), result.getOrThrow().id)
+        assertNotEquals(Uuid.random(), result.getOrThrow().id)
         assertEquals(categoryName, result.getOrThrow().name)
         assertEquals(category.id, result.getOrThrow().id)
     }
@@ -176,7 +177,7 @@ class CategorySqlDataSourceUnitTest {
 
         assertTrue(result.isSuccess)
         assertNotNull(result.getOrNull()?.id)
-        assertNotEquals(Uuid.nil(), result.getOrThrow().id)
+        assertNotEquals(Uuid.random(), result.getOrThrow().id)
     }
 
     //suspend fun getConcepts(id: Uuid): Result<List<Concept>>
