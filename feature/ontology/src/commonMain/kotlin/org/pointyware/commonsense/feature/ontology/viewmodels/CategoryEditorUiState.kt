@@ -1,10 +1,13 @@
 package org.pointyware.commonsense.feature.ontology.viewmodels
 
-import org.pointyware.commonsense.core.common.Uuid
+import kotlin.uuid.ExperimentalUuidApi
+import kotlin.uuid.Uuid
+
 
 /**
  *
  */
+@OptIn(ExperimentalUuidApi::class)
 data class CategoryEditorUiState(
     val id: Uuid?,
     val name: String,

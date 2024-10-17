@@ -1,11 +1,14 @@
+@file:OptIn(ExperimentalUuidApi::class)
+
 package org.pointyware.commonsense.feature.ontology.data
 
 import kotlinx.coroutines.flow.Flow
 import kotlinx.io.files.Path
-import org.pointyware.commonsense.core.common.Uuid
 import org.pointyware.commonsense.feature.ontology.Concept
 import org.pointyware.commonsense.feature.ontology.ConceptSpace
 import org.pointyware.commonsense.feature.ontology.local.ConceptSpaceDataSource
+import kotlin.uuid.ExperimentalUuidApi
+import kotlin.uuid.Uuid
 
 /**
  * Separates data mediation from the rest of the application.

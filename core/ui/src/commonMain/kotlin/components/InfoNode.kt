@@ -1,3 +1,5 @@
+@file:OptIn(ExperimentalUuidApi::class)
+
 package org.pointyware.commonsense.core.ui.components
 
 import androidx.compose.foundation.border
@@ -17,7 +19,8 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import org.pointyware.commonsense.core.common.Log
-import org.pointyware.commonsense.core.common.Uuid
+import kotlin.uuid.ExperimentalUuidApi
+import kotlin.uuid.Uuid
 
 /**
  *

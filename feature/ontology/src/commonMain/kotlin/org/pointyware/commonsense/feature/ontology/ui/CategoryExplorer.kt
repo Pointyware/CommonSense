@@ -1,3 +1,5 @@
+@file:OptIn(ExperimentalUuidApi::class)
+
 package org.pointyware.commonsense.feature.ontology.ui
 
 import androidx.compose.animation.AnimatedVisibility
@@ -26,9 +28,10 @@ import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
-import org.pointyware.commonsense.core.common.Uuid
 import org.pointyware.commonsense.core.ui.rememberSelectionController
 import org.pointyware.commonsense.feature.ontology.viewmodels.CategoryExplorerUiState
+import kotlin.uuid.ExperimentalUuidApi
+import kotlin.uuid.Uuid
 
 /**
  * Displays the contents of the current category, including subcategories and concepts.

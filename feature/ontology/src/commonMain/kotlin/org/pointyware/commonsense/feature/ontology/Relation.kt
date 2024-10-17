@@ -1,7 +1,10 @@
+@file:OptIn(ExperimentalUuidApi::class)
+
 package org.pointyware.commonsense.feature.ontology
 
 import kotlinx.serialization.Serializable
-import org.pointyware.commonsense.core.common.Uuid
+import kotlin.uuid.ExperimentalUuidApi
+import kotlin.uuid.Uuid
 
 /**
  * A relation between two concepts in an ontology. A relation is an edge in the ontology graph.

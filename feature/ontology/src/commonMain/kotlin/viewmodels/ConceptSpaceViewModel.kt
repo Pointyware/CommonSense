@@ -1,3 +1,5 @@
+@file:OptIn(ExperimentalUuidApi::class)
+
 package org.pointyware.commonsense.feature.ontology.viewmodels
 
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -9,7 +11,6 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import kotlinx.io.files.Path
 import org.pointyware.commonsense.core.common.Log
-import org.pointyware.commonsense.core.common.Uuid
 import org.pointyware.commonsense.core.viewmodels.ViewModel
 import org.pointyware.commonsense.feature.ontology.data.ArrangementController
 import org.pointyware.commonsense.feature.ontology.data.Position
@@ -19,6 +20,9 @@ import org.pointyware.commonsense.feature.ontology.interactors.LoadConceptSpaceU
 import org.pointyware.commonsense.feature.ontology.interactors.RemoveNodeUseCase
 import org.pointyware.commonsense.feature.ontology.interactors.SaveConceptSpaceUseCase
 import org.pointyware.commonsense.feature.ontology.interactors.UpdateNodeUseCase
+import org.pointyware.commonsense.feature.ontology.local.generateRandomId
+import kotlin.uuid.ExperimentalUuidApi
+import kotlin.uuid.Uuid
 
 /**
  *
@@ -39,7 +43,7 @@ class ConceptSpaceViewModel(
 
     private val emptySpace = ConceptSpaceUiState(
         OntologyUiState(
-            id = Uuid.v4(),
+            id = generateRandomId(),
             nodes = emptyList(),
             edges = emptyList()
         )

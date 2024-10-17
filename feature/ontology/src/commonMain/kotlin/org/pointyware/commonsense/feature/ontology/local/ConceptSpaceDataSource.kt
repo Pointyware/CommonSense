@@ -1,10 +1,13 @@
+@file:OptIn(ExperimentalUuidApi::class)
+
 package org.pointyware.commonsense.feature.ontology.local
 
 import kotlinx.coroutines.flow.Flow
 import kotlinx.io.files.Path
-import org.pointyware.commonsense.core.common.Uuid
 import org.pointyware.commonsense.feature.ontology.Concept
 import org.pointyware.commonsense.feature.ontology.ConceptSpace
+import kotlin.uuid.ExperimentalUuidApi
+import kotlin.uuid.Uuid
 
 /**
  *
@@ -21,5 +24,5 @@ interface ConceptSpaceDataSource {
 class ConceptSpaceNotFoundException(id: String) : Exception("Concept space with id $id not found")
 
 fun generateRandomId(): Uuid {
-    return Uuid.v4()
+    return Uuid.random()
 }
