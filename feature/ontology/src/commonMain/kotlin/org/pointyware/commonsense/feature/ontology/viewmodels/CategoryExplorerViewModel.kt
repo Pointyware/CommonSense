@@ -1,3 +1,5 @@
+@file:OptIn(ExperimentalUuidApi::class)
+
 package org.pointyware.commonsense.feature.ontology.viewmodels
 
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -8,7 +10,6 @@ import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import org.pointyware.commonsense.core.common.Log
-import org.pointyware.commonsense.core.common.Uuid
 import org.pointyware.commonsense.core.entities.Type
 import org.pointyware.commonsense.core.entities.Value
 import org.pointyware.commonsense.core.viewmodels.ViewModel
@@ -17,6 +18,8 @@ import org.pointyware.commonsense.feature.ontology.Concept
 import org.pointyware.commonsense.feature.ontology.data.CategoryRepository
 import org.pointyware.commonsense.feature.ontology.interactors.GetSelectedCategoryUseCase
 import org.pointyware.commonsense.feature.ontology.interactors.GetSelectedConceptUseCase
+import kotlin.uuid.ExperimentalUuidApi
+import kotlin.uuid.Uuid
 
 /**
  * Maintains the state of the category explorer.

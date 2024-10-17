@@ -1,8 +1,11 @@
+@file:OptIn(ExperimentalUuidApi::class)
+
 package org.pointyware.commonsense.feature.ontology.local
 
 import kotlinx.serialization.Serializable
-import org.pointyware.commonsense.core.common.Uuid
 import org.pointyware.commonsense.feature.ontology.RelationWeight
+import kotlin.uuid.ExperimentalUuidApi
+import kotlin.uuid.Uuid
 
 /**
  * A JSON representation of the [org.pointyware.commonsense.feature.ontology.ConceptSpace] entity.

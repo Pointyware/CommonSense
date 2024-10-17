@@ -1,3 +1,5 @@
+@file:OptIn(ExperimentalUuidApi::class)
+
 package org.pointyware.commonsense.feature.ontology.local
 
 import kotlinx.coroutines.flow.Flow
@@ -5,7 +7,6 @@ import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.io.files.Path
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
-import org.pointyware.commonsense.core.common.Uuid
 import org.pointyware.commonsense.core.local.readText
 import org.pointyware.commonsense.core.local.writeText
 import org.pointyware.commonsense.feature.ontology.Concept
@@ -13,6 +14,8 @@ import org.pointyware.commonsense.feature.ontology.ConceptSpace
 import org.pointyware.commonsense.feature.ontology.IndependentConcept
 import org.pointyware.commonsense.feature.ontology.MutableConceptSpace
 import org.pointyware.commonsense.feature.ontology.mutableOntology
+import kotlin.uuid.ExperimentalUuidApi
+import kotlin.uuid.Uuid
 
 class ConceptSpaceJsonDataSource(
     private val json: Json

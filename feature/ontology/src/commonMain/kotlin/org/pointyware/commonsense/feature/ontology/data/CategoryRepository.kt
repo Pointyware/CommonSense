@@ -1,10 +1,13 @@
+@file:OptIn(ExperimentalUuidApi::class)
+
 package org.pointyware.commonsense.feature.ontology.data
 
-import org.pointyware.commonsense.core.common.Uuid
 import org.pointyware.commonsense.core.entities.Type
 import org.pointyware.commonsense.core.entities.Value
 import org.pointyware.commonsense.feature.ontology.Category
 import org.pointyware.commonsense.feature.ontology.Concept
+import kotlin.uuid.ExperimentalUuidApi
+import kotlin.uuid.Uuid
 
 /**
  * Repository interface for managing categories and their associated subcategories, types, and instances.

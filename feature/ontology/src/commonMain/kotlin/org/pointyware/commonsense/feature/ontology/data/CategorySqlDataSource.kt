@@ -9,7 +9,6 @@ import org.pointyware.commonsense.feature.ontology.local.DriverFactory
 import org.pointyware.commonsense.feature.ontology.local.Persistence
 import kotlin.uuid.ExperimentalUuidApi
 import kotlin.uuid.Uuid
-import org.pointyware.commonsense.core.common.Uuid as MyUuid
 
 
 /**
@@ -34,49 +33,22 @@ class CategorySqlDataSource(
         Category(newUuid, name)
     }
 
-    override suspend fun addCategory(subject: MyUuid, name: String): Result<Category> = runCatching {
-        val newUuid = Uuid.random()
-        db.categoryQueries.insertCategory(newUuid.toByteArray(), subject.bytes, name)
-        Category(newUuid, name)
-    }
-
     override suspend fun addCategory(subject: Uuid, name: String): Result<Category> = runCatching {
         val newUuid = Uuid.random()
         db.categoryQueries.insertCategory(newUuid.toByteArray(), subject.toByteArray(), name)
         Category(newUuid, name)
     }
 
-    override suspend fun getCategory(id: MyUuid): Result<Category> = runCatching {
-        db.categoryQueries.getCategory(id.bytes) { uuid, name ->
-            Category(Uuid.fromByteArray(uuid), name)
-        }.executeAsOne()
-    }
     override suspend fun getCategory(id: Uuid): Result<Category> = runCatching {
         db.categoryQueries.getCategory(id.toByteArray()) { uuid, name ->
             Category(Uuid.fromByteArray(uuid), name)
         }.executeAsOne()
     }
 
-    override suspend fun getSubcategories(id: MyUuid): Result<List<Category>> = runCatching {
-        db.categoryQueries.getCategories(id.bytes) { uuid, name ->
-            Category(Uuid.fromByteArray(uuid), name)
-        }.executeAsList()
-    }
-
     override suspend fun getSubcategories(id: Uuid): Result<List<Category>> = runCatching {
         db.categoryQueries.getCategories(id.toByteArray()) { uuid, name ->
             Category(Uuid.fromByteArray(uuid), name)
         }.executeAsList()
-    }
-
-    override suspend fun addConcept(
-        subject: MyUuid,
-        name: String,
-        description: String
-    ): Result<Concept> = runCatching {
-        val newUuid = Uuid.random()
-        db.categoryQueries.insertConcept(subject.bytes, newUuid.toByteArray(), name, description)
-        IndependentConcept(newUuid, name, description)
     }
 
     override suspend fun addConcept(
@@ -89,28 +61,14 @@ class CategorySqlDataSource(
         IndependentConcept(newUuid, name, description)
     }
 
-    override suspend fun getConcepts(id: MyUuid): Result<List<Concept>> = runCatching {
-        db.categoryQueries.getConcepts(id.bytes) { uuid, name, description ->
-            IndependentConcept(Uuid.fromByteArray(uuid), name, description)
-        }.executeAsList()
-    }
-
     override suspend fun getConcepts(id: Uuid): Result<List<Concept>> = runCatching {
         db.categoryQueries.getConcepts(id.toByteArray()) { uuid, name, description ->
             IndependentConcept(Uuid.fromByteArray(uuid), name, description)
         }.executeAsList()
     }
 
-    override suspend fun removeCategories(ids: Set<MyUuid>): Result<Unit> = runCatching {
-        db.categoryQueries.deleteCategories(ids.map { it.bytes })
-    }
-
     override suspend fun removeCategories(ids: Set<Uuid>): Result<Unit> = runCatching {
         db.categoryQueries.deleteCategories(ids.map { it.toByteArray() })
-    }
-
-    override suspend fun removeConcepts(ids: Set<MyUuid>): Result<Unit> = runCatching{
-        db.categoryQueries.deleteConcepts(ids.map { it.bytes })
     }
 
     override suspend fun removeConcepts(ids: Set<Uuid>): Result<Unit> = runCatching {

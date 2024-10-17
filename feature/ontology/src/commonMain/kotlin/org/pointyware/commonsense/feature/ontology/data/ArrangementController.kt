@@ -1,9 +1,12 @@
+@file:OptIn(ExperimentalUuidApi::class)
+
 package org.pointyware.commonsense.feature.ontology.data
 
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
-import org.pointyware.commonsense.core.common.Uuid
 import org.pointyware.commonsense.feature.ontology.Concept
+import kotlin.uuid.ExperimentalUuidApi
+import kotlin.uuid.Uuid
 
 
 data class Position(
@@ -15,6 +18,7 @@ data class Position(
 /**
  *
  */
+@OptIn(ExperimentalUuidApi::class)
 interface ArrangementController {
     fun addNode(newConcept: Concept, x: Float, y: Float)
     fun removeNode(id: Uuid)
