@@ -13,6 +13,7 @@ import org.pointyware.commonsense.core.entities.Value
 import org.pointyware.commonsense.core.viewmodels.ViewModel
 import org.pointyware.commonsense.feature.ontology.Concept
 import org.pointyware.commonsense.feature.ontology.interactors.CreateNewConceptUseCase
+import kotlin.uuid.ExperimentalUuidApi
 
 /**
  * Maintains the state of a Concept Editor UI, reflected in [state].
@@ -63,6 +64,7 @@ interface ConceptEditorViewModel {
     fun onConfirm()
 }
 
+@OptIn(ExperimentalUuidApi::class)
 class ConceptEditorViewModelImpl(
     private val createNewConceptUseCase: CreateNewConceptUseCase,
 ): ViewModel(), ConceptEditorViewModel {

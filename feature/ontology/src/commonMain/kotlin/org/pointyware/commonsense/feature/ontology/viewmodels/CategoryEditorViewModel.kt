@@ -9,8 +9,9 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import org.pointyware.commonsense.core.viewmodels.ViewModel
-import org.pointyware.commonsense.feature.ontology.interactors.CreateNewCategoryUseCase
 import org.pointyware.commonsense.feature.ontology.Category
+import org.pointyware.commonsense.feature.ontology.interactors.CreateNewCategoryUseCase
+import kotlin.uuid.ExperimentalUuidApi
 
 /**
  * Maintains the state of a Category Editor UI, reflected in [state].
@@ -26,6 +27,7 @@ interface CategoryEditorViewModel {
 
 /**
  */
+@OptIn(ExperimentalUuidApi::class)
 class CategoryEditorViewModelImpl(
     private val createNewCategoryUseCase: CreateNewCategoryUseCase,
 ): CategoryEditorViewModel, ViewModel() {

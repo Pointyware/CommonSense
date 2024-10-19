@@ -140,7 +140,7 @@ class CategoryExplorerViewModel(
     }
 
     private fun reloadCurrentCategory() {
-        onCategorySelected(_categoryUiState.value.selected?.id ?: Uuid.nil())
+        onCategorySelected(_categoryUiState.value.selected?.id ?: Uuid.NIL)
     }
 
     fun onRecordNameChange(newName: String) {
@@ -178,6 +178,6 @@ class CategoryExplorerViewModel(
                 _editorState.value = EditorState.Disabled
             }
         }
-        onCategorySelected(Uuid.nil())
+        onCategorySelected(Uuid.NIL)
     }
 }
