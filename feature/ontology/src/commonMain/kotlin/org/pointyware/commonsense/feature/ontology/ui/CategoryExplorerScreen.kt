@@ -1,3 +1,5 @@
+@file:OptIn(ExperimentalUuidApi::class)
+
 package org.pointyware.commonsense.feature.ontology.ui
 
 import androidx.compose.foundation.layout.Box
@@ -13,6 +15,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.window.Dialog
 import org.pointyware.commonsense.feature.ontology.viewmodels.CategoryExplorerEditorState
 import org.pointyware.commonsense.feature.ontology.viewmodels.CategoryExplorerViewModel
+import kotlin.uuid.ExperimentalUuidApi
 
 /**
  * Takes a view model, binds the state to the CategoryExplorer composable, and passes events

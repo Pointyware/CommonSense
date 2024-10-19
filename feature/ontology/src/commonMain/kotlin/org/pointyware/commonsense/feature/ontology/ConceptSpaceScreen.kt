@@ -1,3 +1,5 @@
+@file:OptIn(ExperimentalUuidApi::class)
+
 package org.pointyware.commonsense.feature.ontology
 
 import androidx.compose.foundation.layout.fillMaxSize
@@ -8,6 +10,7 @@ import org.pointyware.commonsense.core.common.Log
 import org.pointyware.commonsense.feature.ontology.ui.ConceptSpaceUiStateMapper
 import org.pointyware.commonsense.feature.ontology.ui.ConceptSpaceView
 import org.pointyware.commonsense.feature.ontology.viewmodels.ConceptSpaceViewModel
+import kotlin.uuid.ExperimentalUuidApi
 
 /**
  * Takes a view model and binds the state and events to the view.

@@ -60,7 +60,7 @@ class RecordsSqlDataSource(
     ): Result<Value.Instance> = runCatching {
         val newUuid = Uuid.random()
         db.recordsQueries.createInstance(template.uuid.toByteArray(), newUuid.toByteArray())
-        Value.Instance(emptySet())
+        Value.Instance(newUuid, template, emptySet())
     }
 
     override suspend fun <T : Type> setAttribute(
@@ -73,6 +73,8 @@ class RecordsSqlDataSource(
         // TODO: db.recordsQueries.defineIntAttribute(instanceId.toByteArray(), recordId.toByteArray(), fieldName, value)
         val newAttribute: Attribute<T> = TODO("Construct new Attribute")
         Value.Instance(
+            instanceId,
+            original.type,
             original.attributes + newAttribute
         )
     }
