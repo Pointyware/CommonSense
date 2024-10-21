@@ -1,8 +1,11 @@
 @file:OptIn(ExperimentalUuidApi::class)
+@file:UseSerializers(UuidSerializer::class)
 
 package org.pointyware.commonsense.feature.ontology.local
 
 import kotlinx.serialization.Serializable
+import kotlinx.serialization.UseSerializers
+import org.pointyware.commonsense.core.local.UuidSerializer
 import org.pointyware.commonsense.feature.ontology.RelationWeight
 import kotlin.uuid.ExperimentalUuidApi
 import kotlin.uuid.Uuid
