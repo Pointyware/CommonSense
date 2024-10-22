@@ -35,6 +35,7 @@ import org.pointyware.commonsense.feature.ontology.test.performLongPress
 import org.pointyware.commonsense.feature.ontology.test.setupKoin
 import org.pointyware.commonsense.feature.ontology.ui.CategoryExplorerScreen
 import org.pointyware.commonsense.feature.ontology.viewmodels.CategoryExplorerViewModel
+import kotlin.test.AfterTest
 import kotlin.test.BeforeTest
 import kotlin.test.Test
 import kotlin.uuid.ExperimentalUuidApi
@@ -85,7 +86,7 @@ class CategoryExplorerScreenUiTest {
         }
     }
 
-    @BeforeTest
+    @AfterTest
     fun tearDown() {
         stopKoin()
     }
