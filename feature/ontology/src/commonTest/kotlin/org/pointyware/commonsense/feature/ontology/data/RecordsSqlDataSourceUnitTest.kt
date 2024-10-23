@@ -4,19 +4,30 @@
 
 package org.pointyware.commonsense.feature.ontology.data
 
+import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.test.runTest
 import org.koin.core.context.startKoin
 import org.koin.core.context.stopKoin
 import org.koin.mp.KoinPlatform.getKoin
+import org.pointyware.commonsense.core.entities.Type
+import org.pointyware.commonsense.core.entities.Value
 import org.pointyware.commonsense.feature.ontology.di.ontologyLocalPlatformModule
 import org.pointyware.commonsense.feature.ontology.local.Persistence
 import kotlin.test.AfterTest
 import kotlin.test.BeforeTest
+import kotlin.test.DefaultAsserter.assertEquals
+import kotlin.test.DefaultAsserter.assertNotEquals
+import kotlin.test.DefaultAsserter.assertTrue
 import kotlin.test.Test
+import kotlin.test.assertFailsWith
 import kotlin.test.fail
+import kotlin.uuid.ExperimentalUuidApi
+import kotlin.uuid.Uuid
 
 /**
  *
  */
+@OptIn(ExperimentalUuidApi::class)
 class RecordsSqlDataSourceUnitTest {
 
     private lateinit var unitUnderTest: RecordsSqlDataSource
@@ -40,13 +51,26 @@ class RecordsSqlDataSourceUnitTest {
     */
 
     @Test
-    fun createRecord_should_throw_on_empty_name() {
-        fail("Not implemented")
+    fun createRecord_should_throw_on_empty_name() = runTest {
+        val recordName = ""
+
+        assertFailsWith<IllegalArgumentException> { runBlocking {
+            unitUnderTest.createRecord(recordName)
+        } }
     }
 
     @Test
-    fun createRecord_should_create_record() {
-        fail("Not implemented")
+    fun createRecord_should_create_record() = runTest {
+        val validName = "record"
+
+        val result = unitUnderTest.createRecord(validName).getOrThrow()
+
+        assertEquals("Record name should match given name",
+            validName, result.name)
+        assertNotEquals("Record should have non-null UUID",
+            Uuid.NIL, result.uuid)
+        assertTrue("Record should have no fields",
+            result.fields.isEmpty())
     }
 
     /*
@@ -54,13 +78,31 @@ class RecordsSqlDataSourceUnitTest {
     */
 
     @Test
-    fun addField_should_throw_on_empty_name() {
-        fail("Not implemented")
+    fun addField_should_throw_on_empty_name() = runTest {
+        val recordName = "record"
+        val record = unitUnderTest.createRecord(recordName).getOrThrow()
+        val emptyName = ""
+
+        assertFailsWith<IllegalArgumentException> { runBlocking {
+            unitUnderTest.addField(record, emptyName, Type.Int, Value.IntValue(0))
+        } }
     }
 
     @Test
-    fun addField_should_throw_on_empty_type() {
-        fail("Not implemented")
+    fun addField_should_register_field_with_given_name_type_and_value() = runTest {
+        val recordName = "record"
+        val record = unitUnderTest.createRecord(recordName).getOrThrow()
+        val fieldName = "foo"
+
+        val recordInstance = unitUnderTest.addField(record, fieldName, Type.Int, Value.IntValue(0)).getOrThrow()
+
+        assertEquals("Record should have a single field.",
+            1, recordInstance.fields.size)
+        val field = recordInstance.fields.first()
+        assertEquals("Field name should match given name.",
+            fieldName, field.name)
+        assertEquals("Field type should match given type.",
+            Type.Int, field.type)
     }
 
     /*
