@@ -60,6 +60,22 @@ class RecordsSqlDataSourceUnitTest {
     }
 
     @Test
+    fun createRecord_should_throw_on_invalid_names() = runTest {
+        listOf(
+            "a record",
+            "a-record",
+            "1record",
+            "record!",
+            "record@",
+            " ",
+        ).forEach { recordName ->
+            assertFailsWith<IllegalArgumentException> { runBlocking {
+                unitUnderTest.createRecord(recordName)
+            } }
+        }
+    }
+
+    @Test
     fun createRecord_should_create_record() = runTest {
         val validName = "record"
 
@@ -110,13 +126,30 @@ class RecordsSqlDataSourceUnitTest {
     */
 
     @Test
-    fun getRecord_should_return_known_record_for_known_uuid() {
-        fail("Not implemented")
+    fun getRecord_should_return_known_record_for_known_uuid() = runTest {
+        val recordName = "aRecord"
+        val record = unitUnderTest.createRecord(recordName).getOrThrow()
+        val generatedId = record.uuid
+
+        val retrievedRecord = unitUnderTest.getRecord(generatedId).getOrThrow()
+
+        assertEquals("Retrieved record should match created record",
+            record, retrievedRecord)
     }
 
     @Test
-    fun getRecord_should_throw_for_unknown_uuid() {
-        fail("Not implemented")
+    fun getRecord_should_throw_for_unknown_uuid() = runTest {
+        val recordName = "aRecord"
+        val record = unitUnderTest.createRecord(recordName).getOrThrow()
+        val generatedId = record.uuid
+        val mutatedId = with(generatedId.toByteArray()) {  this[0] = (this[0] + 1).toByte(); Uuid.fromByteArray(this) }
+
+        val retrievedRecord = unitUnderTest.getRecord(mutatedId)
+
+        assertTrue("Result should be an error",
+            retrievedRecord.isFailure)
+        assertEquals("Result error should be IllegalArgumentException",
+            IllegalArgumentException::class, retrievedRecord.exceptionOrNull()!!::class)
     }
 
     /*
