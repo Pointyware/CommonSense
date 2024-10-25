@@ -157,8 +157,20 @@ class RecordsSqlDataSourceUnitTest {
     */
 
     @Test
-    fun createInstance_should_create_a_new_empty_instance() {
-        fail("Not implemented")
+    fun createInstance_should_create_a_new_empty_instance() = runTest {
+        val recordName = "bRecord"
+        val baseRecord = unitUnderTest.createRecord(recordName).getOrThrow()
+        val record = unitUnderTest.addField(baseRecord, "foo", Type.Int, Value.IntValue(10)).getOrThrow()
+
+        val instance = unitUnderTest.createInstance(record).getOrThrow()
+
+        assertTrue("Instance should have one attribute",
+            instance.attributes.isNotEmpty())
+        val attribute = instance.attributes.first()
+        assertEquals("Attribute should have the same name as the field",
+            record.fields.first().name, attribute.name)
+        assertEquals("Attribute value should be the default value",
+            Value.IntValue(10), attribute.value)
     }
 
     /*
