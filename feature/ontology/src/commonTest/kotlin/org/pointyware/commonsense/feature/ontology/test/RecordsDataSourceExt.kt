@@ -14,17 +14,17 @@ import org.pointyware.commonsense.feature.ontology.data.RecordsDataSource
  */
 suspend fun RecordsDataSource.setup() {
     val zooRecord: Type.Record = this.createRecord("Zoo").getOrThrow()
-    this.addField(zooRecord, "kar", Type.Int, Value.IntValue(36))
+    val kar = this.defineField(zooRecord, "kar", Type.Int, Value.IntValue(36)).getOrThrow()
     val fooRecord: Type.Record = this.createRecord("Foo").getOrThrow()
-    this.addField(fooRecord, "bar", Type.Boolean, Value.BoolValue(false))
+    val bar = this.defineField(fooRecord, "bar", Type.Boolean, Value.BoolValue(false)).getOrThrow()
 
-    this.addField(zooRecord, "kaz", fooRecord, null)
-    this.addField(fooRecord, "baz", zooRecord, null)
+    val kaz = this.defineField(zooRecord, "kaz", fooRecord, null).getOrThrow()
+    val baz = this.defineField(fooRecord, "baz", zooRecord, null).getOrThrow()
 
     val zooInstance: Value.Instance = this.createInstance(zooRecord).getOrThrow()
     val fooInstance: Value.Instance = this.createInstance(fooRecord).getOrThrow()
-    this.setAttribute(zooInstance, "kar", Value.IntValue(42))
-    this.setAttribute(fooInstance, "bar", Value.BoolValue(true))
-    this.setAttribute(zooInstance, "kaz", fooInstance)
-    this.setAttribute(fooInstance, "baz", zooInstance)
+    this.setFieldValue(zooInstance, kar, Value.IntValue(42))
+    this.setFieldValue(fooInstance, bar, Value.BoolValue(true))
+    this.setFieldValue(zooInstance, kaz, fooInstance)
+    this.setFieldValue(fooInstance, baz, zooInstance)
 }

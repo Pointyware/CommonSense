@@ -4,7 +4,7 @@
 
 package org.pointyware.commonsense.feature.ontology.data
 
-import org.pointyware.commonsense.core.entities.Attribute
+import org.pointyware.commonsense.core.entities.Field
 import org.pointyware.commonsense.core.entities.Type
 import org.pointyware.commonsense.core.entities.Value
 import org.pointyware.commonsense.core.local.db.createOrMigrate
@@ -35,12 +35,12 @@ class RecordsSqlDataSource(
         Type.Record(name, newUuid)
     }
 
-    override suspend fun <T : Type> addField(
+    override suspend fun <T : Type> defineField(
         original: Type.Record,
         name: String,
         type: T,
         defaultValue: Value<T>?
-    ): Result<Type.Record> = runCatching {
+    ): Result<Field<T>> = runCatching {
         val recordId = original.uuid
         // TODO: check that value type matches given type
         // TODO: determine how to store default value
@@ -48,7 +48,7 @@ class RecordsSqlDataSource(
         // TODO: db.recordQueries.createIntValue(defaultValue.value, recordId.toByteArray(), null)
         // TODO: db.recordQueries.createInstanceValue(defaultValue.value, recordId.toByteArray(), null)
 
-        Type.Record("name", recordId)
+        Field(name, type, defaultValue)
     }
 
     override suspend fun getRecord(id: Uuid): Result<Type.Record> = runCatching {
@@ -60,22 +60,21 @@ class RecordsSqlDataSource(
     ): Result<Value.Instance> = runCatching {
         val newUuid = Uuid.random()
         db.recordsQueries.createInstance(template.uuid.toByteArray(), newUuid.toByteArray())
-        Value.Instance(newUuid, template, emptySet())
+        Value.Instance(newUuid, template, emptyMap())
     }
 
-    override suspend fun <T : Type> setAttribute(
+    override suspend fun <T : Type> setFieldValue(
         original: Value.Instance,
-        fieldName: String,
+        field: Field<T>,
         value: Value<T>
     ): Result<Value.Instance> = runCatching {
         val instanceId: Uuid = TODO("original.uuid")
         val recordId: Uuid = TODO("original.record.uuid")
         // TODO: db.recordsQueries.defineIntAttribute(instanceId.toByteArray(), recordId.toByteArray(), fieldName, value)
-        val newAttribute: Attribute<T> = TODO("Construct new Attribute")
         Value.Instance(
             instanceId,
             original.type,
-            original.attributes + newAttribute
+            original.values + (field to value)
         )
     }
 }

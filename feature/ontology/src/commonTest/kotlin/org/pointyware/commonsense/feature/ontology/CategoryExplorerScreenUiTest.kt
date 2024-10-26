@@ -63,26 +63,26 @@ class CategoryExplorerScreenUiTest {
         dataSource = koin.get()
         runBlocking {
             val zooRecord: Type.Record = dataSource.createRecord("Zoo").getOrThrow()
-            dataSource.addField(zooRecord, "kar", Type.Int, Value.IntValue(36))
+            val kar = dataSource.defineField(zooRecord, "kar", Type.Int, Value.IntValue(36)).getOrThrow()
             val fooRecord: Type.Record = dataSource.createRecord("Foo").getOrThrow()
-            dataSource.addField(fooRecord, "bar", Type.Boolean, Value.BoolValue(false))
+            val bar = dataSource.defineField(fooRecord, "bar", Type.Boolean, Value.BoolValue(false)).getOrThrow()
 
-            dataSource.addField(zooRecord, "kaz", fooRecord, null)
-            dataSource.addField(fooRecord, "baz", zooRecord, null)
+            val kaz = dataSource.defineField(zooRecord, "kaz", fooRecord, null).getOrThrow()
+            val baz = dataSource.defineField(fooRecord, "baz", zooRecord, null).getOrThrow()
 
             val zooInstance: Value.Instance = dataSource.createInstance(zooRecord).getOrThrow()
             val fooInstance: Value.Instance = dataSource.createInstance(fooRecord).getOrThrow()
-            dataSource.setAttribute(zooInstance, "kar", Value.IntValue(42))
-            dataSource.setAttribute(fooInstance, "bar", Value.BoolValue(true))
-            dataSource.setAttribute(zooInstance, "kaz", fooInstance)
-            dataSource.setAttribute(fooInstance, "baz", zooInstance)
+            dataSource.setFieldValue(zooInstance, kar, Value.IntValue(42))
+            dataSource.setFieldValue(fooInstance, bar, Value.BoolValue(true))
+            dataSource.setFieldValue(zooInstance, kaz, fooInstance)
+            dataSource.setFieldValue(fooInstance, baz, zooInstance)
 
             this@CategoryExplorerScreenUiTest.fooRecord = dataSource.getRecord(fooRecord.uuid).getOrThrow()
             this@CategoryExplorerScreenUiTest.zooRecord = dataSource.getRecord(zooRecord.uuid).getOrThrow()
 
             val noteRecord = dataSource.createRecord("Note").getOrThrow()
-            dataSource.addField(noteRecord, "Title", Type.String, Value.StringValue("Note Title"))
-            dataSource.addField(noteRecord, "Body", Type.String, Value.StringValue("Note Body"))
+            dataSource.defineField(noteRecord, "Title", Type.String, Value.StringValue("Note Title"))
+            dataSource.defineField(noteRecord, "Body", Type.String, Value.StringValue("Note Body"))
         }
     }
 
