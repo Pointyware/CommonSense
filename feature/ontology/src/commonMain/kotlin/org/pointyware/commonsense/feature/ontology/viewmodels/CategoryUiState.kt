@@ -2,6 +2,7 @@
 
 package org.pointyware.commonsense.feature.ontology.viewmodels
 
+import org.pointyware.commonsense.core.common.joinToString
 import org.pointyware.commonsense.core.entities.Value
 import org.pointyware.commonsense.feature.ontology.Category
 import org.pointyware.commonsense.feature.ontology.Concept
@@ -41,7 +42,8 @@ data class ConceptItemUiState(
 fun Concept.toUiState() = ConceptItemUiState(id, name)
 
 fun Value.Instance.toUiState(): ConceptItemUiState {
-    val itemName = type.name + " " + attributes.joinToString { it.name }
+    val itemName = type.name + values.joinToString()
+
     return ConceptItemUiState(
         id,
         itemName
