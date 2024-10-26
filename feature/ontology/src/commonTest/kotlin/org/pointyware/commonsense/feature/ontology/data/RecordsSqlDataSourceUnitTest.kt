@@ -100,7 +100,7 @@ class RecordsSqlDataSourceUnitTest {
         val emptyName = ""
 
         assertFailsWith<IllegalArgumentException> { runBlocking {
-            unitUnderTest.addField(record, emptyName, Type.Int, Value.IntValue(0))
+            unitUnderTest.defineField(record, emptyName, Type.Int, Value.IntValue(0))
         } }
     }
 
@@ -110,11 +110,11 @@ class RecordsSqlDataSourceUnitTest {
         val record = unitUnderTest.createRecord(recordName).getOrThrow()
         val fieldName = "foo"
 
-        val recordInstance = unitUnderTest.addField(record, fieldName, Type.Int, Value.IntValue(0)).getOrThrow()
+        val field = unitUnderTest.defineField(record, fieldName, Type.Int, Value.IntValue(0)).getOrThrow()
+        val updatedRecord = unitUnderTest.getRecord(record.uuid).getOrThrow()
 
         assertEquals("Record should have a single field.",
-            1, recordInstance.fields.size)
-        val field = recordInstance.fields.first()
+            1, updatedRecord.fields.size)
         assertEquals("Field name should match given name.",
             fieldName, field.name)
         assertEquals("Field type should match given type.",
@@ -160,17 +160,15 @@ class RecordsSqlDataSourceUnitTest {
     fun createInstance_should_create_a_new_empty_instance() = runTest {
         val recordName = "bRecord"
         val baseRecord = unitUnderTest.createRecord(recordName).getOrThrow()
-        val record = unitUnderTest.addField(baseRecord, "foo", Type.Int, Value.IntValue(10)).getOrThrow()
+        val foo = unitUnderTest.defineField(baseRecord, "foo", Type.Int, Value.IntValue(10)).getOrThrow()
 
-        val instance = unitUnderTest.createInstance(record).getOrThrow()
+        val instance = unitUnderTest.createInstance(baseRecord).getOrThrow()
 
-        assertTrue("Instance should have one attribute",
-            instance.attributes.isNotEmpty())
-        val attribute = instance.attributes.first()
-        assertEquals("Attribute should have the same name as the field",
-            record.fields.first().name, attribute.name)
+        assertTrue("Instance should have one field value",
+            instance.values.isNotEmpty())
+        val fooValue = instance[foo]
         assertEquals("Attribute value should be the default value",
-            Value.IntValue(10), attribute.value)
+            Value.IntValue(10), fooValue)
     }
 
     /*

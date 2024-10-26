@@ -35,6 +35,19 @@ sealed interface Value<out T: Type> {
     class Instance(
         val id: Uuid,
         val type: Type.Record,
-        val attributes: Set<Attribute<*>>
-    ): Value<Type.Record>
+        fieldValues: Map<Field<*>, Value<*>>
+    ): Value<Type.Record> {
+
+        private val _values: MutableMap<Field<*>, Value<*>> = fieldValues.toMutableMap()
+        val values: Map<Field<*>, Value<*>> get() = _values.toMap()
+
+        operator fun <T:Type> get(field: Field<T>): Value<T> {
+            @Suppress("UNCHECKED_CAST")
+            return _values[field] as? Value<T> ?: throw IllegalArgumentException("Field not found")
+        }
+
+        fun <T:Type> set(field: Field<T>, value: Value<T>) {
+            _values[field] = value
+        }
+    }
 }

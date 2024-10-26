@@ -4,6 +4,7 @@
 
 package org.pointyware.commonsense.feature.ontology.data
 
+import org.pointyware.commonsense.core.entities.Field
 import org.pointyware.commonsense.core.entities.Type
 import org.pointyware.commonsense.core.entities.Value
 import kotlin.uuid.ExperimentalUuidApi
@@ -12,9 +13,9 @@ import kotlin.uuid.Uuid
 @OptIn(ExperimentalUuidApi::class)
 interface RecordsDataSource {
     suspend fun createRecord(name: String): Result<Type.Record>
-    suspend fun <T:Type> addField(original: Type.Record, name: String, type: T, defaultValue: Value<T>?): Result<Type.Record>
+    suspend fun <T:Type> defineField(original: Type.Record, name: String, type: T, defaultValue: Value<T>?): Result<Field<T>>
     suspend fun getRecord(id: Uuid): Result<Type.Record>
 
     suspend fun createInstance(template: Type.Record): Result<Value.Instance>
-    suspend fun <T:Type> setAttribute(original: Value.Instance, fieldName: String, value: Value<T>): Result<Value.Instance>
+    suspend fun <T:Type> setFieldValue(original: Value.Instance, field: Field<T>, value: Value<T>): Result<Value.Instance>
 }
