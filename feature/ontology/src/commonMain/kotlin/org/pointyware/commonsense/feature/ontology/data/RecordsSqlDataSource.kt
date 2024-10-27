@@ -52,7 +52,9 @@ class RecordsSqlDataSource(
     }
 
     override suspend fun getRecord(id: Uuid): Result<Type.Record> = runCatching {
-        TODO("Not yet implemented")
+        db.recordsQueries.getRecord(id.toByteArray()).executeAsOne().let {
+            Type.Record(it.name, Uuid.fromByteArray(it.uuid))
+        }
     }
 
     override suspend fun createInstance(
