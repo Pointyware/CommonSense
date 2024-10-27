@@ -104,6 +104,9 @@ createRecord:
 INSERT INTO records (uuid, name)
 VALUES (?, ?);
 
+getRecord:
+SELECT uuid, name FROM records WHERE uuid = ?;
+
 -- Add a Field to a Record
 addField:
 INSERT INTO fields (recordId, name, type, default_value)
