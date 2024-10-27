@@ -44,7 +44,7 @@ class RecordsSqlDataSource(
         val recordId = original.uuid
         // TODO: check that value type matches given type
         // TODO: determine how to store default value
-        db.recordsQueries.addField(recordId.toByteArray(), name, type.name, TODO())
+//        db.recordsQueries.addField(recordId.toByteArray(), name, type.name, 0)
         // TODO: db.recordQueries.createIntValue(defaultValue.value, recordId.toByteArray(), null)
         // TODO: db.recordQueries.createInstanceValue(defaultValue.value, recordId.toByteArray(), null)
 

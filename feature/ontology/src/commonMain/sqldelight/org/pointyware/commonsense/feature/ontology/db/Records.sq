@@ -9,7 +9,7 @@ INSERT INTO type(name, description, value_table)
 VALUES ('int', 'A 32-bit signed integer', 'int_values'),
        ('float', 'A 64-bit floating point number', 'float_values'),
        ('text', 'A string of text', 'text_values'),
-       ('instance', 'A set of values that conform to a specific record', 'instance_values');
+       ('record', 'A set of values that conform to a specific record', 'instance_values');
 
 -- Record table
 CREATE TABLE records (
@@ -108,13 +108,47 @@ getRecord:
 SELECT uuid, name FROM records WHERE uuid = ?;
 
 -- Add a Field to a Record
-addField:
+addIntField:
 INSERT INTO fields (recordId, name, type, default_value)
 VALUES (
   (SELECT id FROM records WHERE uuid = ?),
   ?,
-  (SELECT creationId FROM type WHERE name = ?),
-  (SELECT id FROM int_values WHERE value = ?)
+  (SELECT creationId FROM type WHERE name = 'int'),
+  ?
+);
+
+addFloatField:
+INSERT INTO fields (recordId, name, type, default_value)
+VALUES (
+  (SELECT id FROM records WHERE uuid = ?),
+  ?,
+  (SELECT creationId FROM type WHERE name = 'float'),
+  ?
+);
+
+addTextField:
+INSERT INTO fields (recordId, name, type, default_value)
+VALUES (
+  (SELECT id FROM records WHERE uuid = ?),
+  ?,
+  (SELECT creationId FROM type WHERE name = 'text'),
+  ?
+);
+
+addRecordField:
+INSERT INTO fields (recordId, name, type, default_value)
+VALUES (
+  (SELECT id FROM records WHERE uuid = ?),
+  ?,
+  (SELECT creationId FROM type WHERE name = 'instance'),
+  ?
+);
+
+setRecordFieldType:
+INSERT INTO instance_fields (fieldId, recordTypeId)
+VALUES (
+  (SELECT id FROM fields WHERE recordId = (SELECT id FROM records WHERE uuid = ?) AND name = ?),
+  (SELECT id FROM records WHERE uuid = ?)
 );
 
 -- Create a new Instance from a Record type
