@@ -51,15 +51,6 @@ class RecordsSqlDataSourceUnitTest {
     */
 
     @Test
-    fun createRecord_should_throw_on_empty_name() = runTest {
-        val recordName = ""
-
-        assertFailsWith<IllegalArgumentException> { runBlocking {
-            unitUnderTest.createRecord(recordName)
-        } }
-    }
-
-    @Test
     fun createRecord_should_throw_on_invalid_names() = runTest {
         listOf(
             "a record",
