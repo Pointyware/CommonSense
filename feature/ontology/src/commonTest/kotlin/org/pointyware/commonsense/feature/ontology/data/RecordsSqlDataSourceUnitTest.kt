@@ -68,6 +68,7 @@ class RecordsSqlDataSourceUnitTest {
             "record!",
             "record@",
             " ",
+            "",
         ).forEach { recordName ->
             assertFailsWith<IllegalArgumentException> { runBlocking {
                 unitUnderTest.createRecord(recordName)
