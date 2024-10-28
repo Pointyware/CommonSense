@@ -76,17 +76,22 @@ class RecordsSqlDataSourceUnitTest {
     }
 
     @Test
-    fun createRecord_should_create_record() = runTest {
-        val validName = "record"
+    fun createRecord_should_create_record_for_valid_names() = runTest {
+        listOf(
+            "record",
+            "Record",
+            "record1",
+            "record_1",
+        ).forEach { recordName ->
+            val result = unitUnderTest.createRecord(recordName).getOrThrow()
 
-        val result = unitUnderTest.createRecord(validName).getOrThrow()
-
-        assertEquals("Record name should match given name",
-            validName, result.name)
-        assertNotEquals("Record should have non-null UUID",
-            Uuid.NIL, result.uuid)
-        assertTrue("Record should have no fields",
-            result.fields.isEmpty())
+            assertEquals("Record name should match given name",
+                recordName, result.name)
+            assertNotEquals("Record should have non-null UUID",
+                Uuid.NIL, result.uuid)
+            assertTrue("Record should have no fields",
+                result.fields.isEmpty())
+        }
     }
 
     /*
