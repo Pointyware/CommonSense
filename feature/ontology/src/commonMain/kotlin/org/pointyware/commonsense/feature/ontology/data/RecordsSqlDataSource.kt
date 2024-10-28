@@ -4,6 +4,8 @@
 
 package org.pointyware.commonsense.feature.ontology.data
 
+import org.pointyware.commonsense.core.entities.ExperimentalType
+import org.pointyware.commonsense.core.entities.ExperimentalValue
 import org.pointyware.commonsense.core.entities.Field
 import org.pointyware.commonsense.core.entities.Type
 import org.pointyware.commonsense.core.entities.Value
@@ -35,6 +37,7 @@ class RecordsSqlDataSource(
         Type.Record(name, newUuid)
     }
 
+    @OptIn(ExperimentalValue::class, ExperimentalType::class)
     override suspend fun <T : Type> defineField(
         original: Type.Record,
         name: String,
@@ -42,11 +45,60 @@ class RecordsSqlDataSource(
         defaultValue: Value<T>?
     ): Result<Field<T>> = runCatching {
         val recordId = original.uuid
-        // TODO: check that value type matches given type
-        // TODO: determine how to store default value
-//        db.recordsQueries.addField(recordId.toByteArray(), name, type.name, 0)
-        // TODO: db.recordQueries.createIntValue(defaultValue.value, recordId.toByteArray(), null)
-        // TODO: db.recordQueries.createInstanceValue(defaultValue.value, recordId.toByteArray(), null)
+        when (type) {
+            is Type.Int -> {
+                defaultValue?.let {
+                    if (defaultValue !is Value.IntValue) throw IllegalArgumentException("Expected Value.IntValue, got $defaultValue")
+                    db.transaction {
+                        db.recordsQueries.addIntField(recordId.toByteArray(), name, 1)
+                        db.recordsQueries.setInstanceIntValue(Uuid.NIL.toByteArray(), original.uuid.toByteArray(), name, defaultValue.rawValue.toLong())
+                    }
+                } ?: run {
+                    db.recordsQueries.addIntField(recordId.toByteArray(), name, 0)
+                }
+            }
+            is Type.Float -> {
+                defaultValue?.let {
+                    if (defaultValue !is Value.RealValue) throw IllegalArgumentException("Expected Value.RealValue, got $defaultValue")
+                    db.transaction {
+                        db.recordsQueries.addFloatField(recordId.toByteArray(), name, 1)
+//                        db.recordsQueries.setInstanceTextValue(Uuid.NIL.toByteArray(), original.uuid.toByteArray(), name, defaultValue.rawValue.toLong())
+                        TODO("setInstanceTextValue")
+                    }
+                } ?: run {
+                    db.recordsQueries.addFloatField(recordId.toByteArray(), name, 0)
+                }
+            }
+            is Type.String -> {
+                defaultValue?.let {
+                    if (defaultValue !is Value.StringValue) throw IllegalArgumentException("Expected Value.StringValue, got $defaultValue")
+                    db.transaction {
+                        db.recordsQueries.addTextField(recordId.toByteArray(), name, 1)
+//                        db.recordsQueries.setInstanceStringValue(Uuid.NIL.toByteArray(), original.uuid.toByteArray(), name, defaultValue.rawValue.toLong())
+                        TODO("setInstanceStringValue")
+                    }
+                } ?: run {
+                    db.recordsQueries.addTextField(recordId.toByteArray(), name, 0)
+                }
+            }
+            is Type.Record -> {
+                defaultValue?.let {
+                    if (defaultValue !is Value.Instance) throw IllegalArgumentException("Expected Value.Instance, got $defaultValue")
+                    db.transaction {
+                        db.recordsQueries.addRecordField(recordId.toByteArray(), name, 1)
+                        db.recordsQueries.setRecordFieldType(original.uuid.toByteArray(), name, type.uuid.toByteArray())
+//                        db.recordsQueries.setInstanceRecordValue(Uuid.NIL.toByteArray(), original.uuid.toByteArray(), name, defaultValue.id.toByteArray())
+                        TODO("setInstanceRecordValue")
+                    }
+                } ?: run {
+                    db.transaction {
+                        db.recordsQueries.addRecordField(recordId.toByteArray(), name, 0)
+                        db.recordsQueries.setRecordFieldType(original.uuid.toByteArray(), name, type.uuid.toByteArray())
+                    }
+                }
+            }
+            else -> throw IllegalArgumentException("Unsupported type: $type")
+        }
 
         Field(name, type, defaultValue)
     }
