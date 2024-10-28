@@ -98,9 +98,12 @@ class RecordsSqlDataSourceUnitTest {
         val record = unitUnderTest.createRecord(recordName).getOrThrow()
         val emptyName = ""
 
-        assertFailsWith<IllegalArgumentException> { runBlocking {
-            unitUnderTest.defineField(record, emptyName, Type.Int, Value.IntValue(0))
-        } }
+        val result = unitUnderTest.defineField(record, emptyName, Type.Int, Value.IntValue(0))
+
+        assertTrue("Result should be an error",
+            result.isFailure)
+        assertEquals("Result error should be IllegalArgumentException",
+            IllegalArgumentException::class, result.exceptionOrNull()!!::class)
     }
 
     @Test
