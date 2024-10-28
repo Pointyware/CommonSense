@@ -53,7 +53,7 @@ class RecordsSqlDataSource(
                     if (defaultValue !is Value.IntValue) throw IllegalArgumentException("Expected Value.IntValue, got $defaultValue")
                     db.transaction {
                         db.recordsQueries.addIntField(recordId.toByteArray(), name, 1)
-                        db.recordsQueries.setInstanceIntValue(Uuid.NIL.toByteArray(), original.uuid.toByteArray(), name, defaultValue.rawValue.toLong())
+                        db.recordsQueries.setInstanceIntValue(Uuid.NIL.toByteArray(), recordId.toByteArray(), name, defaultValue.rawValue.toLong())
                     }
                 } ?: run {
                     db.recordsQueries.addIntField(recordId.toByteArray(), name, 0)
@@ -106,7 +106,8 @@ class RecordsSqlDataSource(
     }
 
     override suspend fun getRecord(id: Uuid): Result<Type.Record> = runCatching {
-        db.recordsQueries.getRecord(id.toByteArray()).executeAsOne().let {
+        db.recordsQueries.getRecord(id.toByteArray()).executeAsOneOrNull().let {
+            require(it != null) { "Record not found: $id" }
             Type.Record(it.name, Uuid.fromByteArray(it.uuid))
         }
     }
