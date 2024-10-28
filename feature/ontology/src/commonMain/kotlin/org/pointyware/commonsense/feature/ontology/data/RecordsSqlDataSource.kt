@@ -32,6 +32,7 @@ class RecordsSqlDataSource(
     }
 
     override suspend fun createRecord(name: String): Result<Type.Record> = runCatching {
+        require(name.matches("[a-zA-Z][a-zA-Z0-9_]*".toRegex())) { "Invalid record name: $name" }
         val newUuid = Uuid.random()
         db.recordsQueries.createRecord(newUuid.toByteArray(), name)
         Type.Record(name, newUuid)
