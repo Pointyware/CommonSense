@@ -70,9 +70,11 @@ class RecordsSqlDataSourceUnitTest {
             " ",
             "",
         ).forEach { recordName ->
-            assertFailsWith<IllegalArgumentException> { runBlocking {
-                unitUnderTest.createRecord(recordName)
-            } }
+            val result = unitUnderTest.createRecord(recordName)
+            assertTrue("Result should be an error",
+                result.isFailure)
+            assertEquals("Result error should be IllegalArgumentException",
+                IllegalArgumentException::class, result.exceptionOrNull()!!::class)
         }
     }
 
