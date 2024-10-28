@@ -19,8 +19,9 @@ sealed interface Value<out T: Type> {
     @ExperimentalValue
     class ComplexValue(val real: RealValue, val imaginary: ImaginaryValue): Value<Type.Complex>
 
+    @OptIn(ExperimentalType::class)
     @ExperimentalValue
-    class RealValue(val rawValue: Double)
+    class RealValue(val rawValue: Double): Value<Type.Float>
 
     @ExperimentalValue
     class ImaginaryValue(val rawValue: Double)
