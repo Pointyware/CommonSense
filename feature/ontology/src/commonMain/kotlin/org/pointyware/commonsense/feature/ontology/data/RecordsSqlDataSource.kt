@@ -31,8 +31,9 @@ class RecordsSqlDataSource(
         OntologyDb(driver)
     }
 
+    private val recordNamePattern = "[a-zA-Z][a-zA-Z0-9_]*".toRegex()
     override suspend fun createRecord(name: String): Result<Type.Record> = runCatching {
-        require(name.matches("[a-zA-Z][a-zA-Z0-9_]*".toRegex())) { "Invalid record name: $name" }
+        require(name.matches(recordNamePattern)) { "Invalid record name: $name" }
         val newUuid = Uuid.random()
         db.recordsQueries.createRecord(newUuid.toByteArray(), name)
         Type.Record(name, newUuid)
