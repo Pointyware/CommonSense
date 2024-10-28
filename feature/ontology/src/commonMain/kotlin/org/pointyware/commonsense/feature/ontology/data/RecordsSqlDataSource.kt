@@ -46,6 +46,7 @@ class RecordsSqlDataSource(
         type: T,
         defaultValue: Value<T>?
     ): Result<Field<T>> = runCatching {
+        require(name.isNotEmpty()) { "Field name cannot be empty" }
         val recordId = original.uuid
         when (type) {
             is Type.Int -> {
