@@ -121,6 +121,8 @@ class RecordsSqlDataSourceUnitTest {
             fieldName, field.name)
         assertEquals("Field type should match given type.",
             Type.Int, field.type)
+        assertEquals("Field default should match given value.",
+            Value.IntValue(0), field.defaultValue)
     }
 
     /*
