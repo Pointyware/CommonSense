@@ -179,21 +179,20 @@ class RecordsSqlDataSourceUnitTest {
     }
 
     /*
-    suspend fun <T:Type> setAttribute(original: Value.Instance, fieldName: String, value: Value<T>): Result<Value.Instance>
+    suspend fun <T:Type> setFieldValue(original: Value.Instance, field: Field<T>, value: Value<T>): Result<Value.Instance>
      */
 
     @Test
-    fun setAttribute_should_set_field_for_valid_name() {
-        fail("Not implemented")
-    }
+    fun setFieldValue_should_return_persisted_value() = runTest {
+        val recordName = "cRecord"
+        val baseRecord = unitUnderTest.createRecord(recordName).getOrThrow()
+        val foo = unitUnderTest.defineField(baseRecord, "foo", Type.Int, null).getOrThrow()
+        val completeRecord = unitUnderTest.getRecord(baseRecord.uuid).getOrThrow()
+        val instance = unitUnderTest.createInstance(completeRecord).getOrThrow()
 
-    @Test
-    fun setAttribute_should_throw_for_invalid_field_name() {
-        fail("Not implemented")
-    }
+        val result = unitUnderTest.setFieldValue(instance, foo, Value.IntValue(10)).getOrThrow()
 
-    @Test
-    fun setAttribute_should_throw_for_invalid_value_type() {
-        fail("Not implemented")
+        assertEquals("Attribute value should be the new value",
+            Value.IntValue(10), result[foo])
     }
 }
