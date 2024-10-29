@@ -123,6 +123,8 @@ class RecordsSqlDataSourceUnitTest {
             Type.Int, field.type)
         assertEquals("Field default should match given value.",
             Value.IntValue(0), field.defaultValue)
+        assertEquals("Returned record field should match created field.",
+            field, updatedRecord.fields.first())
     }
 
     /*
