@@ -109,7 +109,40 @@ class RecordsSqlDataSource(
     override suspend fun getRecord(id: Uuid): Result<Type.Record> = runCatching {
         db.recordsQueries.getRecord(id.toByteArray()).executeAsOneOrNull().let {
             require(it != null) { "Record not found: $id" }
-            Type.Record(it.name, Uuid.fromByteArray(it.uuid))
+            val fields = db.recordsQueries.getRecordFields(id.toByteArray()).executeAsList().map { fieldRow ->
+                val fieldName = fieldRow.fieldName
+                val type = when (fieldRow.typeName) {
+                    "int" -> Type.Int
+                    "float" -> Type.Float
+                    "text" -> Type.String
+                    "record" -> {
+                        TODO("Get Field Record SubType")
+                        Type.Record(TODO("subtype name"), TODO("subtype uuid"))
+                    }
+                    else -> throw IllegalArgumentException("Unsupported field type: ${fieldRow.typeName}")
+                }
+                val default = if (fieldRow.hasDefault > 0) {
+                    when (type) {
+                        Type.Int -> {
+                            TODO("Get Field Int Default Value")
+                        }
+                        Type.Float -> {
+                            TODO("Get Field Float Default Value")
+                        }
+                        Type.String -> {
+                            TODO("Get Field String Default Value")
+                        }
+                        is Type.Record -> {
+                            TODO("Get Field Record Default Value")
+                            Value.Instance(TODO("Instance Value"), type, TODO("Fetch Instance Values from record"))
+                        }
+                        else -> throw IllegalArgumentException("Unsupported type: $type")
+                    }
+                } else { null }
+                Field(fieldName, type, default)
+            }.toSet()
+
+            Type.Record(it.name, Uuid.fromByteArray(it.uuid), fields)
         }
     }
 
