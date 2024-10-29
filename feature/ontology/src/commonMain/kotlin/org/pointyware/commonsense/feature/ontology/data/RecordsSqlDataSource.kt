@@ -53,6 +53,7 @@ class RecordsSqlDataSource(
                     if (defaultValue !is Value.IntValue) throw IllegalArgumentException("Expected Value.IntValue, got $defaultValue")
                     db.transaction {
                         db.recordsQueries.addIntField(recordId.toByteArray(), name, 1)
+                        db.recordsQueries.createInstance(recordId.toByteArray(), Uuid.NIL.toByteArray())
                         db.recordsQueries.setInstanceIntValue(Uuid.NIL.toByteArray(), recordId.toByteArray(), name, defaultValue.rawValue.toLong())
                     }
                 } ?: run {
