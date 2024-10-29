@@ -24,6 +24,7 @@ import kotlin.uuid.Uuid
 /**
  * Maintains the state of the category explorer.
  */
+@OptIn(ExperimentalUuidApi::class)
 class CategoryExplorerViewModel(
     private val getSelectedCategoryUseCase: GetSelectedCategoryUseCase,
     private val getSelectedConceptUseCase: GetSelectedConceptUseCase,
@@ -33,8 +34,21 @@ class CategoryExplorerViewModel(
 ): ViewModel() {
 
     enum class EditorState {
+        /**
+         * No editor is active.
+         */
         Disabled,
+        /**
+         * The record editor is active.
+         */
         Record,
+        /**
+         * The instance editor is active.
+         */
+        Instance,
+        /**
+         * The category editor is active.
+         */
         Category
     }
 
@@ -50,6 +64,7 @@ class CategoryExplorerViewModel(
             currentCategory = currentCategory,
             editorState = when (editorState) {
                 EditorState.Record -> CategoryExplorerEditorState.Record(recordEditor)
+                EditorState.Instance -> CategoryExplorerEditorState.Record(recordEditor)
                 EditorState.Category -> CategoryExplorerEditorState.Category(categoryEditor)
                 EditorState.Disabled -> CategoryExplorerEditorState.Disabled
             },
@@ -122,6 +137,10 @@ class CategoryExplorerViewModel(
     fun onAddCard() {
         recordEditorViewModel.prepareFor(null)
         _editorState.value = EditorState.Record
+    }
+
+    fun onAddStructure() {
+        TODO("Open Record creation state")
     }
 
     fun onAddCategory() {
