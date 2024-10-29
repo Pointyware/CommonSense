@@ -128,7 +128,8 @@ VALUES (
 getIntField:
 SELECT value
 FROM int_values
-WHERE instanceId = (SELECT id FROM instances WHERE uuid = ?);
+WHERE instanceId = (SELECT id FROM instances WHERE uuid = ?)
+AND fieldId = (SELECT id FROM fields WHERE recordId = (SELECT id FROM records WHERE uuid = ?) AND name = ?);
 
 addFloatField:
 INSERT INTO fields (recordId, name, type, default_value)
