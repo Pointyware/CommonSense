@@ -193,6 +193,6 @@ setInstanceIntValue:
 INSERT INTO int_values (instanceId, fieldId, value)
 VALUES (
   (SELECT id FROM instances WHERE uuid = ?),
-  (SELECT id FROM fields WHERE recordId = (SELECT recordId FROM instances WHERE uuid = ?) AND name = ?),
+  (SELECT id FROM fields WHERE recordId = (SELECT id FROM records WHERE uuid = ?) AND name = ?),
   ?
 );
