@@ -167,8 +167,9 @@ class RecordsSqlDataSourceUnitTest {
         val recordName = "bRecord"
         val baseRecord = unitUnderTest.createRecord(recordName).getOrThrow()
         val foo = unitUnderTest.defineField(baseRecord, "foo", Type.Int, Value.IntValue(10)).getOrThrow()
+        val completeRecord = unitUnderTest.getRecord(baseRecord.uuid).getOrThrow()
 
-        val instance = unitUnderTest.createInstance(baseRecord).getOrThrow()
+        val instance = unitUnderTest.createInstance(completeRecord).getOrThrow()
 
         assertTrue("Instance should have one field value",
             instance.values.isNotEmpty())
