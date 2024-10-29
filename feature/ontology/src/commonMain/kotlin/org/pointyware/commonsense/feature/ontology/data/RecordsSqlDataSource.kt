@@ -124,7 +124,9 @@ class RecordsSqlDataSource(
                 val default = if (fieldRow.hasDefault > 0) {
                     when (type) {
                         Type.Int -> {
-                            TODO("Get Field Int Default Value")
+                            db.recordsQueries.getIntField(Uuid.NIL.toByteArray(), id.toByteArray(), fieldName).executeAsOneOrNull()?.let { value ->
+                                Value.IntValue(value.toInt()) // TODO: expand IntValue to support Long or add LongValue type?
+                            }
                         }
                         Type.Float -> {
                             TODO("Get Field Float Default Value")
