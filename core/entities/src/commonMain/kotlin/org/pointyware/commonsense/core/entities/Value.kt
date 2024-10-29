@@ -26,7 +26,7 @@ sealed interface Value<out T: Type> {
     @ExperimentalValue
     class ImaginaryValue(val rawValue: Double)
 
-    class IntValue(val rawValue: Int): Value<Type.Int>
+    data class IntValue(val rawValue: Int): Value<Type.Int>
 
     class StringValue(val rawValue: String): Value<Type.String>
 
