@@ -14,7 +14,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.onClick
+//import androidx.compose.foundation.onClick // FIXME: https://youtrack.jetbrains.com/issue/CMP-3503/skikoMain-API-are-shown-as-available-in-commonMain
 import androidx.compose.material3.Button
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -155,13 +155,13 @@ fun CategoryExplorer(
                         }
                     },
                     modifier = Modifier
-                        .onClick(
-                            onClick = { onCategorySelected(category.id) },
-                            onLongClick = {
-                                categorySelectionController.select(category.id)
-                                categorySelectionController.activate()
-                            }
-                        ),
+//                        .onClick(
+//                            onClick = { onCategorySelected(category.id) },
+//                            onLongClick = {
+//                                categorySelectionController.select(category.id)
+//                                categorySelectionController.activate()
+//                            }
+//                        ),
                 )
             }
             items(currentCategory.concepts) { concept ->
@@ -176,13 +176,13 @@ fun CategoryExplorer(
                         }
                     },
                     modifier = Modifier
-                        .onClick(
-                            onClick = { onConceptSelected(concept.id) },
-                            onLongClick = {
-                                conceptSelectionController.select(concept.id)
-                                conceptSelectionController.activate()
-                            }
-                        ),
+//                        .onClick(
+//                            onClick = { onConceptSelected(concept.id) },
+//                            onLongClick = {
+//                                conceptSelectionController.select(concept.id)
+//                                conceptSelectionController.activate()
+//                            }
+//                        ),
                 )
             }
         }
