@@ -22,6 +22,9 @@ sealed interface CategoryExplorerEditorState {
     data class Record(
         val record: RecordEditorUiState
     ): CategoryExplorerEditorState
+    data class Instance(
+        val instance: InstanceEditorUiState
+    )
     data class Category(
         val category: CategoryEditorUiState
     ) : CategoryExplorerEditorState
