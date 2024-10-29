@@ -39,7 +39,6 @@ class RecordsSqlDataSource(
         Type.Record(name, newUuid)
     }
 
-    @OptIn(ExperimentalValue::class, ExperimentalType::class)
     override suspend fun <T : Type> defineField(
         original: Type.Record,
         name: String,
@@ -60,46 +59,46 @@ class RecordsSqlDataSource(
                     db.recordsQueries.addIntField(recordId.toByteArray(), name, 0)
                 }
             }
-            is Type.Float -> {
-                defaultValue?.let {
-                    if (defaultValue !is Value.RealValue) throw IllegalArgumentException("Expected Value.RealValue, got $defaultValue")
-                    db.transaction {
-                        db.recordsQueries.addFloatField(recordId.toByteArray(), name, 1)
-//                        db.recordsQueries.setInstanceTextValue(Uuid.NIL.toByteArray(), original.uuid.toByteArray(), name, defaultValue.rawValue.toLong())
-                        TODO("setInstanceTextValue")
-                    }
-                } ?: run {
-                    db.recordsQueries.addFloatField(recordId.toByteArray(), name, 0)
-                }
-            }
-            is Type.String -> {
-                defaultValue?.let {
-                    if (defaultValue !is Value.StringValue) throw IllegalArgumentException("Expected Value.StringValue, got $defaultValue")
-                    db.transaction {
-                        db.recordsQueries.addTextField(recordId.toByteArray(), name, 1)
-//                        db.recordsQueries.setInstanceStringValue(Uuid.NIL.toByteArray(), original.uuid.toByteArray(), name, defaultValue.rawValue.toLong())
-                        TODO("setInstanceStringValue")
-                    }
-                } ?: run {
-                    db.recordsQueries.addTextField(recordId.toByteArray(), name, 0)
-                }
-            }
-            is Type.Record -> {
-                defaultValue?.let {
-                    if (defaultValue !is Value.Instance) throw IllegalArgumentException("Expected Value.Instance, got $defaultValue")
-                    db.transaction {
-                        db.recordsQueries.addRecordField(recordId.toByteArray(), name, 1)
-                        db.recordsQueries.setRecordFieldType(original.uuid.toByteArray(), name, type.uuid.toByteArray())
-//                        db.recordsQueries.setInstanceRecordValue(Uuid.NIL.toByteArray(), original.uuid.toByteArray(), name, defaultValue.id.toByteArray())
-                        TODO("setInstanceRecordValue")
-                    }
-                } ?: run {
-                    db.transaction {
-                        db.recordsQueries.addRecordField(recordId.toByteArray(), name, 0)
-                        db.recordsQueries.setRecordFieldType(original.uuid.toByteArray(), name, type.uuid.toByteArray())
-                    }
-                }
-            }
+//            is Type.Float -> {
+//                defaultValue?.let {
+//                    if (defaultValue !is Value.RealValue) throw IllegalArgumentException("Expected Value.RealValue, got $defaultValue")
+//                    db.transaction {
+//                        db.recordsQueries.addFloatField(recordId.toByteArray(), name, 1)
+////                        db.recordsQueries.setInstanceTextValue(Uuid.NIL.toByteArray(), original.uuid.toByteArray(), name, defaultValue.rawValue.toLong())
+//                        TODO("setInstanceTextValue")
+//                    }
+//                } ?: run {
+//                    db.recordsQueries.addFloatField(recordId.toByteArray(), name, 0)
+//                }
+//            }
+//            is Type.String -> {
+//                defaultValue?.let {
+//                    if (defaultValue !is Value.StringValue) throw IllegalArgumentException("Expected Value.StringValue, got $defaultValue")
+//                    db.transaction {
+//                        db.recordsQueries.addTextField(recordId.toByteArray(), name, 1)
+////                        db.recordsQueries.setInstanceStringValue(Uuid.NIL.toByteArray(), original.uuid.toByteArray(), name, defaultValue.rawValue.toLong())
+//                        TODO("setInstanceStringValue")
+//                    }
+//                } ?: run {
+//                    db.recordsQueries.addTextField(recordId.toByteArray(), name, 0)
+//                }
+//            }
+//            is Type.Record -> {
+//                defaultValue?.let {
+//                    if (defaultValue !is Value.Instance) throw IllegalArgumentException("Expected Value.Instance, got $defaultValue")
+//                    db.transaction {
+//                        db.recordsQueries.addRecordField(recordId.toByteArray(), name, 1)
+//                        db.recordsQueries.setRecordFieldType(original.uuid.toByteArray(), name, type.uuid.toByteArray())
+////                        db.recordsQueries.setInstanceRecordValue(Uuid.NIL.toByteArray(), original.uuid.toByteArray(), name, defaultValue.id.toByteArray())
+//                        TODO("setInstanceRecordValue")
+//                    }
+//                } ?: run {
+//                    db.transaction {
+//                        db.recordsQueries.addRecordField(recordId.toByteArray(), name, 0)
+//                        db.recordsQueries.setRecordFieldType(original.uuid.toByteArray(), name, type.uuid.toByteArray())
+//                    }
+//                }
+//            }
             else -> throw IllegalArgumentException("Unsupported type: $type")
         }
 
@@ -113,12 +112,12 @@ class RecordsSqlDataSource(
                 val fieldName = fieldRow.fieldName
                 val type = when (fieldRow.typeName) {
                     "int" -> Type.Int
-                    "float" -> Type.Float
-                    "text" -> Type.String
-                    "record" -> {
-                        TODO("Get Field Record SubType")
-                        Type.Record(TODO("subtype name"), TODO("subtype uuid"))
-                    }
+//                    "float" -> Type.Float
+//                    "text" -> Type.String
+//                    "record" -> {
+//                        TODO("Get Field Record SubType")
+//                        Type.Record(TODO("subtype name"), TODO("subtype uuid"))
+//                    }
                     else -> throw IllegalArgumentException("Unsupported field type: ${fieldRow.typeName}")
                 }
                 val default = if (fieldRow.hasDefault > 0) {
@@ -128,16 +127,16 @@ class RecordsSqlDataSource(
                                 Value.IntValue(value.toInt()) // TODO: expand IntValue to support Long or add LongValue type?
                             }
                         }
-                        Type.Float -> {
-                            TODO("Get Field Float Default Value")
-                        }
-                        Type.String -> {
-                            TODO("Get Field String Default Value")
-                        }
-                        is Type.Record -> {
-                            TODO("Get Field Record Default Value")
-                            Value.Instance(TODO("Instance Value"), type, TODO("Fetch Instance Values from record"))
-                        }
+//                        Type.Float -> {
+//                            TODO("Get Field Float Default Value")
+//                        }
+//                        Type.String -> {
+//                            TODO("Get Field String Default Value")
+//                        }
+//                        is Type.Record -> {
+//                            TODO("Get Field Record Default Value")
+//                            Value.Instance(TODO("Instance Value"), type, TODO("Fetch Instance Values from record"))
+//                        }
                         else -> throw IllegalArgumentException("Unsupported type: $type")
                     }
                 } else { null }
@@ -157,18 +156,22 @@ class RecordsSqlDataSource(
     ): Result<Value.Instance> = runCatching {
         val newUuid = Uuid.random()
         db.recordsQueries.createInstance(template.uuid.toByteArray(), newUuid.toByteArray())
-        template.fields.forEach { field ->
+        val fieldMap = template.fields.flatMap { field ->
             field.defaultValue?.let { default ->
                 when (default) {
                     is Value.IntValue -> setIntValue(newUuid, template.uuid, field.name, default)
-                    is Value.RealValue -> TODO()
-                    is Value.StringValue -> TODO()
-                    is Value.Instance -> TODO()
+//                    is Value.RealValue -> TODO()
+//                    is Value.StringValue -> TODO()
+//                    is Value.Instance -> TODO()
                     else -> throw IllegalArgumentException("Unsupported default value: $default")
                 }
             }
-        }
-        Value.Instance(newUuid, template, emptyMap())
+            field.defaultValue?.let {
+                listOf(field to it)
+            } ?: emptyList()
+        }.toMap()
+
+        Value.Instance(newUuid, template, fieldMap)
     }
 
     override suspend fun <T : Type> setFieldValue(
@@ -180,9 +183,9 @@ class RecordsSqlDataSource(
         val recordId = original.type.uuid
         when (value) {
             is Value.IntValue -> setIntValue(instanceId, recordId, field.name, value)
-            is Value.RealValue -> TODO()
-            is Value.StringValue -> TODO()
-            is Value.Instance -> TODO()
+//            is Value.RealValue -> TODO()
+//            is Value.StringValue -> TODO()
+//            is Value.Instance -> TODO()
             else -> throw IllegalArgumentException("Unsupported value: $value")
         }
         Value.Instance(
