@@ -148,11 +148,26 @@ class RecordsSqlDataSource(
         }
     }
 
+    private fun setIntValue(instanceId: Uuid, recordId: Uuid, fieldName: String, value: Value.IntValue) {
+        db.recordsQueries.setInstanceIntValue(instanceId.toByteArray(), recordId.toByteArray(), fieldName, value.rawValue.toLong())
+    }
+
     override suspend fun createInstance(
         template: Type.Record,
     ): Result<Value.Instance> = runCatching {
         val newUuid = Uuid.random()
         db.recordsQueries.createInstance(template.uuid.toByteArray(), newUuid.toByteArray())
+        template.fields.forEach { field ->
+            field.defaultValue?.let { default ->
+                when (default) {
+                    is Value.IntValue -> setIntValue(newUuid, template.uuid, field.name, default)
+                    is Value.RealValue -> TODO()
+                    is Value.StringValue -> TODO()
+                    is Value.Instance -> TODO()
+                    else -> throw IllegalArgumentException("Unsupported default value: $default")
+                }
+            }
+        }
         Value.Instance(newUuid, template, emptyMap())
     }
 
@@ -161,9 +176,15 @@ class RecordsSqlDataSource(
         field: Field<T>,
         value: Value<T>
     ): Result<Value.Instance> = runCatching {
-        val instanceId: Uuid = TODO("original.uuid")
-        val recordId: Uuid = TODO("original.record.uuid")
-        // TODO: db.recordsQueries.defineIntAttribute(instanceId.toByteArray(), recordId.toByteArray(), fieldName, value)
+        val instanceId = original.id
+        val recordId = original.type.uuid
+        when (value) {
+            is Value.IntValue -> setIntValue(instanceId, recordId, field.name, value)
+            is Value.RealValue -> TODO()
+            is Value.StringValue -> TODO()
+            is Value.Instance -> TODO()
+            else -> throw IllegalArgumentException("Unsupported value: $value")
+        }
         Value.Instance(
             instanceId,
             original.type,
