@@ -125,6 +125,11 @@ VALUES (
   ?
 );
 
+getIntField:
+SELECT value
+FROM int_values
+WHERE instanceId = (SELECT id FROM instances WHERE uuid = ?);
+
 addFloatField:
 INSERT INTO fields (recordId, name, type, default_value)
 VALUES (
@@ -133,6 +138,11 @@ VALUES (
   (SELECT creationId FROM type WHERE name = 'float'),
   ?
 );
+
+getFloatField:
+SELECT value
+FROM float_values
+WHERE instanceId = (SELECT id FROM instances WHERE uuid = ?);
 
 addTextField:
 INSERT INTO fields (recordId, name, type, default_value)
@@ -143,6 +153,11 @@ VALUES (
   ?
 );
 
+getTextField:
+SELECT value
+FROM text_values
+WHERE instanceId = (SELECT id FROM instances WHERE uuid = ?);
+
 addRecordField:
 INSERT INTO fields (recordId, name, type, default_value)
 VALUES (
@@ -151,6 +166,11 @@ VALUES (
   (SELECT creationId FROM type WHERE name = 'instance'),
   ?
 );
+
+getRecordField:
+SELECT instanceValueId
+FROM instance_values
+WHERE instanceId = (SELECT id FROM instances WHERE uuid = ?);
 
 setRecordFieldType:
 INSERT INTO instance_fields (fieldId, recordTypeId)
