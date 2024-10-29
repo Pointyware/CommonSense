@@ -26,7 +26,7 @@ CREATE TABLE fields (
   type INTEGER NOT NULL,
    -- Functionally Boolean: 0 for false, 1 for true;
    --   table depends on type; row will be value with fieldId = id and instanceId = null
-  default_value INTEGER NOT NULL,
+  has_default_value INTEGER NOT NULL,
   FOREIGN KEY (recordId) REFERENCES records(id),
   FOREIGN KEY (type) REFERENCES type(creationId)
 );
@@ -108,7 +108,7 @@ getRecord:
 SELECT uuid, name FROM records WHERE uuid = ?;
 
 getRecordFields:
-SELECT fields.name AS fieldName, type.name AS typeName, default_value AS hasDefault
+SELECT fields.name AS fieldName, type.name AS typeName, has_default_value AS hasDefault
 FROM
     fields
     JOIN
@@ -117,7 +117,7 @@ WHERE recordId = (SELECT id FROM records WHERE uuid = ?);
 
 -- Add a Field to a Record
 addIntField:
-INSERT INTO fields (recordId, name, type, default_value)
+INSERT INTO fields (recordId, name, type, has_default_value)
 VALUES (
   (SELECT id FROM records WHERE uuid = ?),
   ?,
@@ -132,7 +132,7 @@ WHERE instanceId = (SELECT id FROM instances WHERE uuid = ?)
 AND fieldId = (SELECT id FROM fields WHERE recordId = (SELECT id FROM records WHERE uuid = ?) AND name = ?);
 
 addFloatField:
-INSERT INTO fields (recordId, name, type, default_value)
+INSERT INTO fields (recordId, name, type, has_default_value)
 VALUES (
   (SELECT id FROM records WHERE uuid = ?),
   ?,
@@ -146,7 +146,7 @@ FROM float_values
 WHERE instanceId = (SELECT id FROM instances WHERE uuid = ?);
 
 addTextField:
-INSERT INTO fields (recordId, name, type, default_value)
+INSERT INTO fields (recordId, name, type, has_default_value)
 VALUES (
   (SELECT id FROM records WHERE uuid = ?),
   ?,
@@ -160,7 +160,7 @@ FROM text_values
 WHERE instanceId = (SELECT id FROM instances WHERE uuid = ?);
 
 addRecordField:
-INSERT INTO fields (recordId, name, type, default_value)
+INSERT INTO fields (recordId, name, type, has_default_value)
 VALUES (
   (SELECT id FROM records WHERE uuid = ?),
   ?,
