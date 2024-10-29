@@ -107,6 +107,14 @@ VALUES (?, ?);
 getRecord:
 SELECT uuid, name FROM records WHERE uuid = ?;
 
+getRecordFields:
+SELECT fields.name AS fieldName, type.name AS typeName, default_value AS hasDefault
+FROM
+    fields
+    JOIN
+    type ON fields.type = type.creationId
+WHERE recordId = (SELECT id FROM records WHERE uuid = ?);
+
 -- Add a Field to a Record
 addIntField:
 INSERT INTO fields (recordId, name, type, default_value)
