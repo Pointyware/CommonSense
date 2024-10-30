@@ -120,7 +120,7 @@ class CategoryExplorerViewModel(
         _loadingState.value = true
         viewModelScope.launch {
             val category = _categoryUiState.value.selected ?: return@launch
-            getSelectedInstanceUseCase.invoke(categoryId = category.id, instanceId = conceptId)
+            getSelectedInstanceUseCase.invoke(instanceId = conceptId)
                 .onSuccess {
                     // TODO: replace with record version
 //                    recordEditorViewModel.prepareFor(it)

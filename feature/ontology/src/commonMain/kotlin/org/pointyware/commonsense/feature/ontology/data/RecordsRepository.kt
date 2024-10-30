@@ -20,5 +20,6 @@ interface RecordsRepository {
     suspend fun getCategory(categoryId: Uuid): Result<Category>
     suspend fun getSubcategories(id: Uuid): Result<List<Category>>
     suspend fun addInstance(subject: Uuid, newInstance: Value.Instance): Result<Value.Instance>
-    suspend fun getInstances(id: Uuid): Result<List<Value.Instance>>
+    suspend fun getInstances(category: Uuid): Result<List<Value.Instance>>
+    suspend fun getInstance(instanceId: Uuid): Result<Value.Instance>
 }
