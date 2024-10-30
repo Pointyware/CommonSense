@@ -18,6 +18,8 @@ import org.pointyware.commonsense.feature.ontology.viewmodels.InstanceItemUiStat
 fun InstanceItem(
     state: InstanceItemUiState,
     modifier: Modifier = Modifier,
+    showCheckbox: Boolean,
+    onCheckChange: (Boolean)->Unit,
 ) {
     Row(
         modifier = modifier
