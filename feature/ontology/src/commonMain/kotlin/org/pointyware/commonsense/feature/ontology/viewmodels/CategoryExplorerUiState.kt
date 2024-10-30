@@ -24,7 +24,7 @@ sealed interface CategoryExplorerEditorState {
     ): CategoryExplorerEditorState
     data class Instance(
         val instance: InstanceEditorUiState
-    )
+    ): CategoryExplorerEditorState
     data class Category(
         val category: CategoryEditorUiState
     ) : CategoryExplorerEditorState
