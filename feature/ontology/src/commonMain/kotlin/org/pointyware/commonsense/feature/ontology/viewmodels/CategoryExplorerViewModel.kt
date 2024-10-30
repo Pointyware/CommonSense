@@ -29,6 +29,7 @@ class CategoryExplorerViewModel(
     private val getSelectedCategoryUseCase: GetSelectedCategoryUseCase,
     private val getSelectedConceptUseCase: GetSelectedConceptUseCase,
     private val recordEditorViewModel: RecordEditorViewModel,
+    private val instanceEditorViewModel: InstanceEditorViewModel,
     private val categoryEditorViewModel: CategoryEditorViewModel,
     private val categoryRepository: CategoryRepository,
 ): ViewModel() {
@@ -57,14 +58,21 @@ class CategoryExplorerViewModel(
     private val _editorState = MutableStateFlow(EditorState.Disabled)
 
     val state: StateFlow<CategoryExplorerUiState> get() = combine(
-        _loadingState, _categoryUiState, recordEditorViewModel.state, categoryEditorViewModel.state, _editorState
-    ) { loading, currentCategory, recordEditor, categoryEditor, editorState ->
+        _loadingState, _categoryUiState, recordEditorViewModel.state, instanceEditorViewModel.state, categoryEditorViewModel.state, _editorState
+    ) { stateArray ->
+        val loading = stateArray[0] as Boolean
+        val currentCategory = stateArray[1] as CategoryUiState
+        val recordEditor = stateArray[2] as RecordEditorUiState
+        val instanceEditor = stateArray[3] as InstanceEditorUiState
+        val categoryEditor = stateArray[4] as CategoryEditorUiState
+        val editorState = stateArray[5] as EditorState
+
         CategoryExplorerUiState(
             loading = loading,
             currentCategory = currentCategory,
             editorState = when (editorState) {
                 EditorState.Record -> CategoryExplorerEditorState.Record(recordEditor)
-                EditorState.Instance -> CategoryExplorerEditorState.Record(recordEditor)
+                EditorState.Instance -> CategoryExplorerEditorState.Instance(instanceEditor)
                 EditorState.Category -> CategoryExplorerEditorState.Category(categoryEditor)
                 EditorState.Disabled -> CategoryExplorerEditorState.Disabled
             },
