@@ -12,9 +12,7 @@ import kotlin.uuid.Uuid
 class GetSelectedInstanceUseCase(
     private val recordsRepository: RecordsRepository
 ) {
-    suspend operator fun invoke(categoryId: Uuid, instanceId: Uuid): Result<Value.Instance> {
-        return recordsRepository.getConcepts(categoryId).mapCatching {  list ->
-                list.find { it.id == conceptId } ?: throw Exception("Concept not found")
-            }
+    suspend operator fun invoke(instanceId: Uuid): Result<Value.Instance> {
+        return recordsRepository.getInstance(instanceId)
     }
 }
