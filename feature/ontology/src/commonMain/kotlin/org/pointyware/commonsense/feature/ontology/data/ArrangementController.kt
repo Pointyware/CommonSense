@@ -1,5 +1,3 @@
-@file:OptIn(ExperimentalUuidApi::class)
-
 package org.pointyware.commonsense.feature.ontology.data
 
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -34,7 +32,7 @@ interface ArrangementController {
     fun unfreeze(id: Uuid)
 }
 
-
+@OptIn(ExperimentalUuidApi::class)
 class SimpleArrangementController(
 
 ): ArrangementController {
