@@ -4,7 +4,9 @@
 
 package org.pointyware.commonsense.feature.ontology.ui
 
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.layout.Row
+import androidx.compose.material3.Checkbox
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -24,6 +26,14 @@ fun InstanceItem(
     Row(
         modifier = modifier
     ) {
+        AnimatedVisibility(
+            visible = showCheckbox,
+        ) {
+            Checkbox(
+                checked = false, // TODO: add selection state
+                onCheckedChange = onCheckChange
+            )
+        }
         Text(
             text = state.description,
             style = MaterialTheme.typography.labelMedium
