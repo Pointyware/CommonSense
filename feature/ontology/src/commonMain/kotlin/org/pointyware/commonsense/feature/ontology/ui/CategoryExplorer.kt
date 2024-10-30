@@ -164,6 +164,12 @@ fun CategoryExplorer(
 //                        ),
                 )
             }
+            items(currentCategory.types) {
+                StructureItem(
+                    state = it,
+                    modifier = Modifier.clickable { TODO("Determine Selectability; ") },
+                )
+            }
             items(currentCategory.instances) {
                 InstanceItem(
 //                     value = concept.copy(selected = conceptSelectionController.isSelected(concept.id)),

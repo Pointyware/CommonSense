@@ -22,7 +22,7 @@ fun StructureItem(
         modifier = modifier
     ) {
         Text(
-            text = state.name
+            text = "Structure: " + state.name
         )
     }
 }
