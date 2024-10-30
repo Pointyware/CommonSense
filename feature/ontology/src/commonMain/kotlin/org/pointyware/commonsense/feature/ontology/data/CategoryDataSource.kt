@@ -11,8 +11,12 @@ interface CategoryDataSource {
     suspend fun addCategory(subject: Uuid, name: String): Result<Category>
     suspend fun getCategory(id: Uuid): Result<Category>
     suspend fun getSubcategories(id: Uuid): Result<List<Category>>
-    suspend fun addConcept(subject: Uuid, name: String, description: String): Result<Concept>
-    suspend fun getConcepts(id: Uuid): Result<List<Concept>>
     suspend fun removeCategories(ids: Set<Uuid>): Result<Unit>
+
+    @Deprecated("Prefer Types and Instances")
+    suspend fun addConcept(subject: Uuid, name: String, description: String): Result<Concept>
+    @Deprecated("Prefer Types and Instances")
+    suspend fun getConcepts(id: Uuid): Result<List<Concept>>
+    @Deprecated("Prefer Types and Instances")
     suspend fun removeConcepts(ids: Set<Uuid>): Result<Unit>
 }
