@@ -5,18 +5,11 @@ import org.koin.core.module.Module
 import org.koin.core.module.dsl.bind
 import org.koin.core.module.dsl.singleOf
 import org.koin.dsl.module
+import org.pointyware.commonsense.feature.ontology.data.ArrangementController
 import org.pointyware.commonsense.feature.ontology.data.CategoryDataSource
 import org.pointyware.commonsense.feature.ontology.data.CategoryRepository
 import org.pointyware.commonsense.feature.ontology.data.CategoryRepositoryImpl
 import org.pointyware.commonsense.feature.ontology.data.CategorySqlDataSource
-import org.pointyware.commonsense.feature.ontology.interactors.CreateNewCategoryUseCase
-import org.pointyware.commonsense.feature.ontology.interactors.CreateNewConceptUseCase
-import org.pointyware.commonsense.feature.ontology.interactors.GetSelectedCategoryUseCase
-import org.pointyware.commonsense.feature.ontology.interactors.GetSelectedConceptUseCase
-import org.pointyware.commonsense.feature.ontology.viewmodels.CategoryEditorViewModel
-import org.pointyware.commonsense.feature.ontology.viewmodels.CategoryEditorViewModelImpl
-import org.pointyware.commonsense.feature.ontology.viewmodels.CategoryExplorerViewModel
-import org.pointyware.commonsense.feature.ontology.data.ArrangementController
 import org.pointyware.commonsense.feature.ontology.data.ConceptEditorController
 import org.pointyware.commonsense.feature.ontology.data.ConceptEditorControllerImpl
 import org.pointyware.commonsense.feature.ontology.data.ConceptSpaceRepository
@@ -25,7 +18,11 @@ import org.pointyware.commonsense.feature.ontology.data.RecordsDataSource
 import org.pointyware.commonsense.feature.ontology.data.RecordsSqlDataSource
 import org.pointyware.commonsense.feature.ontology.data.SimpleArrangementController
 import org.pointyware.commonsense.feature.ontology.interactors.AddNewNodeUseCase
+import org.pointyware.commonsense.feature.ontology.interactors.CreateNewCategoryUseCase
+import org.pointyware.commonsense.feature.ontology.interactors.CreateNewConceptUseCase
 import org.pointyware.commonsense.feature.ontology.interactors.GetActiveConceptSpaceUseCase
+import org.pointyware.commonsense.feature.ontology.interactors.GetSelectedCategoryUseCase
+import org.pointyware.commonsense.feature.ontology.interactors.GetSelectedConceptUseCase
 import org.pointyware.commonsense.feature.ontology.interactors.LoadConceptSpaceUseCase
 import org.pointyware.commonsense.feature.ontology.interactors.RemoveNodeUseCase
 import org.pointyware.commonsense.feature.ontology.interactors.SaveConceptSpaceUseCase
@@ -34,10 +31,12 @@ import org.pointyware.commonsense.feature.ontology.interactors.SelectFileUseCase
 import org.pointyware.commonsense.feature.ontology.interactors.UpdateNodeUseCase
 import org.pointyware.commonsense.feature.ontology.local.ConceptSpaceDataSource
 import org.pointyware.commonsense.feature.ontology.ui.ConceptSpaceUiStateMapper
-import org.pointyware.commonsense.feature.ontology.viewmodels.ConceptEditorViewModel
-import org.pointyware.commonsense.feature.ontology.viewmodels.ConceptEditorViewModelImpl
+import org.pointyware.commonsense.feature.ontology.viewmodels.CategoryEditorViewModel
+import org.pointyware.commonsense.feature.ontology.viewmodels.CategoryEditorViewModelImpl
+import org.pointyware.commonsense.feature.ontology.viewmodels.CategoryExplorerViewModel
 import org.pointyware.commonsense.feature.ontology.viewmodels.ConceptSpaceViewModel
 import org.pointyware.commonsense.feature.ontology.viewmodels.RecordEditorViewModel
+import org.pointyware.commonsense.feature.ontology.viewmodels.RecordEditorViewModelImpl
 
 /**
  *
@@ -115,9 +114,8 @@ fun ontologyViewModelModule() = module {
     }
 
     singleOf(::CategoryExplorerViewModel)
-    singleOf(::ConceptEditorViewModelImpl) { bind<ConceptEditorViewModel>() }
     singleOf(::CategoryEditorViewModelImpl) { bind<CategoryEditorViewModel>() }
-    singleOf(::RecordEditorViewModel)
+    singleOf(::RecordEditorViewModelImpl) { bind<RecordEditorViewModel>() }
 }
 
 fun ontologyUiModule() = module {
