@@ -9,6 +9,7 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import org.pointyware.commonsense.core.entities.Value
 import org.pointyware.commonsense.core.viewmodels.ViewModel
+import kotlin.uuid.ExperimentalUuidApi
 
 interface InstanceEditorViewModel {
     val state: StateFlow<InstanceEditorUiState>
@@ -25,6 +26,7 @@ class InstanceEditorViewModelImpl(
 
 ): ViewModel(), InstanceEditorViewModel {
 
+    @OptIn(ExperimentalUuidApi::class)
     private val mutableState = MutableStateFlow(InstanceEditorUiState(TODO(), TODO(), TODO()))
     override val state: StateFlow<InstanceEditorUiState>
         get() = mutableState.asStateFlow()
