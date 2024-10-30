@@ -1,6 +1,6 @@
 @file:OptIn(ExperimentalUuidApi::class)
 
-package org.pointyware.commonsense.feature.ontology.ui
+package org.pointyware.commonsense.feature.ontology.space.ui
 
 import androidx.compose.foundation.layout.offset
 import androidx.compose.runtime.Composable

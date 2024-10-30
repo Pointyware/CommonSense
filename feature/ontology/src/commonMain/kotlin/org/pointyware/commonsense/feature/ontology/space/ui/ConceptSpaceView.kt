@@ -1,6 +1,10 @@
+/*
+ * Copyright (c) 2024 Pointyware. Use of this software is governed by the GPL-3.0 license.
+ */
+
 @file:OptIn(ExperimentalUuidApi::class)
 
-package org.pointyware.commonsense.feature.ontology.ui
+package org.pointyware.commonsense.feature.ontology.space.ui
 
 import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.runtime.Composable
@@ -12,7 +16,7 @@ import org.pointyware.commonsense.core.common.Log
 import org.pointyware.commonsense.core.common.Mapper
 import org.pointyware.commonsense.core.ui.components.InfoEdgeState
 import org.pointyware.commonsense.core.ui.components.InfoNodeState
-import org.pointyware.commonsense.feature.ontology.viewmodels.ConceptSpaceUiState
+import org.pointyware.commonsense.feature.ontology.space.viewmodels.ConceptSpaceUiState
 import kotlin.uuid.ExperimentalUuidApi
 import kotlin.uuid.Uuid
 
