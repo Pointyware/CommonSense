@@ -6,11 +6,15 @@ package org.pointyware.commonsense.feature.ontology.viewmodels
 
 import org.pointyware.commonsense.core.viewmodels.ViewModel
 
+interface InstanceEditorViewModel {
+
+}
+
 /**
  *
  */
-class InstanceEditorViewModel(
+class InstanceEditorViewModelImpl(
 
-): ViewModel() {
+): ViewModel(), InstanceEditorViewModel {
 
 }
