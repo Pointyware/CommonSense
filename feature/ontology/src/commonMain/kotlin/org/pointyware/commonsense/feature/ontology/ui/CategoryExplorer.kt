@@ -42,7 +42,7 @@ fun CategoryExplorer(
     state: CategoryExplorerUiState,
     modifier: Modifier = Modifier,
     onCategorySelected: (Uuid)->Unit,
-    onConceptSelected: (Uuid)->Unit,
+    onInstanceSelected: (Uuid)->Unit,
     onDeleteSelected: (concepts:Set<Uuid>, categories:Set<Uuid>)->Unit,
 ) {
     val currentCategory = state.currentCategory

@@ -36,7 +36,7 @@ fun CategoryExplorerScreen(
             state = state,
             modifier = Modifier.fillMaxSize(),
             onCategorySelected = viewModel::onCategorySelected,
-            onConceptSelected = viewModel::onConceptSelected,
+            onInstanceSelected = viewModel::onConceptSelected,
             onDeleteSelected = viewModel::onDeleteSelected,
         )
 
