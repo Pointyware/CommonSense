@@ -33,6 +33,8 @@ interface RecordEditorViewModel {
     fun onFieldValueChange(index: Int, newValue: Value<*>)
     fun onFieldTypeChange(index: Int, newType: Type)
     fun onFieldRemoved(index: Int)
+    fun onConfirm()
+    fun onCancel()
 }
 
 /**
@@ -164,14 +166,14 @@ class RecordEditorViewModelImpl(
         }
     }
 
-    fun onConfirm() {
+    override fun onConfirm() {
         viewModelScope.launch {
             // TODO: submit edits
             mutableOnFinish.emit(Unit)
         }
     }
 
-    fun onCancel() {
+    override fun onCancel() {
         viewModelScope.launch {
             mutableOnFinish.emit(Unit)
         }
