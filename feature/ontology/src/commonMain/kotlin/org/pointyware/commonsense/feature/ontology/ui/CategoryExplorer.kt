@@ -164,18 +164,19 @@ fun CategoryExplorer(
 //                        ),
                 )
             }
-            items(currentCategory.concepts) { concept ->
-                ConceptItem(
-                    value = concept.copy(selected = conceptSelectionController.isSelected(concept.id)),
+            items(currentCategory.instances) {
+                InstanceItem(
+//                     value = concept.copy(selected = conceptSelectionController.isSelected(concept.id)),
+                    state = it,
                     showCheckbox = selectionActive,
-                    onCheckedChange = { isChecked ->
+                    onCheckChange = { isChecked ->
                         if (isChecked) {
-                            conceptSelectionController.select(concept.id)
+                            conceptSelectionController.select(it.id)
                         } else {
-                            conceptSelectionController.deselect(concept.id)
+                            conceptSelectionController.deselect(it.id)
                         }
                     },
-                    modifier = Modifier
+                    modifier = Modifier.clickable { onInstanceSelected(it.id) },
 //                        .onClick(
 //                            onClick = { onConceptSelected(concept.id) },
 //                            onLongClick = {
