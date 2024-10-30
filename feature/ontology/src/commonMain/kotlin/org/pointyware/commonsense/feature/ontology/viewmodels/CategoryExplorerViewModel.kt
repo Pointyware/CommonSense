@@ -95,7 +95,8 @@ class CategoryExplorerViewModel(
                         CategoryUiState(
                             selected = info.subject.toUiState(),
                             subcategories = info.subcategories.map(Category::toUiState),
-                            concepts = info.instances.map(Value.Instance::toUiState)
+                            concepts = emptyList(),
+                            instances = info.instances.map(Value.Instance::toUiState)
                         )
                     }
                 }
