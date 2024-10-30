@@ -31,16 +31,6 @@ data class OntologyJson(
 )
 
 /**
- * A JSON representation of the [org.pointyware.commonsense.feature.ontology.Concept] entity.
- */
-@Serializable
-data class ConceptJson(
-    val id: Uuid,
-    val name: String,
-    val description: String?,
-)
-
-/**
  * A JSON representation of the [org.pointyware.commonsense.feature.ontology.Instance] entity.
  */
 @Serializable
