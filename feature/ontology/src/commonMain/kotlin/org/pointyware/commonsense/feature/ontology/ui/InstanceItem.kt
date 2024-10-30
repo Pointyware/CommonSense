@@ -1,0 +1,30 @@
+/*
+ * Copyright (c) 2024 Pointyware. Use of this software is governed by the GPL-3.0 license.
+ */
+
+package org.pointyware.commonsense.feature.ontology.ui
+
+import androidx.compose.foundation.layout.Row
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
+import org.pointyware.commonsense.feature.ontology.viewmodels.InstanceItemUiState
+
+/**
+ *
+ */
+@Composable
+fun InstanceItem(
+    state: InstanceItemUiState,
+    modifier: Modifier = Modifier,
+) {
+    Row(
+        modifier = modifier
+    ) {
+        Text(
+            text = state.description,
+            style = MaterialTheme.typography.labelMedium
+        )
+    }
+}
