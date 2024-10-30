@@ -3,13 +3,10 @@ package org.pointyware.commonsense.feature.ontology.di
 import kotlinx.serialization.json.Json
 import org.koin.core.module.Module
 import org.koin.core.module.dsl.bind
+import org.koin.core.module.dsl.factoryOf
 import org.koin.core.module.dsl.singleOf
 import org.koin.dsl.module
 import org.pointyware.commonsense.feature.ontology.data.ArrangementController
-import org.pointyware.commonsense.feature.ontology.data.CategoryDataSource
-import org.pointyware.commonsense.feature.ontology.data.CategoryRepository
-import org.pointyware.commonsense.feature.ontology.data.CategoryRepositoryImpl
-import org.pointyware.commonsense.feature.ontology.data.CategorySqlDataSource
 import org.pointyware.commonsense.feature.ontology.data.ConceptEditorController
 import org.pointyware.commonsense.feature.ontology.data.ConceptEditorControllerImpl
 import org.pointyware.commonsense.feature.ontology.data.ConceptSpaceRepository
@@ -59,14 +56,12 @@ fun ontologyDataModule() = module {
     single<ConceptSpaceRepository> { ConceptSpaceRepositoryImpl(get<ConceptSpaceDataSource>()) }
     single<ArrangementController> { SimpleArrangementController() }
 
-    singleOf(::CategoryRepositoryImpl) { bind<CategoryRepository>() }
     single<ConceptEditorController> { ConceptEditorControllerImpl() }
 }
 
 expect fun ontologyLocalPlatformModule(): Module
 
 fun ontologyLocalModule() = module {
-    single<CategoryDataSource> { CategorySqlDataSource(get()) }
     single<RecordsDataSource> { RecordsSqlDataSource(get())}
 
     includes(
@@ -82,21 +77,10 @@ fun ontologyInteractorModule() = module {
     factory<SaveConceptSpaceUseCase> { SaveConceptSpaceUseCase(get<SelectFileUseCase>(), get<ConceptSpaceRepository>()) }
     factory<SelectFileUseCase> { SelectFileUseCaseImpl() }
     factory<UpdateNodeUseCase> { UpdateNodeUseCase(get<ConceptSpaceRepository>()) }
-    factory<GetSelectedCategoryUseCase> { GetSelectedCategoryUseCase(
-        get<ConceptEditorController>(),
-        get<CategoryRepository>()
-    ) }
-    factory<GetSelectedConceptUseCase> { GetSelectedConceptUseCase(
-        get<CategoryRepository>()
-    ) }
-    factory<CreateNewConceptUseCase> { CreateNewConceptUseCase(
-        get<ConceptEditorController>(),
-        get<CategoryRepository>()
-    ) }
-    factory<CreateNewCategoryUseCase> { CreateNewCategoryUseCase(
-        get<ConceptEditorController>(),
-        get<CategoryRepository>()
-    ) }
+    factoryOf(::GetSelectedCategoryUseCase)
+    factoryOf(::GetSelectedConceptUseCase)
+    factoryOf(::CreateNewConceptUseCase)
+    factoryOf(::CreateNewCategoryUseCase)
 }
 
 fun ontologyViewModelModule() = module {
