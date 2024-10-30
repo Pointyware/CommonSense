@@ -57,12 +57,12 @@ class ConceptSpaceViewModel(
         ConceptSpaceUiState(
             OntologyUiState(
                 id = conceptSpace.id,
-                nodes = conceptSpace.focus.concepts.map { concept ->
-                    val position = arrangementController.getConceptPositionOrPut(concept, 0f, 0f)
+                nodes = conceptSpace.focus.instances.map { instance ->
+                    val position = arrangementController.getConceptPositionOrPut(instance, 0f, 0f)
                     InfoNodeUiState(
-                        concept.id,
-                        concept.name,
-                        concept.id in frozenIds,
+                        instance.id,
+                        instance.toString(), // TODO: replace with description provider
+                        instance.id in frozenIds,
                         position.x,
                         position.y
                     )

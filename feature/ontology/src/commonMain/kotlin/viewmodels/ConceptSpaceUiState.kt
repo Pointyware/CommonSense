@@ -12,8 +12,8 @@ class ConceptSpaceUiState(
 fun emptySpace() = ConceptSpaceUiState(null)
 
 data class InfoNodeUiState(
-    val conceptId: Uuid,
-    val title: String,
+    val instanceId: Uuid,
+    val description: String,
     val modificationEnabled: Boolean,
     val x: Float,
     val y: Float

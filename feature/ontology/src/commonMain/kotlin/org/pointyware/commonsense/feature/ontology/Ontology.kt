@@ -16,39 +16,25 @@ import kotlin.uuid.Uuid
 interface Ontology {
     val id: Uuid
     val instances: Set<Value.Instance>
-    val concepts: Set<Concept>
     val relations: Set<Relation>
 }
 
 interface MutableOntology: Ontology {
-    fun addConcept(concept: Concept)
-    fun removeConcept(id: Uuid)
     fun addInstance(instance: Value.Instance)
     fun removeInstance(id: Uuid)
     fun addRelation(conceptSource: Uuid, conceptTarget: Uuid)
-    fun updateConcept(concept: Concept)
+    fun updateInstance(instance: Value.Instance)
 }
 
 internal class SimpleMutableOntology(
     override val id: Uuid,
 ): MutableOntology {
 
-    private val conceptMap: MutableMap<Uuid, Concept> = mutableMapOf()
-    override val concepts: Set<Concept> get() = conceptMap.values.toSet()
-
     private val instanceMap: MutableMap<Uuid, Value.Instance> = mutableMapOf()
     override val instances: Set<Value.Instance> get() = instanceMap.values.toSet()
 
     private val relationMap: MutableMap<Uuid, Relation> = mutableMapOf()
     override val relations: Set<Relation> get() = relationMap.values.toSet()
-
-    override fun addConcept(concept: Concept) {
-        conceptMap[concept.id]?.let { tenant ->
-            throw IllegalArgumentException("Concept ${tenant.id} already exists in Ontology $id")
-        } ?: run {
-            conceptMap[concept.id] = concept
-        }
-    }
 
     override fun addInstance(instance: Value.Instance) {
         instanceMap[instance.id]?.let { tenant ->
@@ -62,15 +48,9 @@ internal class SimpleMutableOntology(
         instanceMap.remove(id) // TODO: add/remove relations
     }
 
-    override fun removeConcept(id: Uuid) {
-        conceptMap.remove(id)?.let {
-            relationMap.remove(it.id)
-        }
-    }
-
     override fun addRelation(conceptSource: Uuid, conceptTarget: Uuid) {
-        conceptMap[conceptSource]?.let { source ->
-            conceptMap[conceptTarget]?.let { target ->
+        instanceMap[conceptSource]?.let { source ->
+            instanceMap[conceptTarget]?.let { target ->
                 val newRelation = MemberRelation(
                     id = generateRandomId(),
                     owner = this
@@ -80,9 +60,9 @@ internal class SimpleMutableOntology(
         } ?: throw IllegalArgumentException("Concept source $conceptSource not found in Ontology $id")
     }
 
-    override fun updateConcept(concept: Concept) {
-         conceptMap[id]?.also {
-            conceptMap[id] = concept
+    override fun updateInstance(instance: Value.Instance) {
+        instanceMap[id]?.also {
+            instanceMap[id] = instance
         } ?: throw IllegalArgumentException("Concept $id not found in Ontology $id")
     }
 }
