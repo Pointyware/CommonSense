@@ -1,6 +1,6 @@
 @file:OptIn(ExperimentalUuidApi::class)
 
-package org.pointyware.commonsense.feature.ontology.viewmodels
+package org.pointyware.commonsense.feature.ontology.space.viewmodels
 
 import kotlin.uuid.ExperimentalUuidApi
 import kotlin.uuid.Uuid

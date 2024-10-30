@@ -1,6 +1,6 @@
 @file:OptIn(ExperimentalUuidApi::class)
 
-package org.pointyware.commonsense.feature.ontology.viewmodels
+package org.pointyware.commonsense.feature.ontology.space.viewmodels
 
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
