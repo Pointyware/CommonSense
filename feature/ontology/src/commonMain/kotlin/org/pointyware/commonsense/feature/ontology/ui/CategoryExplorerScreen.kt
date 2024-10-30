@@ -47,7 +47,7 @@ fun CategoryExplorerScreen(
                 onClick = viewModel::onAddCard,
             ) {
                 Text(
-                    text = "New Concept"
+                    text = "New Instance"
                 )
             }
             Button(
