@@ -2,6 +2,7 @@
 
 package org.pointyware.commonsense.feature.ontology
 
+import org.pointyware.commonsense.core.entities.Value
 import org.pointyware.commonsense.feature.ontology.local.generateRandomId
 import kotlin.uuid.ExperimentalUuidApi
 import kotlin.uuid.Uuid
@@ -14,6 +15,7 @@ import kotlin.uuid.Uuid
  */
 interface Ontology {
     val id: Uuid
+    val instances: Set<Value.Instance>
     val concepts: Set<Concept>
     val relations: Set<Relation>
 }
@@ -21,6 +23,8 @@ interface Ontology {
 interface MutableOntology: Ontology {
     fun addConcept(concept: Concept)
     fun removeConcept(id: Uuid)
+    fun addInstance(instance: Value.Instance)
+    fun removeInstance(id: Uuid)
     fun addRelation(conceptSource: Uuid, conceptTarget: Uuid)
     fun updateConcept(concept: Concept)
 }
@@ -32,6 +36,9 @@ internal class SimpleMutableOntology(
     private val conceptMap: MutableMap<Uuid, Concept> = mutableMapOf()
     override val concepts: Set<Concept> get() = conceptMap.values.toSet()
 
+    private val instanceMap: MutableMap<Uuid, Value.Instance> = mutableMapOf()
+    override val instances: Set<Value.Instance> get() = instanceMap.values.toSet()
+
     private val relationMap: MutableMap<Uuid, Relation> = mutableMapOf()
     override val relations: Set<Relation> get() = relationMap.values.toSet()
 
@@ -41,6 +48,18 @@ internal class SimpleMutableOntology(
         } ?: run {
             conceptMap[concept.id] = concept
         }
+    }
+
+    override fun addInstance(instance: Value.Instance) {
+        instanceMap[instance.id]?.let { tenant ->
+            throw IllegalArgumentException("Instance ${tenant.id} already exists in Ontology $id")
+        } ?: run {
+            instanceMap[instance.id] = instance
+        }
+    }
+
+    override fun removeInstance(id: Uuid) {
+        instanceMap.remove(id) // TODO: add/remove relations
     }
 
     override fun removeConcept(id: Uuid) {
