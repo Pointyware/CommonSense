@@ -13,20 +13,29 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import org.pointyware.commonsense.core.entities.Field
-import org.pointyware.commonsense.core.entities.Type.Record
 import org.pointyware.commonsense.core.entities.Type
+import org.pointyware.commonsense.core.entities.Type.Record
 import org.pointyware.commonsense.core.entities.Value
 import org.pointyware.commonsense.core.viewmodels.ViewModel
 import kotlin.uuid.ExperimentalUuidApi
 import kotlin.uuid.Uuid
 
+interface RecordEditorViewModel {
+
+    fun onFieldNameChange(newName: String)
+
+    fun onFieldDefaultValueChange(newValue: Value<*>)
+
+    fun onFieldTypeChange(newType: Type)
+}
+
 /**
  *
  */
 @OptIn(ExperimentalUuidApi::class)
-class RecordEditorViewModel(
+class RecordEditorViewModelImpl(
 
-): ViewModel() {
+): ViewModel(), RecordEditorViewModel {
 
     // TODO: load from type repository ^^
     private val loadedTypes = listOf(
@@ -35,6 +44,7 @@ class RecordEditorViewModel(
     )
 
     private fun newRecordState() = RecordEditorUiState(
+        id = null,
         name = "untitled",
         fields = emptyList(),
         availableTypes = loadedTypes,
@@ -50,6 +60,7 @@ class RecordEditorViewModel(
     fun prepareFor(record: Record?) {
         mutableState.value = record?.let {
             RecordEditorUiState(
+                id = it.uuid,
                 name = it.name,
                 fields = it.fields.map {
                     FieldEditorUiState(
@@ -61,6 +72,18 @@ class RecordEditorViewModel(
                 availableTypes = loadedTypes
             )
         } ?: newRecordState()
+    }
+
+    override fun onFieldNameChange(newName: String) {
+        TODO("Not yet implemented")
+    }
+
+    override fun onFieldTypeChange(newType: Type) {
+        TODO("Not yet implemented")
+    }
+
+    override fun onFieldDefaultValueChange(newValue: Value<*>) {
+        TODO("Not yet implemented")
     }
 
     fun onRecordNameChange(newName: String) {
