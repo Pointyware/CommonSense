@@ -46,14 +46,63 @@ When one agent introduces information to another agent that presents a conflict 
 
 ## Modularization
 
-* core
-  * entities
-  * interactors
-  * data
-  * local
-  * remote
-  * view-models
-  * ui
-* feature
-  * ontology - enables users to document their perspective as discrete elements and their relations
-  * epistemology - enables users to compare and test differences in ontologies
+Ontology - enables users to document their perspective as discrete elements and their relations
+Epistemology - enables users to compare and test differences in ontologies
+
+```mermaid
+%%{
+  init: {
+    'theme': 'neutral'
+  }
+}%%
+
+graph LR
+  :app-android --> :app-shared
+  :app-desktop --> :app-shared
+  
+  :app-shared --> :feature:ontology
+  :app-shared --> :feature:epistemology
+  
+  :feature:ontology --> :core-all
+  :feature:epistemology --> :core-all
+  
+  :core-all --> :core:common
+  :core-all --> :core:entities
+  :core-all --> :core:interactors
+  :core-all --> :core:data
+  :core-all --> :core:remote
+  :core-all --> :core:local
+  :core-all --> :core:view-models
+  :core-all --> :core:ui
+  :core-all --> :core:navigation
+  
+  :core:ui --> :core:entities
+  :core:ui --> :core:common
+  
+  :core:data --> :core:common
+  :core:data --> :core:entities
+  :core:data --> :core:local
+  :core:data --> :core:remote
+  
+  :core:entities --> :core:common
+  
+  :core:interactors --> :core:common
+  :core:interactors --> :core:data
+  
+  :core:local --> :core:common
+  :core:local --> :core:entities
+  
+  :core:navigation --> :core:common
+  :core:navigation --> :core:entities
+  
+  :core:remote --> :core:common
+  :core:remote --> :core:entities
+  
+  :core:ui --> :core:common
+  :core:ui --> :core:entities
+  :core:ui --> :core:view-models
+  
+  :core:view-models --> :core:common
+  :core:view-models --> :core:entities
+  :core:view-models --> :core:interactors
+```
