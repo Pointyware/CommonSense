@@ -11,7 +11,7 @@ import androidx.compose.ui.Modifier
 import org.pointyware.commonsense.feature.ontology.viewmodels.RecordItemUiState
 
 /**
- * Displays a single [org.pointyware.commonsense.core.entities.Type.Record] as a list item.
+ * Displays a single [Record][org.pointyware.commonsense.core.entities.Type.Record] as a list item.
  */
 @Composable
 fun StructureItem(
