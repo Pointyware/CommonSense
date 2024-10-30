@@ -12,7 +12,7 @@ import org.pointyware.commonsense.core.viewmodels.ViewModel
 import kotlin.uuid.ExperimentalUuidApi
 
 interface InstanceEditorViewModel {
-    val state: StateFlow<InstanceEditorUiState>
+    val state: StateFlow<InstanceEditorUiState?>
 
     fun prepareFor(instance: Value.Instance?)
     fun onFieldValueChange(index: Int, newValue: Value<*>)
@@ -27,8 +27,8 @@ class InstanceEditorViewModelImpl(
 ): ViewModel(), InstanceEditorViewModel {
 
     @OptIn(ExperimentalUuidApi::class)
-    private val mutableState = MutableStateFlow(InstanceEditorUiState(TODO(), TODO(), TODO()))
-    override val state: StateFlow<InstanceEditorUiState>
+    private val mutableState = MutableStateFlow<InstanceEditorUiState?>(null)
+    override val state: StateFlow<InstanceEditorUiState?>
         get() = mutableState.asStateFlow()
 
     override fun prepareFor(instance: Value.Instance?) {
