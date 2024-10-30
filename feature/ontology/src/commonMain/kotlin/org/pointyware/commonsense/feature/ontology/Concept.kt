@@ -21,16 +21,3 @@ data class IndependentConcept(
     override val name: String,
     override val description: String?,
 ): Concept
-
-class MemberConcept(
-    override val id: Uuid,
-    val owner: Ontology,
-): Concept {
-    private val self by lazy {
-        owner.concepts.find { it.id == id } ?: throw IllegalStateException("Concept $id not found in owner Ontology ${owner.id}")
-    }
-    override val name: String
-        get() = self.name
-    override val description: String?
-        get() = self.description
-}
