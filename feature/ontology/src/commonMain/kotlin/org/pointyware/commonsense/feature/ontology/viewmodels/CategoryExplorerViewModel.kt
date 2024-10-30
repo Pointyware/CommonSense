@@ -63,7 +63,7 @@ class CategoryExplorerViewModel(
         val loading = stateArray[0] as Boolean
         val currentCategory = stateArray[1] as CategoryUiState
         val recordEditor = stateArray[2] as RecordEditorUiState
-        val instanceEditor = stateArray[3] as InstanceEditorUiState
+        val instanceEditor = stateArray[3] as InstanceEditorUiState?
         val categoryEditor = stateArray[4] as CategoryEditorUiState
         val editorState = stateArray[5] as EditorState
 
@@ -72,7 +72,7 @@ class CategoryExplorerViewModel(
             currentCategory = currentCategory,
             editorState = when (editorState) {
                 EditorState.Record -> CategoryExplorerEditorState.Record(recordEditor)
-                EditorState.Instance -> CategoryExplorerEditorState.Instance(instanceEditor)
+                EditorState.Instance -> instanceEditor?.let { CategoryExplorerEditorState.Instance(instanceEditor) } ?: CategoryExplorerEditorState.Disabled
                 EditorState.Category -> CategoryExplorerEditorState.Category(categoryEditor)
                 EditorState.Disabled -> CategoryExplorerEditorState.Disabled
             },
