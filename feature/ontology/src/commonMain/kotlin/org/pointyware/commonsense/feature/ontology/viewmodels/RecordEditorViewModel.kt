@@ -24,12 +24,15 @@ import kotlin.uuid.Uuid
  * Maintains the state of a [Record] being created and/or modified.
  */
 interface RecordEditorViewModel {
-
-    fun onFieldNameChange(newName: String)
-
-    fun onFieldDefaultValueChange(newValue: Value<*>)
-
-    fun onFieldTypeChange(newType: Type)
+    val state: StateFlow<RecordEditorUiState>
+    val onFinish: SharedFlow<Unit>
+    fun prepareFor(record: Record?)
+    fun onRecordNameChange(newName: String)
+    fun onFieldAdded()
+    fun onFieldNameChange(index: Int, newName: String)
+    fun onFieldValueChange(index: Int, newValue: Value<*>)
+    fun onFieldTypeChange(index: Int, newType: Type)
+    fun onFieldRemoved(index: Int)
 }
 
 /**
@@ -54,13 +57,13 @@ class RecordEditorViewModelImpl(
     )
 
     private val mutableState = MutableStateFlow(newRecordState())
-    val state: StateFlow<RecordEditorUiState>
+    override val state: StateFlow<RecordEditorUiState>
         get() = mutableState.asStateFlow()
 
     private val mutableOnFinish = MutableSharedFlow<Unit>()
-    val onFinish: SharedFlow<Unit> get() = mutableOnFinish.asSharedFlow()
+    override val onFinish: SharedFlow<Unit> get() = mutableOnFinish.asSharedFlow()
 
-    fun prepareFor(record: Record?) {
+    override fun prepareFor(record: Record?) {
         mutableState.value = record?.let {
             RecordEditorUiState(
                 id = it.uuid,
@@ -77,32 +80,20 @@ class RecordEditorViewModelImpl(
         } ?: newRecordState()
     }
 
-    override fun onFieldNameChange(newName: String) {
-        TODO("Not yet implemented")
-    }
-
-    override fun onFieldTypeChange(newType: Type) {
-        TODO("Not yet implemented")
-    }
-
-    override fun onFieldDefaultValueChange(newValue: Value<*>) {
-        TODO("Not yet implemented")
-    }
-
-    fun onRecordNameChange(newName: String) {
+    override fun onRecordNameChange(newName: String) {
         mutableState.update {
             it.copy(name = newName)
         }
     }
 
-    fun addField() {
+    override fun onFieldAdded() {
         mutableState.update {
             val newField = Field("new field", Type.Int, Value.IntValue(0))
             it.copy(fields = it.fields + FieldEditorUiState(newField.name, newField.type, newField.defaultValue))
         }
     }
 
-    fun setFieldName(index: Int, newName: String) {
+    override fun onFieldNameChange(index: Int, newName: String) {
         mutableState.update {
             it.fields.getOrNull(index)?.let { field ->
                 val mutableFields = it.fields.toMutableList()
@@ -118,11 +109,11 @@ class RecordEditorViewModelImpl(
         }
     }
 
-    fun setFieldType(index: Int, type: Type) {
+    override fun onFieldTypeChange(index: Int, newType: Type) {
         mutableState.update {
             it.fields.getOrNull(index)?.let { field ->
                 val mutableFields = it.fields.toMutableList()
-                val newValue: Value<*> = when (type) {
+                val newValue: Value<*> = when (newType) {
                     is Type.Int -> {
                         Value.IntValue(0)
                     }
@@ -132,7 +123,7 @@ class RecordEditorViewModelImpl(
                 }
                 mutableFields[index] = FieldEditorUiState(
                     name = field.name,
-                    type = type,
+                    type = newType,
                     value = newValue as Value<Type>
                 )
                 it.copy(
@@ -142,7 +133,7 @@ class RecordEditorViewModelImpl(
         }
     }
 
-    fun setFieldValue(index: Int, value: Value<*>) {
+    override fun onFieldValueChange(index: Int, newValue: Value<*>) {
         mutableState.update {
             it.fields.getOrNull(index)?.let { originalField ->
                 val newFields = it.fields.mapIndexed { i, item ->
@@ -150,7 +141,7 @@ class RecordEditorViewModelImpl(
                         FieldEditorUiState(
                             item.name,
                             item.type,
-                            value as Value<Type>
+                            newValue as Value<Type>
                         )
                     } else {
                         item
@@ -163,7 +154,7 @@ class RecordEditorViewModelImpl(
         }
     }
 
-    fun removeField(index: Int) {
+    override fun onFieldRemoved(index: Int) {
         mutableState.update {
             it.fields.getOrNull(index)?.let { removedField ->
                 it.copy(
@@ -184,25 +175,5 @@ class RecordEditorViewModelImpl(
         viewModelScope.launch {
             mutableOnFinish.emit(Unit)
         }
-    }
-
-    fun onFieldAdded() {
-        TODO("Not yet implemented")
-    }
-
-    fun onFieldNameChange(index: Int, newName: String) {
-
-    }
-
-    fun onFieldTypeChange(index: Int, newType: Type) {
-
-    }
-
-    fun onFieldValueChange(index: Int, newValue: Value<*>) {
-
-    }
-
-    fun onFieldRemoved(index: Int) {
-
     }
 }
