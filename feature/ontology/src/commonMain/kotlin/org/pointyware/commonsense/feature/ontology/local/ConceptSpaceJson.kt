@@ -26,7 +26,7 @@ data class ConceptSpaceJson(
 @Serializable
 data class OntologyJson(
     val id: Uuid,
-    val concepts: Set<ConceptJson>,
+    val instances: Set<InstanceJson>,
     val relations: Set<RelationJson>
 )
 
@@ -38,6 +38,14 @@ data class ConceptJson(
     val id: Uuid,
     val name: String,
     val description: String?,
+)
+
+/**
+ * A JSON representation of the [org.pointyware.commonsense.feature.ontology.Instance] entity.
+ */
+@Serializable
+data class InstanceJson(
+    val id: Uuid,
 )
 
 /**

@@ -16,7 +16,7 @@ interface ConceptSpaceDataSource {
     val activeSpace: Flow<ConceptSpace>
     suspend fun loadConceptSpace(file: Path): Result<ConceptSpace>
     suspend fun saveConceptSpace(file: Path): Result<Unit>
-    suspend fun createNode(name: String): Result<Concept>
+//    suspend fun createNode(name: String): Result<Concept>
     suspend fun removeNode(id: Uuid): Result<Unit>
     suspend fun updateNode(id: Uuid, name: String, description: String?): Result<Unit>
 }

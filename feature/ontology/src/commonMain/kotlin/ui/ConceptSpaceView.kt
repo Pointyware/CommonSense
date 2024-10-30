@@ -63,8 +63,8 @@ object ConceptSpaceUiStateMapper: Mapper<ConceptSpaceUiState, ConceptSpaceViewSt
         Log.v("Mapping concept space ui state: $input")
         val infoNodes = input.ontology?.nodes?.map { node ->
             InfoNodeState(
-                id = node.conceptId,
-                title = node.title,
+                id = node.instanceId,
+                title = node.description,
                 x = node.x.dp,
                 y = node.y.dp,
             )

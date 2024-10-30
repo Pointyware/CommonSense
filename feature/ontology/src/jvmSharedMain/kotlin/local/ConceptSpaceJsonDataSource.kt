@@ -9,14 +9,13 @@ import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 import org.pointyware.commonsense.core.local.readText
 import org.pointyware.commonsense.core.local.writeText
-import org.pointyware.commonsense.feature.ontology.Concept
 import org.pointyware.commonsense.feature.ontology.ConceptSpace
-import org.pointyware.commonsense.feature.ontology.IndependentConcept
 import org.pointyware.commonsense.feature.ontology.MutableConceptSpace
 import org.pointyware.commonsense.feature.ontology.mutableOntology
 import kotlin.uuid.ExperimentalUuidApi
 import kotlin.uuid.Uuid
 
+@OptIn(ExperimentalUuidApi::class)
 class ConceptSpaceJsonDataSource(
     private val json: Json
 ): ConceptSpaceDataSource {
@@ -70,12 +69,8 @@ class ConceptSpaceJsonDataSource(
             id = space.id,
             focus = OntologyJson(
                 id = space.focus.id,
-                concepts = space.focus.concepts.map { concept ->
-                    ConceptJson(
-                        id = concept.id,
-                        name = concept.name,
-                        description = concept.description,
-                    )
+                instances = space.focus.instances.map {
+                    InstanceJson(id = it.id)
                 }.toSet(),
                 relations = space.focus.relations.map { relation ->
                     RelationJson(
@@ -94,18 +89,18 @@ class ConceptSpaceJsonDataSource(
         return Result.success(Unit)
     }
 
-    override suspend fun createNode(name: String): Result<Concept> {
-        val id = generateRandomId()
-        val newNode = IndependentConcept(id, name, description = null)
-        workSpace.focus.addConcept(newNode)
-        mutableActiveSpace.emit(workSpace)
-        return Result.success(newNode)
-    }
+//    override suspend fun createNode(name: String): Result<Concept> {
+//        val id = generateRandomId()
+////        val newNode = IndependentConcept(id, name, description = null)
+////        workSpace.focus.addConcept(newNode) // TODO: replace with instance creation?/retrieval
+//        mutableActiveSpace.emit(workSpace)
+//        return Result.success(newNode)
+//    }
 
     override suspend fun updateNode(id: Uuid, name: String, description: String?): Result<Unit> {
-        val newNode = IndependentConcept(id, name, description)
+//        val newNode = IndependentConcept(id, name, description)
         return try {
-            workSpace.focus.updateConcept(newNode)
+//            workSpace.focus.updateConcept(newNode) // TODO: replace with instance update?/retrieval
             Result.success(Unit)
         } catch (e: Throwable) {
             Result.failure(e)
@@ -113,7 +108,7 @@ class ConceptSpaceJsonDataSource(
     }
 
     override suspend fun removeNode(id: Uuid): Result<Unit> {
-        workSpace.focus.removeConcept(id)
+//        workSpace.focus.removeConcept(id)
         mutableActiveSpace.emit(workSpace)
         return Result.success(Unit)
     }
