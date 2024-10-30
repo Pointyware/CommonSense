@@ -35,6 +35,8 @@ import org.pointyware.commonsense.feature.ontology.viewmodels.CategoryEditorView
 import org.pointyware.commonsense.feature.ontology.viewmodels.CategoryEditorViewModelImpl
 import org.pointyware.commonsense.feature.ontology.viewmodels.CategoryExplorerViewModel
 import org.pointyware.commonsense.feature.ontology.viewmodels.ConceptSpaceViewModel
+import org.pointyware.commonsense.feature.ontology.viewmodels.InstanceEditorViewModel
+import org.pointyware.commonsense.feature.ontology.viewmodels.InstanceEditorViewModelImpl
 import org.pointyware.commonsense.feature.ontology.viewmodels.RecordEditorViewModel
 import org.pointyware.commonsense.feature.ontology.viewmodels.RecordEditorViewModelImpl
 
@@ -114,8 +116,9 @@ fun ontologyViewModelModule() = module {
     }
 
     singleOf(::CategoryExplorerViewModel)
-    singleOf(::CategoryEditorViewModelImpl) { bind<CategoryEditorViewModel>() }
+    singleOf(::InstanceEditorViewModelImpl) { bind<InstanceEditorViewModel>() }
     singleOf(::RecordEditorViewModelImpl) { bind<RecordEditorViewModel>() }
+    singleOf(::CategoryEditorViewModelImpl) { bind<CategoryEditorViewModel>() }
 }
 
 fun ontologyUiModule() = module {
