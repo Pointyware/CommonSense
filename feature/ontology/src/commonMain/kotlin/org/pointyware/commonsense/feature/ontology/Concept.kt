@@ -15,9 +15,3 @@ interface Concept {
     val name: String
     val description: String?
 }
-
-data class IndependentConcept(
-    override val id: Uuid,
-    override val name: String,
-    override val description: String?,
-): Concept
