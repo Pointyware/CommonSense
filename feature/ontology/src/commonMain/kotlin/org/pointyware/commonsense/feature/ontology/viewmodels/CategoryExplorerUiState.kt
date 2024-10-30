@@ -5,7 +5,7 @@ package org.pointyware.commonsense.feature.ontology.viewmodels
  *
  * @param loading Whether the category explorer is currently loading data.
  * @param currentCategory The current category being viewed.
- * @param conceptEditor The state of the concept editor, if it is open.
+ * @param editorState The state of the concept editor, if it is open.
  */
 data class CategoryExplorerUiState(
     val loading: Boolean = false,
