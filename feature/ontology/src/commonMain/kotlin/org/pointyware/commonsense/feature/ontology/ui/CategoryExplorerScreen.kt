@@ -51,6 +51,13 @@ fun CategoryExplorerScreen(
                 )
             }
             Button(
+                onClick = viewModel::onAddStructure,
+            ) {
+                Text(
+                    text = "New Structure"
+                )
+            }
+            Button(
                 onClick = viewModel::onAddCategory,
             ) {
                 Text(
