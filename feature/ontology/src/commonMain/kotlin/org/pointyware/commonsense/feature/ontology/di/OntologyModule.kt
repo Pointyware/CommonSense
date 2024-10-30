@@ -16,10 +16,10 @@ import org.pointyware.commonsense.feature.ontology.data.RecordsSqlDataSource
 import org.pointyware.commonsense.feature.ontology.data.SimpleArrangementController
 import org.pointyware.commonsense.feature.ontology.interactors.AddNewNodeUseCase
 import org.pointyware.commonsense.feature.ontology.interactors.CreateNewCategoryUseCase
-import org.pointyware.commonsense.feature.ontology.interactors.CreateNewConceptUseCase
+import org.pointyware.commonsense.feature.ontology.interactors.CreateNewInstanceUseCase
 import org.pointyware.commonsense.feature.ontology.interactors.GetActiveConceptSpaceUseCase
 import org.pointyware.commonsense.feature.ontology.interactors.GetSelectedCategoryUseCase
-import org.pointyware.commonsense.feature.ontology.interactors.GetSelectedConceptUseCase
+import org.pointyware.commonsense.feature.ontology.interactors.GetSelectedInstanceUseCase
 import org.pointyware.commonsense.feature.ontology.interactors.LoadConceptSpaceUseCase
 import org.pointyware.commonsense.feature.ontology.interactors.RemoveNodeUseCase
 import org.pointyware.commonsense.feature.ontology.interactors.SaveConceptSpaceUseCase
@@ -78,8 +78,8 @@ fun ontologyInteractorModule() = module {
     factory<SelectFileUseCase> { SelectFileUseCaseImpl() }
     factory<UpdateNodeUseCase> { UpdateNodeUseCase(get<ConceptSpaceRepository>()) }
     factoryOf(::GetSelectedCategoryUseCase)
-    factoryOf(::GetSelectedConceptUseCase)
-    factoryOf(::CreateNewConceptUseCase)
+    factoryOf(::GetSelectedInstanceUseCase)
+    factoryOf(::CreateNewInstanceUseCase)
     factoryOf(::CreateNewCategoryUseCase)
 }
 

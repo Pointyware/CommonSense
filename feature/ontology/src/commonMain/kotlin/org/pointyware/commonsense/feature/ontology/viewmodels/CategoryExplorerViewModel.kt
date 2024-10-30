@@ -14,10 +14,9 @@ import org.pointyware.commonsense.core.entities.Type
 import org.pointyware.commonsense.core.entities.Value
 import org.pointyware.commonsense.core.viewmodels.ViewModel
 import org.pointyware.commonsense.feature.ontology.Category
-import org.pointyware.commonsense.feature.ontology.Concept
-import org.pointyware.commonsense.feature.ontology.data.CategoryRepository
+import org.pointyware.commonsense.feature.ontology.data.RecordsRepository
 import org.pointyware.commonsense.feature.ontology.interactors.GetSelectedCategoryUseCase
-import org.pointyware.commonsense.feature.ontology.interactors.GetSelectedConceptUseCase
+import org.pointyware.commonsense.feature.ontology.interactors.GetSelectedInstanceUseCase
 import kotlin.uuid.ExperimentalUuidApi
 import kotlin.uuid.Uuid
 
@@ -27,11 +26,11 @@ import kotlin.uuid.Uuid
 @OptIn(ExperimentalUuidApi::class)
 class CategoryExplorerViewModel(
     private val getSelectedCategoryUseCase: GetSelectedCategoryUseCase,
-    private val getSelectedConceptUseCase: GetSelectedConceptUseCase,
+    private val getSelectedInstanceUseCase: GetSelectedInstanceUseCase,
     private val recordEditorViewModel: RecordEditorViewModel,
     private val instanceEditorViewModel: InstanceEditorViewModel,
     private val categoryEditorViewModel: CategoryEditorViewModel,
-    private val categoryRepository: CategoryRepository,
+    private val recordsRepository: RecordsRepository,
 ): ViewModel() {
 
     enum class EditorState {
@@ -96,7 +95,7 @@ class CategoryExplorerViewModel(
                         CategoryUiState(
                             selected = info.subject.toUiState(),
                             subcategories = info.subcategories.map(Category::toUiState),
-                            concepts = info.concepts.map(Concept::toUiState)
+                            concepts = info.instances.map(Value.Instance::toUiState)
                         )
                     }
                 }
@@ -120,7 +119,7 @@ class CategoryExplorerViewModel(
         _loadingState.value = true
         viewModelScope.launch {
             val category = _categoryUiState.value.selected ?: return@launch
-            getSelectedConceptUseCase.invoke(categoryId = category.id, conceptId = conceptId)
+            getSelectedInstanceUseCase.invoke(categoryId = category.id, instanceId = conceptId)
                 .onSuccess {
                     // TODO: replace with record version
 //                    recordEditorViewModel.prepareFor(it)
@@ -159,8 +158,9 @@ class CategoryExplorerViewModel(
     fun onDeleteSelected(concepts: Set<Uuid>, categories: Set<Uuid>) {
         viewModelScope.launch {
             _loadingState.value = true
-            categoryRepository.removeCategories(categories)
-            categoryRepository.removeConcepts(concepts)
+
+            // TODO: replace with remove categories interactor
+            // TODO: replace with remove instances interactor
             reloadCurrentCategory()
             _loadingState.value = false // TODO: maintain loading state as list of pending operations
         }

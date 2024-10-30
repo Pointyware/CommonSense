@@ -2,10 +2,10 @@
 
 package org.pointyware.commonsense.feature.ontology.interactors
 
-import org.pointyware.commonsense.feature.ontology.Concept
-import org.pointyware.commonsense.feature.ontology.data.CategoryRepository
-import org.pointyware.commonsense.feature.ontology.data.ConceptEditorController
+import org.pointyware.commonsense.core.entities.Value
 import org.pointyware.commonsense.feature.ontology.Category
+import org.pointyware.commonsense.feature.ontology.data.ConceptEditorController
+import org.pointyware.commonsense.feature.ontology.data.RecordsRepository
 import kotlin.uuid.ExperimentalUuidApi
 import kotlin.uuid.Uuid
 
@@ -13,13 +13,14 @@ import kotlin.uuid.Uuid
  */
 class GetSelectedCategoryUseCase(
     private val conceptEditorController: ConceptEditorController,
-    private val categoryRepository: CategoryRepository
+    private val recordsRepository: RecordsRepository
 ) {
+    @OptIn(ExperimentalUuidApi::class)
     suspend operator fun invoke(categoryId: Uuid): Result<CategoryInfo> {
-        return categoryRepository.getCategory(categoryId).map { category ->
-            val subcategories = categoryRepository.getSubcategories(category.id)
+        return recordsRepository.getCategory(categoryId).map { category ->
+            val subcategories = recordsRepository.getSubcategories(category.id)
                 .onFailure { return Result.failure(it) }.getOrNull() ?: emptyList()
-            val concepts = categoryRepository.getConcepts(category.id)
+            val concepts = recordsRepository.getInstances(category.id)
                 .onFailure { return Result.failure(it) }.getOrNull() ?: emptyList()
             conceptEditorController.subject = category
             CategoryInfo(category.id, category, subcategories, concepts)
@@ -31,5 +32,5 @@ data class CategoryInfo(
     val id: Uuid,
     val subject: Category,
     val subcategories: List<Category>,
-    val concepts: List<Concept>
+    val instances: List<Value.Instance>
 )
