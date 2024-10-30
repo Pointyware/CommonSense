@@ -13,6 +13,8 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.semantics.contentDescription
+import androidx.compose.ui.semantics.semantics
 import org.pointyware.commonsense.core.entities.Type
 import org.pointyware.commonsense.core.entities.Type.Record
 import org.pointyware.commonsense.core.entities.Value
@@ -36,6 +38,7 @@ fun RecordEditor(
 ) {
     Column(
         modifier = modifier
+            .semantics { contentDescription = "Record Editor" }
     ) {
         TextField(
             value = state.name,
