@@ -7,7 +7,7 @@ package org.pointyware.commonsense.feature.ontology.viewmodels
 import org.pointyware.commonsense.core.entities.Type
 
 /**
- *
+ * Represents the state of a [Record] being created and/or modified.
  */
 data class RecordEditorUiState(
     val name: String,
