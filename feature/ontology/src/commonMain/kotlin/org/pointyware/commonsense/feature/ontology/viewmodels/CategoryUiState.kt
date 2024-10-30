@@ -1,4 +1,4 @@
-@file:OptIn(ExperimentalUuidApi::class)
+@file:OptIn(ExperimentalUuidApi::class, ExperimentalUuidApi::class)
 
 package org.pointyware.commonsense.feature.ontology.viewmodels
 
@@ -37,9 +37,6 @@ data class ConceptItemUiState(
     val name: String,
     val selected: Boolean = false,
 )
-
-@Deprecated("Prefer Record/Instances")
-fun Concept.toUiState() = ConceptItemUiState(id, name)
 
 fun Value.Instance.toUiState(): ConceptItemUiState {
     val itemName = type.name + values.joinToString()
