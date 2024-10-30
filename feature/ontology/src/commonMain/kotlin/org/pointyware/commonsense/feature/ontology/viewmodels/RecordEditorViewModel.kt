@@ -20,6 +20,9 @@ import org.pointyware.commonsense.core.viewmodels.ViewModel
 import kotlin.uuid.ExperimentalUuidApi
 import kotlin.uuid.Uuid
 
+/**
+ * Maintains the state of a [Record] being created and/or modified.
+ */
 interface RecordEditorViewModel {
 
     fun onFieldNameChange(newName: String)
