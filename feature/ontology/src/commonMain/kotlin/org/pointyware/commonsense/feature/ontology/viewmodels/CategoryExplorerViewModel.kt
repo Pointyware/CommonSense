@@ -167,23 +167,23 @@ class CategoryExplorerViewModel(
     }
 
     fun addField() {
-        recordEditorViewModel.addField()
+        recordEditorViewModel.onFieldAdded()
     }
 
     fun setFieldName(index: Int, newName: String) {
-        recordEditorViewModel.setFieldName(index, newName)
+        recordEditorViewModel.onFieldNameChange(index, newName)
     }
 
     fun setFieldType(index: Int, type: Type) {
-        recordEditorViewModel.setFieldType(index, type)
+        recordEditorViewModel.onFieldTypeChange(index, type)
     }
 
     fun setFieldValue(index: Int, value: Value<*>) {
-        recordEditorViewModel.setFieldValue(index, value)
+        recordEditorViewModel.onFieldValueChange(index, value)
     }
 
     fun removeField(index: Int) {
-        recordEditorViewModel.removeField(index)
+        recordEditorViewModel.onFieldRemoved(index)
     }
 
     init {
