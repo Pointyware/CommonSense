@@ -1,5 +1,3 @@
-@file:OptIn(ExperimentalUuidApi::class)
-
 package org.pointyware.commonsense.feature.ontology.data
 
 import org.pointyware.commonsense.core.entities.Type
@@ -12,6 +10,7 @@ import kotlin.uuid.Uuid
 /**
  * Repository interface for managing categories and their associated subcategories, types, and instances.
  */
+@OptIn(ExperimentalUuidApi::class)
 interface CategoryRepository {
     suspend fun createCategory(name: String): Result<Category>
     suspend fun getCategory(id: Uuid): Result<Category>
@@ -59,6 +58,7 @@ interface CategoryRepository {
 /**
  * Simple repository implementation that maintains a map of categories in memory with associated subcategories and concepts.
  */
+@OptIn(ExperimentalUuidApi::class)
 class CategoryRepositoryImpl(
     private val categoryDataSource: CategoryDataSource
 ): CategoryRepository {
