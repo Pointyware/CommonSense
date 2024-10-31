@@ -120,7 +120,7 @@ class ConceptSpaceViewModel(
 
     fun onCreateNode(x: Float, y: Float) {
         viewModelScope.launch {
-            addNewNodeUseCase(x, y)
+            // TODO: create a node in...?
             mutablePointSet.update {
                 it + Position(x, y)
             }
