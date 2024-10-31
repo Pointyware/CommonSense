@@ -4,7 +4,7 @@ package org.pointyware.commonsense.feature.ontology.data
 
 import kotlinx.coroutines.flow.Flow
 import kotlinx.io.files.Path
-import org.pointyware.commonsense.feature.ontology.Concept
+import org.pointyware.commonsense.core.entities.Value
 import org.pointyware.commonsense.feature.ontology.ConceptSpace
 import org.pointyware.commonsense.feature.ontology.local.ConceptSpaceDataSource
 import kotlin.uuid.ExperimentalUuidApi
@@ -18,7 +18,7 @@ interface ConceptSpaceRepository {
     val activeSpace: Flow<ConceptSpace>
     suspend fun loadConceptSpace(file: Path): Result<ConceptSpace>
     suspend fun saveConceptSpace(file: Path): Result<Unit>
-    suspend fun createNode(name: String): Result<Concept>
+    suspend fun addNode(instance: Value.Instance): Result<Unit>
     suspend fun removeNode(id: Uuid): Result<Unit>
     suspend fun updateNode(id: Uuid, title: String, description: String? = null): Result<Unit>
 }
@@ -44,8 +44,8 @@ class ConceptSpaceRepositoryImpl(
         return dataSource.saveConceptSpace(file)
     }
 
-    override suspend fun createNode(name: String): Result<Concept> {
-        return dataSource.createNode(name)
+    override suspend fun addNode(instance: Value.Instance): Result<Unit> {
+        TODO("Not yet implemented")
     }
 
     override suspend fun updateNode(id: Uuid, title: String, description: String?): Result<Unit> {

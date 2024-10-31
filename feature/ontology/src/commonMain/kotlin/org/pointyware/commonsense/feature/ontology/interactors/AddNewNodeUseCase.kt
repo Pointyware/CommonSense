@@ -1,6 +1,6 @@
 package org.pointyware.commonsense.feature.ontology.interactors
 
-import org.pointyware.commonsense.feature.ontology.Concept
+import org.pointyware.commonsense.core.entities.Value
 import org.pointyware.commonsense.feature.ontology.data.ArrangementController
 import org.pointyware.commonsense.feature.ontology.data.ConceptSpaceRepository
 
@@ -12,10 +12,10 @@ class AddNewNodeUseCase(
     private val arrangementController: ArrangementController
 ) {
 
-    suspend operator fun invoke(x: Float, y: Float): Result<Concept> {
-        return conceptSpaceRepository.createNode("New Node")
-            .onSuccess { newNode ->
-                arrangementController.addNode(newNode, x, y)
+    suspend operator fun invoke(x: Float, y: Float, instance: Value.Instance): Result<Unit> {
+        return conceptSpaceRepository.addNode(instance)
+            .onSuccess {
+                arrangementController.addNode(instance, x, y)
             }
     }
 }
