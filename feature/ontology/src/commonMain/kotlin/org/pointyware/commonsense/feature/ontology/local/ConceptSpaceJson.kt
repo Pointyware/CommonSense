@@ -44,8 +44,7 @@ data class InstanceJson(
 @Serializable
 data class RelationJson(
     val id: Uuid,
-    val name: String,
-    val weight: RelationWeight,
+    val label: Uuid,
     val source: Uuid,
     val target: Uuid,
 )

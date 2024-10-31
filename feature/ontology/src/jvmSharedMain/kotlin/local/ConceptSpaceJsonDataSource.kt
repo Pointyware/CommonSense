@@ -75,10 +75,9 @@ class ConceptSpaceJsonDataSource(
                 relations = space.focus.relations.map { relation ->
                     RelationJson(
                         id = relation.id,
-                        name = relation.type,
-                        source = relation.source.id,
-                        target = relation.target.id,
-                        weight = relation.weight
+                        source = relation.source2.id,
+                        target = relation.target2.id,
+                        label = relation.label.id
                     )
                 }.toSet()
             )
