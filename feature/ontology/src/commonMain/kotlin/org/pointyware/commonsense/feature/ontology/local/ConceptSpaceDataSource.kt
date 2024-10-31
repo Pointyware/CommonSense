@@ -4,7 +4,6 @@ package org.pointyware.commonsense.feature.ontology.local
 
 import kotlinx.coroutines.flow.Flow
 import kotlinx.io.files.Path
-import org.pointyware.commonsense.feature.ontology.Concept
 import org.pointyware.commonsense.feature.ontology.ConceptSpace
 import kotlin.uuid.ExperimentalUuidApi
 import kotlin.uuid.Uuid
