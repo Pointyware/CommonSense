@@ -233,6 +233,8 @@ sealed interface Type {
      * A form of Schema that is used to define the structure of a Concept.
      *
      * Each Concept belongs to a Class and has a set of Properties.
+     *
+     * TODO: rename to Structure? for lay people
      */
     @OptIn(ExperimentalUuidApi::class)
     data class Record(
