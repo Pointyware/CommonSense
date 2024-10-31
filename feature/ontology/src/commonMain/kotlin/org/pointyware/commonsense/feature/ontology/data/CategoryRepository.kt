@@ -3,7 +3,6 @@ package org.pointyware.commonsense.feature.ontology.data
 import org.pointyware.commonsense.core.entities.Type
 import org.pointyware.commonsense.core.entities.Value
 import org.pointyware.commonsense.feature.ontology.Category
-import org.pointyware.commonsense.feature.ontology.Concept
 import kotlin.uuid.ExperimentalUuidApi
 import kotlin.uuid.Uuid
 
@@ -15,14 +14,8 @@ interface CategoryRepository {
     suspend fun createCategory(name: String): Result<Category>
     suspend fun getCategory(id: Uuid): Result<Category>
     suspend fun getSubcategories(id: Uuid): Result<List<Category>>
-    @Deprecated("Prefer Types and Instances")
-    suspend fun getConcepts(id: Uuid): Result<List<Concept>>
-    @Deprecated("Prefer Types and Instances")
-    suspend fun addConcept(subject: Uuid, newConcept: Concept): Result<Concept>
     suspend fun addCategory(subject: Uuid, newCategory: Category): Result<Category>
     suspend fun removeCategories(ids: Set<Uuid>): Result<Unit>
-    @Deprecated("Prefer Types and Instances")
-    suspend fun removeConcepts(ids: Set<Uuid>): Result<Unit>
 
     /**
      * Create a new type with the given name in the given category [subject].
@@ -75,24 +68,12 @@ class CategoryRepositoryImpl(
         return categoryDataSource.getSubcategories(id)
     }
 
-    override suspend fun getConcepts(id: Uuid): Result<List<Concept>> {
-        return categoryDataSource.getConcepts(id)
-    }
-
-    override suspend fun addConcept(subject: Uuid, newConcept: Concept): Result<Concept> {
-        return categoryDataSource.addConcept(subject, newConcept.name, newConcept.description ?: "")
-    }
-
     override suspend fun addCategory(subject: Uuid, newCategory: Category): Result<Category> {
         return categoryDataSource.addCategory(subject, newCategory.name)
     }
 
     override suspend fun removeCategories(ids: Set<Uuid>): Result<Unit> {
         return categoryDataSource.removeCategories(ids)
-    }
-
-    override suspend fun removeConcepts(ids: Set<Uuid>): Result<Unit> {
-        return categoryDataSource.removeConcepts(ids)
     }
 
     override suspend fun registerType(subject: Uuid, name: String): Result<Type> {
