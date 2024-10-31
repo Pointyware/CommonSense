@@ -14,7 +14,7 @@ import androidx.compose.ui.Modifier
 import org.pointyware.commonsense.feature.ontology.viewmodels.InstanceItemUiState
 
 /**
- * Displays a single [Value.Instance] as a list item with a checkbox when selection is enabled.
+ * Displays a single [Instance][org.pointyware.commonsense.core.entities.Value.Instance] as a list item with a checkbox when selection is enabled.
  */
 @Composable
 fun InstanceItem(
