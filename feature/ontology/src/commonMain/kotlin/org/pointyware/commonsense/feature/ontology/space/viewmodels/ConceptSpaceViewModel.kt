@@ -74,9 +74,9 @@ class ConceptSpaceViewModel(
                 edges = conceptSpace.focus.relations.map { relation ->
                     InfoEdgeUiState(
                         relation.id,
-                        relation.type,
-                        relation.source.id,
-                        relation.target.id
+                        relation.label.id,
+                        relation.source2.id,
+                        relation.target2.id
                     )
                 }
             )

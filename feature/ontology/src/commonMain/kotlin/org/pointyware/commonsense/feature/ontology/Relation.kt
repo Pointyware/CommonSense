@@ -26,18 +26,4 @@ interface Relation {
     val source2: Value.Instance
     val target2: Value.Instance
     val label: Value.Instance
-    @Deprecated("Prefer Types and Instances")
-    val source: Concept
-    @Deprecated("Prefer Types and Instances")
-    val target: Concept
-    @Deprecated("Redundant with Edge Label")
-    val type: String
-    @Deprecated("Redundant with Edge Label")
-    val weight: RelationWeight
-}
-
-@Serializable
-sealed interface RelationWeight {
-    data class Fixed(val value: Double) : RelationWeight
-    data object Variable : RelationWeight
 }
