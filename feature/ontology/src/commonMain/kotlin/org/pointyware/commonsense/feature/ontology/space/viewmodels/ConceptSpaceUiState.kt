@@ -21,7 +21,7 @@ data class InfoNodeUiState(
 
 data class InfoEdgeUiState(
     val relationId: Uuid,
-    val label: String,
+    val label: Uuid,
     val sourceId: Uuid,
     val targetId: Uuid,
 )
