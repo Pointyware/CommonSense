@@ -5,3 +5,9 @@ Enables a user to explore their personal world sense in order to document and sh
 * Explore
 * Refine
 * Share
+
+### Creation and Documentation
+Typically a user is expected to document their knowledge or sense of the world by defining types and instances of those types.
+
+### Exploration and Sharing
+A user may start by exploring existing ontologies, but typically will start by creating and exploring their own ontology.
