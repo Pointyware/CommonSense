@@ -1,5 +1,3 @@
-@file:OptIn(ExperimentalUuidApi::class)
-
 package org.pointyware.commonsense.feature.ontology.viewmodels
 
 import org.pointyware.commonsense.core.common.joinToString
@@ -23,17 +21,20 @@ data class CategoryUiState(
 /**
  * Represents a category as an item in a list.
  */
+@OptIn(ExperimentalUuidApi::class)
 data class CategoryItemUiState(
     val id: Uuid,
     val name: String,
     val selected: Boolean = false,
 )
 
+@OptIn(ExperimentalUuidApi::class)
 fun Category.toUiState() = CategoryItemUiState(id, name)
 
 /**
  * Represents a type/record as an item in a list.
  */
+@OptIn(ExperimentalUuidApi::class)
 data class RecordItemUiState(
     val id: Uuid,
     val name: String,
@@ -42,6 +43,7 @@ data class RecordItemUiState(
 /**
  * Represents a single instance as an item in a list.
  */
+@OptIn(ExperimentalUuidApi::class)
 data class InstanceItemUiState(
     val id: Uuid,
     val description: String
@@ -50,12 +52,14 @@ data class InstanceItemUiState(
 /**
  * Represents a concept as an item in a list.
  */
+@OptIn(ExperimentalUuidApi::class)
 data class ConceptItemUiState(
     val id: Uuid,
     val name: String,
     val selected: Boolean = false,
 )
 
+@OptIn(ExperimentalUuidApi::class)
 fun Value.Instance.toUiState(): InstanceItemUiState {
     val itemName = type.name + values.joinToString()
 
