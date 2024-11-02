@@ -102,96 +102,96 @@ END;
 -- Create a new Record type template
 createRecord:
 INSERT INTO records (uuid, name)
-VALUES (?, ?);
+VALUES (:recordId, :recordName);
 
 getRecord:
-SELECT uuid, name FROM records WHERE uuid = ?;
+SELECT uuid, name FROM records WHERE uuid = :recordId;
 
 getRecordFields:
 SELECT fields.name AS fieldName, type.name AS typeName, has_default_value AS hasDefault
 FROM
     fields JOIN type
     ON fields.type = type.creationId
-WHERE recordId = (SELECT id FROM records WHERE uuid = ?);
+WHERE recordId = (SELECT id FROM records WHERE uuid = :recordId);
 
 -- Add a Field to a Record
 addIntField:
 INSERT INTO fields (recordId, name, type, has_default_value)
 VALUES (
-  (SELECT id FROM records WHERE uuid = ?),
-  ?,
+  (SELECT id FROM records WHERE uuid = :recordId),
+  :recordName,
   (SELECT creationId FROM type WHERE name = 'int'),
-  ?
+  :hasDefaultValue
 );
 
 addFloatField:
 INSERT INTO fields (recordId, name, type, has_default_value)
 VALUES (
-  (SELECT id FROM records WHERE uuid = ?),
-  ?,
+  (SELECT id FROM records WHERE uuid = :recordId),
+  :recordName,
   (SELECT creationId FROM type WHERE name = 'float'),
-  ?
+  :hasDefaultValue
 );
 
 getFloatField:
 SELECT value
 FROM float_values
-WHERE instanceId = (SELECT id FROM instances WHERE uuid = ?);
+WHERE instanceId = (SELECT id FROM instances WHERE uuid = :instanceId);
 
 addTextField:
 INSERT INTO fields (recordId, name, type, has_default_value)
 VALUES (
-  (SELECT id FROM records WHERE uuid = ?),
-  ?,
+  (SELECT id FROM records WHERE uuid = :recordId),
+  :recordName,
   (SELECT creationId FROM type WHERE name = 'text'),
-  ?
+  :hasDefaultValue
 );
 
 getTextField:
 SELECT value
 FROM text_values
-WHERE instanceId = (SELECT id FROM instances WHERE uuid = ?);
+WHERE instanceId = (SELECT id FROM instances WHERE uuid = :instanceId);
 
 addRecordField:
 INSERT INTO fields (recordId, name, type, has_default_value)
 VALUES (
-  (SELECT id FROM records WHERE uuid = ?),
-  ?,
+  (SELECT id FROM records WHERE uuid = :recordId),
+  :recordName,
   (SELECT creationId FROM type WHERE name = 'instance'),
-  ?
+  :hasDefaultValue
 );
 
 getRecordField:
 SELECT instanceValueId
 FROM instance_values
-WHERE instanceId = (SELECT id FROM instances WHERE uuid = ?);
+WHERE instanceId = (SELECT id FROM instances WHERE uuid = :instanceId);
 
 setRecordFieldType:
 INSERT INTO instance_fields (fieldId, recordTypeId)
 VALUES (
-  (SELECT id FROM fields WHERE recordId = (SELECT id FROM records WHERE uuid = ?) AND name = ?),
-  (SELECT id FROM records WHERE uuid = ?)
+  (SELECT id FROM fields WHERE recordId = (SELECT id FROM records WHERE uuid = :recordId) AND name = :fieldName),
+  (SELECT id FROM records WHERE uuid = :recordTypeId)
 );
 
 -- Create a new Instance from a Record type
 createInstance:
 INSERT INTO instances (recordId, uuid)
 VALUES (
-  (SELECT id FROM records WHERE uuid = ?),
-  ?
+  (SELECT id FROM records WHERE uuid = :recordId),
+  :instanceId
 );
 
 -- Set an Instance Value
 setInstanceIntValue:
 INSERT INTO int_values (instanceId, fieldId, value)
 VALUES (
-  (SELECT id FROM instances WHERE uuid = ?),
-  (SELECT id FROM fields WHERE recordId = (SELECT id FROM records WHERE uuid = ?) AND name = ?),
-  ?
+  (SELECT id FROM instances WHERE uuid = :instanceId),
+  (SELECT id FROM fields WHERE recordId = (SELECT id FROM records WHERE uuid = :recordId) AND name = :fieldName),
+  :value
 );
 
 getIntField:
 SELECT value
 FROM int_values
-WHERE instanceId = (SELECT id FROM instances WHERE uuid = ?)
-AND fieldId = (SELECT id FROM fields WHERE recordId = (SELECT id FROM records WHERE uuid = ?) AND name = ?);
+WHERE instanceId = (SELECT id FROM instances WHERE uuid = :instanceId)
+AND fieldId = (SELECT id FROM fields WHERE recordId = (SELECT id FROM records WHERE uuid = :recordId) AND name = :fieldName);
