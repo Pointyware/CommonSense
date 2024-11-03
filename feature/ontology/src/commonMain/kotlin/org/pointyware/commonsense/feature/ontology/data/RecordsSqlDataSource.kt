@@ -148,8 +148,9 @@ class RecordsSqlDataSource(
         }
     }
 
-    private fun setIntValue(instanceId: Uuid, recordId: Uuid, fieldName: String, value: Value.IntValue) {
-        db.recordsQueries.setInstanceIntValue(instanceId.toByteArray(), recordId.toByteArray(), fieldName, value.rawValue.toLong())
+    private fun setIntValue(instanceId: Uuid, recordId: Uuid, field: Field<*>, value: Value.IntValue) {
+        require(field.type is Type.Int) { "Field type must be Type.Int" }
+        db.recordsQueries.setInstanceIntValue(instanceId.toByteArray(), recordId.toByteArray(), field.name, value.rawValue.toLong())
     }
 
     override suspend fun createInstance(
@@ -160,7 +161,7 @@ class RecordsSqlDataSource(
         val fieldMap = template.fields.flatMap { field ->
             field.defaultValue?.let { default ->
                 when (default) {
-                    is Value.IntValue -> setIntValue(newUuid, template.uuid, field.name, default)
+                    is Value.IntValue -> setIntValue(newUuid, template.uuid, field, default)
 //                    is Value.RealValue -> TODO()
 //                    is Value.StringValue -> TODO()
 //                    is Value.Instance -> TODO()
@@ -178,12 +179,12 @@ class RecordsSqlDataSource(
     override suspend fun <T : Type> setFieldValue(
         original: Value.Instance,
         field: Field<T>,
-        value: Value<T>
+        value: Value<*>
     ): Result<Value.Instance> = runCatching {
         val instanceId = original.id
         val recordId = original.type.uuid
         when (value) {
-            is Value.IntValue -> setIntValue(instanceId, recordId, field.name, value)
+            is Value.IntValue -> setIntValue(instanceId, recordId, field, value)
 //            is Value.RealValue -> TODO()
 //            is Value.StringValue -> TODO()
 //            is Value.Instance -> TODO()
