@@ -31,14 +31,22 @@ class RecordsRepositoryImpl(
     }
 
     override suspend fun createRecord(name: String): Result<Type.Record> {
-        TODO("Not yet implemented")
+        return recordsDataSource.createRecord(name)
     }
 
     override suspend fun addInstance(
         subject: Uuid,
         newInstance: Value.Instance
-    ): Result<Value.Instance> {
-        TODO("Not yet implemented")
+    ): Result<Value.Instance> = runCatching {
+        val instanceResult = recordsDataSource.createInstance(newInstance.type)
+        instanceResult.onSuccess { instance ->
+            newInstance.type.fields.forEach { field ->
+                val fieldValue = newInstance[field]
+                recordsDataSource.setFieldValue(instance, field, fieldValue)
+            }
+        }
+
+        return instanceResult
     }
 
     override suspend fun getInstances(categoryId: Uuid): Result<List<Value.Instance>> {
