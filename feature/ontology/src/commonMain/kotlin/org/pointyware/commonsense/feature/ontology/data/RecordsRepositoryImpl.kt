@@ -15,6 +15,7 @@ import kotlin.uuid.Uuid
  */
 @OptIn(ExperimentalUuidApi::class)
 class RecordsRepositoryImpl(
+    private val categoryDataSource: CategoryDataSource,
     private val recordsDataSource: RecordsDataSource
 ): RecordsRepository {
     override suspend fun addCategory(subject: Uuid, newCategory: Category): Result<Category> {
