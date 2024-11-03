@@ -11,11 +11,11 @@ import org.pointyware.commonsense.core.common.Log
 import org.pointyware.commonsense.core.navigation.LocationRootScope
 import org.pointyware.commonsense.core.navigation.StaticRoute
 import org.pointyware.commonsense.feature.ontology.ConceptSpaceScreen
+import org.pointyware.commonsense.feature.ontology.space.viewmodels.ConceptSpaceViewModel
 import org.pointyware.commonsense.feature.ontology.ui.CategoryEditor
 import org.pointyware.commonsense.feature.ontology.ui.CategoryExplorerScreen
 import org.pointyware.commonsense.feature.ontology.viewmodels.CategoryEditorViewModel
 import org.pointyware.commonsense.feature.ontology.viewmodels.CategoryExplorerViewModel
-import org.pointyware.commonsense.feature.ontology.viewmodels.ConceptSpaceViewModel
 
 val ontologyRoute = StaticRoute("ontology", Unit)
 val categoryExplorer = ontologyRoute.fixed("categoryExplorer")

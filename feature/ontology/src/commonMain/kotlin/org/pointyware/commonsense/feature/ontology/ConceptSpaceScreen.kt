@@ -7,9 +7,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
 import org.pointyware.commonsense.core.common.Log
-import org.pointyware.commonsense.feature.ontology.ui.ConceptSpaceUiStateMapper
-import org.pointyware.commonsense.feature.ontology.ui.ConceptSpaceView
-import org.pointyware.commonsense.feature.ontology.viewmodels.ConceptSpaceViewModel
+import org.pointyware.commonsense.feature.ontology.space.ui.ConceptSpaceUiStateMapper
+import org.pointyware.commonsense.feature.ontology.space.ui.ConceptSpaceView
+import org.pointyware.commonsense.feature.ontology.space.viewmodels.ConceptSpaceViewModel
 import kotlin.uuid.ExperimentalUuidApi
 
 /**

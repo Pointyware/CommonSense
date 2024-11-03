@@ -3,7 +3,6 @@
 package org.pointyware.commonsense.feature.ontology
 
 import org.pointyware.commonsense.core.entities.Value
-import org.pointyware.commonsense.feature.ontology.local.generateRandomId
 import kotlin.uuid.ExperimentalUuidApi
 import kotlin.uuid.Uuid
 
@@ -51,11 +50,8 @@ internal class SimpleMutableOntology(
     override fun addRelation(conceptSource: Uuid, conceptTarget: Uuid) {
         instanceMap[conceptSource]?.let { source ->
             instanceMap[conceptTarget]?.let { target ->
-                val newRelation = MemberRelation(
-                    id = generateRandomId(),
-                    owner = this
-                )
-                relationMap[newRelation.id] = newRelation
+                val newRelation = TODO("If retaining Relation interface, needs impl")
+//                relationMap[newRelation.id] = newRelation
             } ?: throw IllegalArgumentException("Concept target $conceptTarget not found in Ontology $id")
         } ?: throw IllegalArgumentException("Concept source $conceptSource not found in Ontology $id")
     }
