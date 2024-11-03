@@ -17,5 +17,5 @@ interface RecordsDataSource {
     suspend fun getRecord(id: Uuid): Result<Type.Record>
 
     suspend fun createInstance(template: Type.Record): Result<Value.Instance>
-    suspend fun <T:Type> setFieldValue(original: Value.Instance, field: Field<T>, value: Value<T>): Result<Value.Instance>
+    suspend fun <T:Type> setFieldValue(original: Value.Instance, field: Field<T>, value: Value<*>): Result<Value.Instance>
 }
