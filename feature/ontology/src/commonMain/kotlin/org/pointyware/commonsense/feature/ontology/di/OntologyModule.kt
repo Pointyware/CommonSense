@@ -3,6 +3,7 @@ package org.pointyware.commonsense.feature.ontology.di
 import kotlinx.serialization.json.Json
 import org.koin.core.module.Module
 import org.koin.core.module.dsl.bind
+import org.koin.core.module.dsl.binds
 import org.koin.core.module.dsl.factoryOf
 import org.koin.core.module.dsl.singleOf
 import org.koin.dsl.module
@@ -12,6 +13,8 @@ import org.pointyware.commonsense.feature.ontology.data.ConceptEditorControllerI
 import org.pointyware.commonsense.feature.ontology.data.ConceptSpaceRepository
 import org.pointyware.commonsense.feature.ontology.data.ConceptSpaceRepositoryImpl
 import org.pointyware.commonsense.feature.ontology.data.RecordsDataSource
+import org.pointyware.commonsense.feature.ontology.data.RecordsRepository
+import org.pointyware.commonsense.feature.ontology.data.RecordsRepositoryImpl
 import org.pointyware.commonsense.feature.ontology.data.RecordsSqlDataSource
 import org.pointyware.commonsense.feature.ontology.data.SimpleArrangementController
 import org.pointyware.commonsense.feature.ontology.interactors.AddNewNodeUseCase
@@ -57,6 +60,8 @@ fun ontologyDataModule() = module {
     single<ArrangementController> { SimpleArrangementController() }
 
     single<ConceptEditorController> { ConceptEditorControllerImpl() }
+
+    singleOf(::RecordsRepositoryImpl) { bind<RecordsRepository>() }
 }
 
 expect fun ontologyLocalPlatformModule(): Module
