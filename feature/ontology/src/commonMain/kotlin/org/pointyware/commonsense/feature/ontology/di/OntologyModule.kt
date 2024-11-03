@@ -27,11 +27,11 @@ import org.pointyware.commonsense.feature.ontology.interactors.SelectFileUseCase
 import org.pointyware.commonsense.feature.ontology.interactors.SelectFileUseCaseImpl
 import org.pointyware.commonsense.feature.ontology.interactors.UpdateNodeUseCase
 import org.pointyware.commonsense.feature.ontology.local.ConceptSpaceDataSource
-import org.pointyware.commonsense.feature.ontology.ui.ConceptSpaceUiStateMapper
+import org.pointyware.commonsense.feature.ontology.space.ui.ConceptSpaceUiStateMapper
+import org.pointyware.commonsense.feature.ontology.space.viewmodels.ConceptSpaceViewModel
 import org.pointyware.commonsense.feature.ontology.viewmodels.CategoryEditorViewModel
 import org.pointyware.commonsense.feature.ontology.viewmodels.CategoryEditorViewModelImpl
 import org.pointyware.commonsense.feature.ontology.viewmodels.CategoryExplorerViewModel
-import org.pointyware.commonsense.feature.ontology.viewmodels.ConceptSpaceViewModel
 import org.pointyware.commonsense.feature.ontology.viewmodels.InstanceEditorViewModel
 import org.pointyware.commonsense.feature.ontology.viewmodels.InstanceEditorViewModelImpl
 import org.pointyware.commonsense.feature.ontology.viewmodels.RecordEditorViewModel
