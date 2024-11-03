@@ -19,15 +19,15 @@ class RecordsRepositoryImpl(
     private val recordsDataSource: RecordsDataSource
 ): RecordsRepository {
     override suspend fun addCategory(subject: Uuid, newCategory: Category): Result<Category> {
-        TODO("Not yet implemented")
+        return categoryDataSource.addCategory(subject, newCategory.name)
     }
 
     override suspend fun getCategory(categoryId: Uuid): Result<Category> {
-        TODO("Not yet implemented")
+        return categoryDataSource.getCategory(categoryId)
     }
 
     override suspend fun getSubcategories(subjectId: Uuid): Result<List<Category>> {
-        TODO("Not yet implemented")
+        return categoryDataSource.getSubcategories(subjectId)
     }
 
     override suspend fun createRecord(name: String): Result<Type.Record> {
