@@ -8,6 +8,8 @@ import org.koin.core.module.dsl.factoryOf
 import org.koin.core.module.dsl.singleOf
 import org.koin.dsl.module
 import org.pointyware.commonsense.feature.ontology.data.ArrangementController
+import org.pointyware.commonsense.feature.ontology.data.CategoryDataSource
+import org.pointyware.commonsense.feature.ontology.data.CategorySqlDataSource
 import org.pointyware.commonsense.feature.ontology.data.ConceptEditorController
 import org.pointyware.commonsense.feature.ontology.data.ConceptEditorControllerImpl
 import org.pointyware.commonsense.feature.ontology.data.ConceptSpaceRepository
@@ -68,6 +70,7 @@ expect fun ontologyLocalPlatformModule(): Module
 
 fun ontologyLocalModule() = module {
     single<RecordsDataSource> { RecordsSqlDataSource(get())}
+    singleOf(::CategorySqlDataSource) { bind<CategoryDataSource>() }
 
     includes(
         ontologyLocalPlatformModule()
