@@ -19,7 +19,7 @@ jobs:
       - name: Upload Android App
         uses: actions/upload-artifact@v4
         with:
-          path: app-android/build/outputs/apk/release/app-android-release.aab
+          path: app-android/build/outputs/bundle/release/app-android-release.aab
           name: app-android-release.aab
 
   build-app-desktop:
