@@ -24,7 +24,7 @@ jobs:
         if: success()
         uses: actions/upload-artifact@v4
         with:
-          path: "build/reports/kover/html/*"
+          path: "app-android/build/reports/kover/html/*"
           name: android-debug-test-coverage
       - name: Upload Debug Unit Test Reports
         if: failure()
@@ -45,7 +45,7 @@ jobs:
         if: success()
         uses: actions/upload-artifact@v4
         with:
-          path: "build/reports/kover/html/*"
+          path: "app-desktop/build/reports/kover/html/*"
           name: jvm-test-coverage
       - name: Upload Jvm Test Reports
         if: failure()
