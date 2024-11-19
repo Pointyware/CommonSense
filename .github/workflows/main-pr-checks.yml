@@ -20,18 +20,18 @@ jobs:
         uses: Pointyware/.github/.github/actions/checkout-java-gradle@b70bbae19637171d6cf9311f06a59f1c15e2598b
       - name: Run Debug Unit Tests
         run: ./gradlew testDebugUnitTest -Pgithub.user=${{ secrets.BUILD_USER }} -Pgithub.token=${{ secrets.BUILD_TOKEN }}
+      - name: Upload Debug Unit Test Coverage
+        if: success()
+        uses: actions/upload-artifact@v4
+        with:
+          path: "build/reports/kover/html/*"
+          name: android-debug-test-coverage
       - name: Upload Debug Unit Test Reports
         if: failure()
         uses: actions/upload-artifact@v4
         with:
           path: "**/build/reports/tests/testDebugUnitTest/*"
           name: android-debug-test-reports
-      - name: Upload Debug Unit Test Coverage
-        if: success()
-        uses: actions/upload-artifact@v4
-        with:
-          path: "**/build/reports/jacoco/test/jacocoTestReport.xml"
-          name: android-debug-test-coverage
 
   build-app-desktop:
     if: github.event.pull_request.draft == false
@@ -41,15 +41,15 @@ jobs:
         uses: Pointyware/.github/.github/actions/checkout-java-gradle@b70bbae19637171d6cf9311f06a59f1c15e2598b
       - name: Build Desktop App
         run: ./gradlew jvmTest -Pgithub.user=${{ secrets.BUILD_USER }} -Pgithub.token=${{ secrets.BUILD_TOKEN }}
+      - name: Upload Jvm Test Coverage
+        if: success()
+        uses: actions/upload-artifact@v4
+        with:
+          path: "build/reports/kover/html/*"
+          name: jvm-test-coverage
       - name: Upload Jvm Test Reports
         if: failure()
         uses: actions/upload-artifact@v4
         with:
           path: "**/build/reports/tests/jvmTest/*"
           name: jvm-test-reports
-      - name: Upload Jvm Test Coverage
-        if: success()
-        uses: actions/upload-artifact@v4
-        with:
-          path: "**/build/reports/jacoco/test/jacocoTestReport.xml"
-          name: jvm-test-coverage
