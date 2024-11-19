@@ -1,9 +1,12 @@
-package di
+/*
+ * Copyright (c) 2024 Pointyware. Use of this software is governed by the GPL-3.0 license.
+ */
+
+package org.pointyware.commonsense.shared.di
 
 import org.koin.core.KoinApplication
 import org.koin.test.check.checkModules
 import org.pointyware.commonsense.feature.ontology.di.ontologyJvmSharedModule
-import org.pointyware.commonsense.shared.di.setupKoin
 import kotlin.test.AfterTest
 import kotlin.test.BeforeTest
 import kotlin.test.Test

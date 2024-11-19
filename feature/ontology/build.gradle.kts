@@ -12,6 +12,7 @@ plugins {
     alias(libs.plugins.ksp)
     alias(libs.plugins.sqlDelight)
     alias(libs.plugins.realm)
+    alias(libs.plugins.kover)
 }
 
 kotlin {

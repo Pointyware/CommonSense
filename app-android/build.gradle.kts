@@ -3,6 +3,7 @@ plugins {
     alias(libs.plugins.androidApplication)
     alias(libs.plugins.composeMultiplatform)
     alias(libs.plugins.compose.compiler)
+    alias(libs.plugins.kover)
 }
 
 android {
@@ -39,6 +40,21 @@ dependencies {
     implementation(projects.core.ui)
 
     implementation(projects.appShared)
+
+    kover(projects.core.common)
+    kover(projects.core.data)
+    kover(projects.core.entities)
+    kover(projects.core.interactors)
+    kover(projects.core.local)
+    kover(projects.core.navigation)
+    kover(projects.core.remote)
+    kover(projects.core.ui)
+    kover(projects.core.viewModels)
+
+    kover(projects.feature.epistemology)
+    kover(projects.feature.ontology)
+
+    kover(projects.appShared)
 
     implementation(libs.androidx.activityCompose)
     implementation(libs.androidx.composeMaterial3)

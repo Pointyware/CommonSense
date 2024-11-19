@@ -9,7 +9,6 @@ on:
 
 jobs:
   build-app-android:
-    if: github.event.pull_request.draft == false
     runs-on: ubuntu-22.04
     steps:
       - name: Setup
@@ -23,7 +22,6 @@ jobs:
           name: app-android-release.aab
 
   build-app-desktop:
-    if: github.event.pull_request.draft == false
     runs-on: ubuntu-22.04
     steps:
       - name: Setup

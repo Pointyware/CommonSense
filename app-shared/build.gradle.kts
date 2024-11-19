@@ -9,6 +9,7 @@ plugins {
     alias(libs.plugins.compose.compiler)
     alias(libs.plugins.commonsense.koin)
     alias(libs.plugins.commonsense.kmp)
+    alias(libs.plugins.kover)
 }
 
 kotlin {

@@ -12,26 +12,44 @@ on:
       - "*/README.md"
 
 jobs:
-  build:
-    name: "Setup and Build Project"
-    runs-on: [ubuntu-22.04]
-    if: github.event.pull_request.draft == false # ignore draft pull requests
-#    env:
-#
-#    outputs:
-#
+  build-app-android:
+    if: github.event.pull_request.draft == false
+    runs-on: ubuntu-22.04
     steps:
-      - name: "Checkout Project"
-        uses: actions/checkout@v4
-      - name: "Setup Java 17"
-        uses: actions/setup-java@v4
+      - name: Setup
+        uses: Pointyware/.github/.github/actions/checkout-java-gradle@b70bbae19637171d6cf9311f06a59f1c15e2598b
+      - name: Run Debug Unit Tests
+        run: ./gradlew :app-android:koverHtmlReportDebug -Pgithub.user=${{ secrets.BUILD_USER }} -Pgithub.token=${{ secrets.BUILD_TOKEN }}
+      - name: Upload Debug Unit Test Coverage
+        if: success()
+        uses: actions/upload-artifact@v4
         with:
-          distribution: 'temurin' # See 'Supported distributions' for available options
-          java-version: '17'
-      - name: "Setup Gradle"
-        uses: gradle/actions/setup-gradle@v3
+          path: "app-android/build/reports/kover/htmlDebug/*"
+          name: android-debug-test-coverage
+      - name: Upload Debug Unit Test Reports
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          path: "**/build/reports/tests/testDebugUnitTest/*"
+          name: android-debug-test-reports
 
-      - name: "Build: Assemble and Test entire project"
-        run: ./gradlew jvmTest
-
-#      - run: ./gradlew generate coverage report, upload test/coverage reports
+  build-app-desktop:
+    if: github.event.pull_request.draft == false
+    runs-on: ubuntu-22.04
+    steps:
+      - name: Setup
+        uses: Pointyware/.github/.github/actions/checkout-java-gradle@b70bbae19637171d6cf9311f06a59f1c15e2598b
+      - name: Build Desktop App
+        run: ./gradlew :app-desktop:koverHtmlReport -Pgithub.user=${{ secrets.BUILD_USER }} -Pgithub.token=${{ secrets.BUILD_TOKEN }}
+      - name: Upload Desktop Test Coverage
+        if: success()
+        uses: actions/upload-artifact@v4
+        with:
+          path: "app-desktop/build/reports/kover/html/*"
+          name: jvm-test-coverage
+      - name: Upload Jvm Test Reports
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          path: "**/build/reports/tests/jvmTest/*"
+          name: jvm-test-reports
