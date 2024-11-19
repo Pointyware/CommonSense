@@ -19,7 +19,7 @@ jobs:
       - name: Setup
         uses: Pointyware/.github/.github/actions/checkout-java-gradle@b70bbae19637171d6cf9311f06a59f1c15e2598b
       - name: Run Debug Unit Tests
-        run: ./gradlew testDebugUnitTest -Pgithub.user=${{ secrets.BUILD_USER }} -Pgithub.token=${{ secrets.BUILD_TOKEN }}
+        run: ./gradlew :app-android:koverHtmlReportDebug -Pgithub.user=${{ secrets.BUILD_USER }} -Pgithub.token=${{ secrets.BUILD_TOKEN }}
       - name: Upload Debug Unit Test Coverage
         if: success()
         uses: actions/upload-artifact@v4
@@ -40,8 +40,8 @@ jobs:
       - name: Setup
         uses: Pointyware/.github/.github/actions/checkout-java-gradle@b70bbae19637171d6cf9311f06a59f1c15e2598b
       - name: Build Desktop App
-        run: ./gradlew jvmTest -Pgithub.user=${{ secrets.BUILD_USER }} -Pgithub.token=${{ secrets.BUILD_TOKEN }}
-      - name: Upload Jvm Test Coverage
+        run: ./gradlew :app-desktop:koverHtmlReport -Pgithub.user=${{ secrets.BUILD_USER }} -Pgithub.token=${{ secrets.BUILD_TOKEN }}
+      - name: Upload Desktop Test Coverage
         if: success()
         uses: actions/upload-artifact@v4
         with:
