@@ -26,7 +26,7 @@ tasks.dokkaHtmlMultiModule {
 }
 
 subprojects {
-    apply(plugin = libs.plugins.dokka.get().pluginId)
+    apply(plugin = "org.jetbrains.dokka")
 
     tasks.withType<DokkaTask>().configureEach {
 
@@ -40,7 +40,7 @@ subprojects {
         }
     }
 
-    apply(plugin = libs.plugins.kover.get().pluginId)
+    apply(plugin = "org.jetbrains.kotlinx.kover")
 }
 
 dependencies {
