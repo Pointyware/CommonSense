@@ -9,7 +9,7 @@ plugins {
     alias(libs.plugins.compose.compiler)
     alias(libs.plugins.commonsense.koin)
     alias(libs.plugins.commonsense.kmp)
-    jacoco
+    alias(libs.plugins.kover)
 }
 
 kotlin {
@@ -119,17 +119,4 @@ android {
     defaultConfig {
         minSdk = 21
     }
-}
-
-tasks.create("jacocoTestReport", JacocoReport::class) {
-    dependsOn("jvmTest")
-    val jvmSourceSet = kotlin.sourceSets.getByName("jvmMain")
-
-    reports {
-        html.required = true
-    }
-
-    classDirectories.setFrom(jvmSourceSet.kotlin.classesDirectory)
-    sourceDirectories.setFrom(jvmSourceSet.kotlin.srcDirs)
-    executionData(tasks.named("jvmTest").get())
 }
