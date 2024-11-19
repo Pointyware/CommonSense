@@ -26,6 +26,12 @@ jobs:
         with:
           path: "**/build/reports/tests/testDebugUnitTest/*"
           name: android-debug-test-reports
+      - name: Upload Debug Unit Test Coverage
+        if: success()
+        uses: actions/upload-artifact@v4
+        with:
+          path: "**/build/reports/jacoco/test/jacocoTestReport.xml"
+          name: android-debug-test-coverage
 
   build-app-desktop:
     if: github.event.pull_request.draft == false
