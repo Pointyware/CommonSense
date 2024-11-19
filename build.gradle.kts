@@ -1,4 +1,3 @@
-import org.jetbrains.dokka.gradle.DokkaMultiModuleTask
 import org.jetbrains.dokka.gradle.DokkaTask
 import java.net.URL
 
@@ -19,6 +18,7 @@ plugins {
 
     alias(libs.plugins.commonsense.koin).apply(false)
     alias(libs.plugins.commonsense.kmp).apply(false)
+    alias(libs.plugins.kover)
 }
 
 tasks.dokkaHtmlMultiModule {
@@ -39,4 +39,12 @@ subprojects {
             }
         }
     }
+}
+
+dependencies {
+    // setup this module as the merge-module for coverage reports
+//    subprojects.forEach {
+//        kover(it)
+//    }
+    kover(project(":app-shared"))
 }
