@@ -39,12 +39,13 @@ subprojects {
             }
         }
     }
+
+    apply(plugin = libs.plugins.kover.get().pluginId)
 }
 
 dependencies {
     // setup this module as the merge-module for coverage reports
-//    subprojects.forEach {
-//        kover(it)
-//    }
-    kover(project(":app-shared"))
+    subprojects.forEach {
+        kover(it)
+    }
 }
