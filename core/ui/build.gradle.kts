@@ -7,6 +7,7 @@ plugins {
     alias(libs.plugins.androidLibrary)
     alias(libs.plugins.composeMultiplatform)
     alias(libs.plugins.compose.compiler)
+    alias(libs.plugins.kover)
 }
 
 kotlin {

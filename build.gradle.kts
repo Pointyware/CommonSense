@@ -18,7 +18,7 @@ plugins {
 
     alias(libs.plugins.commonsense.koin).apply(false)
     alias(libs.plugins.commonsense.kmp).apply(false)
-    alias(libs.plugins.kover)
+    alias(libs.plugins.kover).apply(false)
 }
 
 tasks.dokkaHtmlMultiModule {
@@ -38,14 +38,5 @@ subprojects {
                 remoteLineSuffix.set("#L")
             }
         }
-    }
-
-    apply(plugin = "org.jetbrains.kotlinx.kover")
-}
-
-dependencies {
-    // setup this module as the merge-module for coverage reports
-    subprojects.forEach {
-        kover(it)
     }
 }
