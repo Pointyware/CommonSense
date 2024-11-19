@@ -17,7 +17,7 @@ jobs:
       - name: Build Android App
         run: ./gradlew :app-android:bundleRelease -Pgithub.user=${{ secrets.BUILD_USER }} -Pgithub.token=${{ secrets.BUILD_TOKEN }}
       - name: Upload Android App
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v4
         with:
           path: app-android/build/outputs/apk/release/app-android-release.aab
           name: app-android-release.aab
@@ -31,7 +31,7 @@ jobs:
       - name: Build Desktop App
         run: ./gradlew :app-desktop:createDistributable -Pgithub.user=${{ secrets.BUILD_USER }} -Pgithub.token=${{ secrets.BUILD_TOKEN }}
       - name: Upload Desktop App
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v4
         with:
           path: app-desktop/build/libs/app-desktop.jar
           name: app-desktop.jar
