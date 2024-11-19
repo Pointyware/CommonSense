@@ -26,7 +26,7 @@ tasks.dokkaHtmlMultiModule {
 }
 
 subprojects {
-    apply(plugin = "org.jetbrains.dokka")
+    apply(plugin = libs.plugins.dokka.get().pluginId)
 
     tasks.withType<DokkaTask>().configureEach {
 
