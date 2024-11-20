@@ -24,9 +24,11 @@ fun main() = application {
 
 
     val navController = remember { appDependencies.getNavigationDependencies().getNavController() }
+    val currentLocation = remember { navController.currentLocation }
+    val title = remember(currentLocation) { "My Application - ${currentLocation.value}" }
     val state = rememberWindowState()
     Window(
-        title = "My Application",
+        title = title,
         state = state,
         onCloseRequest = this::exitApplication
     ) {
