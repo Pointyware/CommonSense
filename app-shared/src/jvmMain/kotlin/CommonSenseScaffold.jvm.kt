@@ -7,6 +7,7 @@ package org.pointyware.commonsense.shared
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.dp
 import org.pointyware.commonsense.core.navigation.CommonSenseNavController
 
 /**
@@ -18,5 +19,5 @@ actual fun CommonSenseScaffold(
     navController: CommonSenseNavController,
     content: @Composable (PaddingValues) -> Unit
 ) {
-    // TODO: implement desktop-specific UI
+    content(PaddingValues(0.dp))
 }
