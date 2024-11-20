@@ -146,4 +146,4 @@ fun <K, A> StackNavigationController(
     return StackNavigationControllerImpl(initialLocation)
 }
 
-typealias CymaticsNavController = StackNavigationController<Any, Any>
+typealias CommonSenseNavController = StackNavigationController<Any, Any>
