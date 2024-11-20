@@ -31,6 +31,7 @@ fun CommonSenseApp(
 ) {
     Log.v("CommonSenseApp")
     val navController = remember { dependencies.getNavigationDependencies().getNavController() }
+    // TODO: provide NavController as LocalComposition
 
     CommonSenseTheme(
         isDark = isDarkTheme
@@ -50,9 +51,7 @@ fun CommonSenseApp(
                     },
                     title = {
                         Text(currentLocation.value.toString() ?: "Common Sense")
-                    },
-                    actions = {
-                    },
+                    }
                 )
             },
         ) { paddingValues ->
