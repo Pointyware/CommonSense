@@ -1,4 +1,8 @@
-package org.pointyware.commonsense.core.ui
+/*
+ * Copyright (c) 2024 Pointyware. Use of this software is governed by the GPL-3.0 license.
+ */
+
+package org.pointyware.commonsense.feature.ontology.ui
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState

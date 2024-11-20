@@ -9,11 +9,9 @@ import androidx.compose.ui.window.Window
 import androidx.compose.ui.window.application
 import androidx.compose.ui.window.rememberWindowState
 import org.jetbrains.compose.resources.painterResource
-import org.koin.core.context.startKoin
 import org.pointyware.commonsense.desktop.di.desktopModule
 import org.pointyware.commonsense.shared.CommonSenseApp
 import org.pointyware.commonsense.shared.FileViewModel
-import org.pointyware.commonsense.shared.di.appModule
 import org.pointyware.commonsense.shared.di.getDependencies
 import org.pointyware.commonsense.shared.di.setupKoin
 
@@ -24,14 +22,18 @@ fun main() = application {
     val appDependencies = remember { getDependencies() }
     val drawableResources = remember { appDependencies.getDrawableResources() }
 
+
+    val navController = remember { appDependencies.getNavigationDependencies().getNavController() }
+    val currentLocation = remember { navController.currentLocation }
+    val title = remember(currentLocation) { "My Application - ${currentLocation.value}" }
     val state = rememberWindowState()
     Window(
-        title = "My Application",
+        title = title,
         state = state,
         onCloseRequest = this::exitApplication
     ) {
         CommonSenseApp(
-            dependencies = appDependencies,
+            navController = navController,
             isDarkTheme = false
         )
 

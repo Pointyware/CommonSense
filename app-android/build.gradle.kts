@@ -36,8 +36,18 @@ android {
 }
 
 dependencies {
+    implementation(projects.core.common)
+    implementation(projects.core.data)
     implementation(projects.core.entities)
+    implementation(projects.core.interactors)
+    implementation(projects.core.local)
+    implementation(projects.core.navigation)
+    implementation(projects.core.remote)
     implementation(projects.core.ui)
+    implementation(projects.core.viewModels)
+
+    implementation(projects.feature.epistemology)
+    implementation(projects.feature.ontology)
 
     implementation(projects.appShared)
 
