@@ -14,8 +14,9 @@ class MainActivity : ComponentActivity() {
 
         setContent {
             val appDependencies = remember { getDependencies() }
+            val navController = remember { appDependencies.getNavigationDependencies().getNavController() }
             CommonSenseApp(
-                dependencies = appDependencies,
+                navController = navController,
                 isDarkTheme = isSystemInDarkTheme()
             )
         }

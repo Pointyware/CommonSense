@@ -2,25 +2,23 @@ package org.pointyware.commonsense.shared
 
 import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import org.pointyware.commonsense.core.common.Log
+import org.pointyware.commonsense.core.navigation.CommonSenseNavController
 import org.pointyware.commonsense.core.navigation.LocationRoot
 import org.pointyware.commonsense.core.ui.design.CommonSenseTheme
 import org.pointyware.commonsense.feature.ontology.navigation.ontologyRouting
-import org.pointyware.commonsense.shared.di.AppDependencies
 
 /**
  * The main entry point for the Common Sense app.
  */
 @Composable
 fun CommonSenseApp(
-    dependencies: AppDependencies,
+    navController: CommonSenseNavController,
     isDarkTheme: Boolean,
     modifier: Modifier = Modifier,
 ) {
     Log.v("CommonSenseApp")
-    val navController = remember { dependencies.getNavigationDependencies().getNavController() }
 
     CommonSenseTheme(
         isDark = isDarkTheme
