@@ -9,7 +9,12 @@ import kotlin.uuid.ExperimentalUuidApi
 import kotlin.uuid.Uuid
 
 @OptIn(ExperimentalUuidApi::class)
-class CategorySqlDataSource : CategoryDataSource {
+class CategorySqlDataSource(
+    lazyDb: Lazy<OntologyDb>
+): CategoryDataSource {
+
+    private val db: OntologyDb by lazyDb
+
     override suspend fun createCategory(name: String): Result<Category> {
         TODO("Not yet implemented")
     }

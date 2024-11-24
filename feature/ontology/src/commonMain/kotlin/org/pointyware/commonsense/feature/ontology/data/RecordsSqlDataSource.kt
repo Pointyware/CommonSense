@@ -21,15 +21,10 @@ import kotlin.uuid.Uuid
  */
 @OptIn(ExperimentalUuidApi::class)
 class RecordsSqlDataSource(
-    private val driverFactory: DriverFactory,
-    private val persistence: Persistence = Persistence.File
+    lazyDb: Lazy<OntologyDb>
 ): RecordsDataSource {
 
-    private val driver = driverFactory.createSqlDriver(persistence)
-    private val db by lazy {
-        OntologyDb.Schema.createOrMigrate(driver)
-        OntologyDb(driver)
-    }
+    private val db: OntologyDb by lazyDb
 
     private val recordNamePattern = "[a-zA-Z][a-zA-Z0-9_]*".toRegex()
     override suspend fun createRecord(name: String): Result<Type.Record> = runCatching {
