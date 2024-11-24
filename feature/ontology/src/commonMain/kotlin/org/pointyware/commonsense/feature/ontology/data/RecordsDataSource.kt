@@ -18,4 +18,6 @@ interface RecordsDataSource {
 
     suspend fun createInstance(template: Type.Record): Result<Value.Instance>
     suspend fun <T:Type> setFieldValue(original: Value.Instance, field: Field<T>, value: Value<*>): Result<Value.Instance>
+    suspend fun getInstance(id: Uuid): Result<Value.Instance>
+    suspend fun getInstances(categoryId: Uuid): Result<List<Value.Instance>>
 }

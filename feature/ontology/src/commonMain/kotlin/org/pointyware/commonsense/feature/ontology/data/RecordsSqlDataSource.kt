@@ -191,4 +191,12 @@ class RecordsSqlDataSource(
             original.values + (field to value)
         )
     }
+
+    override suspend fun getInstance(id: Uuid): Result<Value.Instance> {
+        TODO("Not yet implemented")
+    }
+
+    override suspend fun getInstances(categoryId: Uuid): Result<List<Value.Instance>> {
+        TODO("Not yet implemented")
+    }
 }
