@@ -42,6 +42,7 @@ CREATE TABLE instance_fields (
 -- Instance table
 CREATE TABLE instances (
   id INTEGER PRIMARY KEY NOT NULL,
+  categoryId INTEGER NOT NULL,
   recordId INTEGER NOT NULL,
   uuid BLOB NOT NULL -- 16 bytes
 );
@@ -175,10 +176,11 @@ VALUES (
 
 -- Create a new Instance from a Record type
 createInstance:
-INSERT INTO instances (recordId, uuid)
+INSERT INTO instances (recordId, uuid, categoryId)
 VALUES (
   (SELECT id FROM records WHERE uuid = :recordId),
-  :instanceId
+  :instanceId,
+  (SELECT id FROM category WHERE uuid = :categoryId)
 );
 
 -- Set an Instance Value
@@ -190,8 +192,32 @@ VALUES (
   :value
 );
 
-getIntField:
+getIntFieldValue:
 SELECT value
 FROM int_values
 WHERE instanceId = (SELECT id FROM instances WHERE uuid = :instanceId)
 AND fieldId = (SELECT id FROM fields WHERE recordId = (SELECT id FROM records WHERE uuid = :recordId) AND name = :fieldName);
+
+getInstance:
+SELECT fieldId, int_values.value AS int_value -- , float_values.value AS float_value, text_values.value AS text_value
+FROM int_values
+WHERE instanceId = (SELECT id FROM instances WHERE uuid = :instanceId);
+
+getInstancesByIds:
+SELECT instances.uuid AS instanceId, fields.name AS fieldName, int_values.value AS int_value
+FROM instances
+JOIN int_values ON instances.id = int_values.instanceId
+JOIN fields ON int_values.fieldId = fields.id
+WHERE instanceId IN :instanceIds;
+
+-- Delete the given list of instances
+deleteInstances:
+DELETE FROM instances WHERE uuid IN :instanceIds;
+
+-- Get all concepts within a category
+getInstancesInCategory:
+SELECT instances.uuid AS instanceId, fields.name AS fieldName, int_values.value AS int_value
+FROM instances
+JOIN int_values ON instances.id = int_values.instanceId
+JOIN fields ON int_values.fieldId = fields.id
+WHERE instanceId IN (SELECT id FROM instances WHERE categoryId = :categoryId);
