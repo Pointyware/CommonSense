@@ -46,16 +46,16 @@ class RecordsQueriesUnitTest {
     }
 
     @Test
-    fun getIntField_should_return_default_for_null_instance() {
+    fun getIntFieldValue_should_return_default_for_null_instance() {
         val defaultValue = 42L
         val recordId = Uuid.random().toByteArray()
         val nullId = Uuid.NIL.toByteArray()
         unitUnderTest.createRecord(recordId, "foobar")
         unitUnderTest.addIntField(recordId, "field", 1)
-        unitUnderTest.createInstance(recordId, nullId)
+        unitUnderTest.createInstance(recordId, nullId, nullId)
         unitUnderTest.setInstanceIntValue(nullId, recordId, "field", defaultValue)
 
-        val result = unitUnderTest.getIntField(nullId, recordId, "field").executeAsOneOrNull()
+        val result = unitUnderTest.getIntFieldValue(nullId, recordId, "field").executeAsOneOrNull()
 
         assertEquals(defaultValue, result, "Int Field should have $defaultValue default value")
     }
