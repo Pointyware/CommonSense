@@ -31,14 +31,6 @@ FROM
 WHERE
   parentId = (SELECT creationId FROM category WHERE uuid = ?);
 
--- Get all concepts within a category
-getInstancesInCategory:
-SELECT instances.uuid AS instanceId, fields.name AS fieldName, int_values.value AS int_value
-FROM instances
-JOIN int_values ON instances.id = int_values.instanceId
-JOIN fields ON int_values.fieldId = fields.id
-WHERE instanceId IN (SELECT id FROM instances WHERE categoryId = :categoryId);
-
 -- Delete the given list of categories and all their children
 deleteCategories:
 DELETE FROM category WHERE uuid IN ?; -- TODO: delete all children; foreign key cascade?
