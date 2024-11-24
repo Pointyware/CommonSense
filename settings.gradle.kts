@@ -18,21 +18,28 @@ dependencyResolutionManagement {
 }
 
 rootProject.name = "Common_Sense"
-include(":core:common")
-include(":core:data")
-include(":core:entities")
-include(":core:interactors")
-include(":core:local")
-include(":core:navigation")
-include(":core:remote")
-include(":core:ui")
-include(":core:view-models")
+include(
+    ":core", ":core:common", // TODO: migrate common to core
+    ":core:data",
+    ":core:entities",
+    ":core:interactors",
+    ":core:local",
+    ":core:navigation",
+    ":core:remote",
+    ":core:ui",
+    ":core:view-models"
+)
 
-include(":feature:ontology")
-include(":feature:epistemology")
+include(
+    ":feature",
+    ":feature:ontology",
+    ":feature:epistemology",
+)
 
-include(":api")
-include(":app-shared")
-include(":app-android")
-//include(":app-ios")
-include(":app-desktop")
+include(
+    ":api",
+    ":app-shared",
+    ":app-android",
+//    ":app-ios",
+    ":app-desktop",
+)
