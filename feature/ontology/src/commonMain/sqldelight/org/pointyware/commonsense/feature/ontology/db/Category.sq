@@ -24,9 +24,9 @@ VALUES (0, unhex("00000000000000000000000000000000"), NULL, 'Root');
 insertCategory:
 INSERT INTO category (uuid, parentId, name)
 VALUES (
-    ?,
-  COALESCE((SELECT creationId FROM category WHERE uuid = ?), 0),
-  ?
+    :newId,
+  COALESCE((SELECT creationId FROM category WHERE uuid = :parentId), 0),
+  :name
 );
 
 getCategory:

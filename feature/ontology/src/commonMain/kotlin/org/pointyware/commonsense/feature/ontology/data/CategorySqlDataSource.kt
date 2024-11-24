@@ -16,12 +16,16 @@ class CategorySqlDataSource(
 
     private val db: OntologyDb by lazyDb
 
-    override suspend fun createCategory(name: String): Result<Category> {
-        TODO("Not yet implemented")
+    override suspend fun createCategory(name: String): Result<Category> = runCatching {
+        val newUuid = Uuid.random()
+        db.categoryQueries.insertCategory(newId = newUuid.toByteArray(), parentId = Uuid.NIL.toByteArray(), name = name)
+        Category(newUuid, name)
     }
 
-    override suspend fun addCategory(subject: Uuid, name: String): Result<Category> {
-        TODO("Not yet implemented")
+    override suspend fun addCategory(subject: Uuid, name: String): Result<Category> = runCatching {
+        val newUuid = Uuid.random()
+        db.categoryQueries.insertCategory(newId = newUuid.toByteArray(), parentId = subject.toByteArray(), name = name)
+        Category(newUuid, name)
     }
 
     override suspend fun getCategory(id: Uuid): Result<Category> {
@@ -36,7 +40,7 @@ class CategorySqlDataSource(
         }
     }
 
-    override suspend fun removeCategories(ids: Set<Uuid>): Result<Unit> {
-        TODO("Not yet implemented")
+    override suspend fun removeCategories(ids: Set<Uuid>): Result<Unit> = runCatching {
+        db.categoryQueries.deleteCategories(ids.map { it.toByteArray() })
     }
 }
