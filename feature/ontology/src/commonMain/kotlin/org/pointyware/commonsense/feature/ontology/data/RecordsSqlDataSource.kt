@@ -4,15 +4,10 @@
 
 package org.pointyware.commonsense.feature.ontology.data
 
-import org.pointyware.commonsense.core.entities.ExperimentalType
-import org.pointyware.commonsense.core.entities.ExperimentalValue
 import org.pointyware.commonsense.core.entities.Field
 import org.pointyware.commonsense.core.entities.Type
 import org.pointyware.commonsense.core.entities.Value
-import org.pointyware.commonsense.core.local.db.createOrMigrate
 import org.pointyware.commonsense.feature.ontology.db.OntologyDb
-import org.pointyware.commonsense.feature.ontology.local.DriverFactory
-import org.pointyware.commonsense.feature.ontology.local.Persistence
 import kotlin.uuid.ExperimentalUuidApi
 import kotlin.uuid.Uuid
 
@@ -25,6 +20,8 @@ class RecordsSqlDataSource(
 ): RecordsDataSource {
 
     private val db: OntologyDb by lazyDb
+
+    private val nullIdBytes = Uuid.NIL.toByteArray()
 
     private val recordNamePattern = "[a-zA-Z][a-zA-Z0-9_]*".toRegex()
     override suspend fun createRecord(name: String): Result<Type.Record> = runCatching {
@@ -48,8 +45,8 @@ class RecordsSqlDataSource(
                     if (defaultValue !is Value.IntValue) throw IllegalArgumentException("Expected Value.IntValue, got $defaultValue")
                     db.transaction {
                         db.recordsQueries.addIntField(recordId.toByteArray(), name, 1)
-                        db.recordsQueries.createInstance(recordId.toByteArray(), Uuid.NIL.toByteArray())
-                        db.recordsQueries.setInstanceIntValue(Uuid.NIL.toByteArray(), recordId.toByteArray(), name, defaultValue.rawValue.toLong())
+                        db.recordsQueries.createInstance(recordId.toByteArray(), nullIdBytes, nullIdBytes)
+                        db.recordsQueries.setInstanceIntValue(nullIdBytes, recordId.toByteArray(), name, defaultValue.rawValue.toLong())
                     }
                 } ?: run {
                     db.recordsQueries.addIntField(recordId.toByteArray(), name, 0)
@@ -119,7 +116,7 @@ class RecordsSqlDataSource(
                 val default = if (fieldRow.hasDefault > 0) {
                     when (type) {
                         Type.Int -> {
-                            db.recordsQueries.getIntField(Uuid.NIL.toByteArray(), id.toByteArray(), fieldName).executeAsOneOrNull()?.let { value ->
+                            db.recordsQueries.getIntFieldValue(nullIdBytes, id.toByteArray(), fieldName).executeAsOneOrNull()?.let { value ->
                                 Value.IntValue(value.toInt()) // TODO: expand IntValue to support Long or add LongValue type?
                             }
                         }
@@ -152,7 +149,7 @@ class RecordsSqlDataSource(
         template: Type.Record,
     ): Result<Value.Instance> = runCatching {
         val newUuid = Uuid.random()
-        db.recordsQueries.createInstance(template.uuid.toByteArray(), newUuid.toByteArray())
+        db.recordsQueries.createInstance(template.uuid.toByteArray(), newUuid.toByteArray(), nullIdBytes)
         val fieldMap = template.fields.flatMap { field ->
             field.defaultValue?.let { default ->
                 when (default) {
