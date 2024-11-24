@@ -50,10 +50,10 @@ class RecordsRepositoryImpl(
     }
 
     override suspend fun getInstances(categoryId: Uuid): Result<List<Value.Instance>> {
-        TODO("Not yet implemented")
+        return recordsDataSource.getInstances(categoryId)
     }
 
     override suspend fun getInstance(instanceId: Uuid): Result<Value.Instance> {
-        TODO("Not yet implemented")
+        return recordsDataSource.getInstance(instanceId)
     }
 }
