@@ -6,13 +6,6 @@ CREATE TABLE category (
   name TEXT NOT NULL
 );
 
--- Concept table: a set of concepts within categories
-CREATE TABLE concept (
-  creationId INTEGER PRIMARY KEY NOT NULL,
-  categoryId INTEGER NOT NULL,
-  uuid BLOB NOT NULL -- 16 bytes
-);
-
 CREATE INDEX category_parent_id ON category(parentId);
 
 INSERT INTO category (creationId, uuid, parentId, name)
@@ -30,14 +23,6 @@ VALUES (
 getCategory:
 SELECT uuid, name FROM category WHERE uuid = ?;
 
--- Insert a new concept into a category
-insertInstance:
-INSERT INTO concept (categoryId, uuid)
-VALUES (
-  (SELECT creationId FROM category WHERE uuid = :categoryId),
-  :newId
-);
-
 -- Get all categories within a category
 getCategories:
 SELECT uuid, name
@@ -47,14 +32,12 @@ WHERE
   parentId = (SELECT creationId FROM category WHERE uuid = ?);
 
 -- Get all concepts within a category
-getConcepts:
-SELECT uuid, name, description
-FROM concept
-WHERE categoryId = (SELECT creationId FROM category WHERE uuid = ?);
-
--- Delete the given list of concepts
-deleteConcepts:
-DELETE FROM concept WHERE uuid IN ?;
+getInstancesInCategory:
+SELECT instances.uuid AS instanceId, fields.name AS fieldName, int_values.value AS int_value
+FROM instances
+JOIN int_values ON instances.id = int_values.instanceId
+JOIN fields ON int_values.fieldId = fields.id
+WHERE instanceId IN (SELECT id FROM instances WHERE categoryId = :categoryId);
 
 -- Delete the given list of categories and all their children
 deleteCategories:
