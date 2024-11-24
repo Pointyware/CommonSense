@@ -31,7 +31,9 @@ class CategorySqlDataSource(
     }
 
     override suspend fun getSubcategories(id: Uuid): Result<List<Category>> {
-        TODO("Not yet implemented")
+        db.categoryQueries.getCategories(id.toByteArray()).executeAsList().let { rows ->
+            return Result.success(rows.map { Category(Uuid.fromByteArray(it.uuid), it.name) })
+        }
     }
 
     override suspend fun removeCategories(ids: Set<Uuid>): Result<Unit> {
