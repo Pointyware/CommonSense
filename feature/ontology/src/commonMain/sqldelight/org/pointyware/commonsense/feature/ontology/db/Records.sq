@@ -212,8 +212,9 @@ DELETE FROM instances WHERE uuid IN :instanceIds;
 
 -- Get all concepts within a category
 getInstancesInCategory:
-SELECT instances.uuid AS instanceId, fields.name AS fieldName, int_values.value AS intValue
+SELECT instances.uuid AS instanceId, records.uuid AS recordId, fields.name AS fieldName, int_values.value AS intValue
 FROM instances
+JOIN records ON instances.recordId = records.id
 JOIN int_values ON instances.id = int_values.instanceId
 JOIN fields ON int_values.fieldId = fields.id
 WHERE instanceId IN (
