@@ -198,17 +198,13 @@ FROM int_values
 WHERE instanceId = (SELECT id FROM instances WHERE uuid = :instanceId)
 AND fieldId = (SELECT id FROM fields WHERE recordId = (SELECT id FROM records WHERE uuid = :recordId) AND name = :fieldName);
 
-getInstance:
-SELECT fieldId, int_values.value AS int_value -- , float_values.value AS float_value, text_values.value AS text_value
-FROM int_values
-WHERE instanceId = (SELECT id FROM instances WHERE uuid = :instanceId);
-
 getInstancesByIds:
-SELECT instances.uuid AS instanceId, fields.name AS fieldName, int_values.value AS int_value
+SELECT instances.uuid AS instanceId, records.uuid AS recordId, fields.name AS fieldName, int_values.value AS intValue
 FROM instances
+JOIN records ON instances.recordId = records.id
 JOIN int_values ON instances.id = int_values.instanceId
 JOIN fields ON int_values.fieldId = fields.id
-WHERE instanceId IN :instanceIds;
+WHERE instances.uuid IN :instanceIds;
 
 -- Delete the given list of instances
 deleteInstances:
@@ -216,8 +212,13 @@ DELETE FROM instances WHERE uuid IN :instanceIds;
 
 -- Get all concepts within a category
 getInstancesInCategory:
-SELECT instances.uuid AS instanceId, fields.name AS fieldName, int_values.value AS int_value
+SELECT instances.uuid AS instanceId, fields.name AS fieldName, int_values.value AS intValue
 FROM instances
 JOIN int_values ON instances.id = int_values.instanceId
 JOIN fields ON int_values.fieldId = fields.id
-WHERE instanceId IN (SELECT id FROM instances WHERE categoryId = :categoryId);
+WHERE instanceId IN (
+    SELECT id FROM instances
+    WHERE categoryId = (
+        SELECT creationId FROM category WHERE uuid = :categoryId
+    )
+);
