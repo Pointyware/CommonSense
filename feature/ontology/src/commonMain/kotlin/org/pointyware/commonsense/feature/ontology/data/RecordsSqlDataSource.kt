@@ -189,11 +189,60 @@ class RecordsSqlDataSource(
         )
     }
 
-    override suspend fun getInstance(id: Uuid): Result<Value.Instance> {
-        TODO("Not yet implemented")
+    private data class InstanceRow(
+        val header: InstanceHeader,
+        val fieldRow: List<FieldRow>
+    )
+    private data class InstanceHeader(
+        val instanceUuid: Uuid,
+        val recordUuid: Uuid,
+    )
+    private data class FieldRow(
+        val fieldName: String,
+        val fieldValue: Int,
+    )
+    private suspend fun getInstanceFromQuery(instanceRowList: List<InstanceRow>): List<Value.Instance> {
+        return instanceRowList.map { (header, fieldRows) ->
+            val recordId = header.recordUuid
+            val id = header.instanceUuid
+            val record = getRecord(recordId).getOrThrow()
+            val fieldMap = record.fields.associate {
+                val fieldName = it.name
+                val intValue = fieldRows.find { row -> row.fieldName == fieldName }?.fieldValue
+                if (intValue != null) {
+                    it to Value.IntValue(intValue.toInt())
+                } else {
+                    throw IllegalArgumentException("Field not found: $fieldName")
+                }
+            }
+            Value.Instance(
+                id,
+                record,
+                fieldMap
+            )
+        }.toList()
     }
 
-    override suspend fun getInstances(categoryId: Uuid): Result<List<Value.Instance>> {
-        TODO("Not yet implemented")
+    override suspend fun getInstance(id: Uuid): Result<Value.Instance> = runCatching {
+        val instancesRows = db.recordsQueries.getInstancesByIds(listOf(id.toByteArray())).executeAsList()
+            .groupBy(
+                { InstanceHeader(Uuid.fromByteArray(it.instanceId), Uuid.fromByteArray(it.recordId)) }
+            ) { FieldRow(it.fieldName, it.intValue.toInt()) }
+            .map {
+                InstanceRow(it.key, it.value)
+            }
+        getInstanceFromQuery(instancesRows).firstOrNull()
+            ?: throw IllegalArgumentException("Instance not found: $id")
+    }
+
+    override suspend fun getInstances(categoryId: Uuid): Result<List<Value.Instance>> = runCatching {
+        val instancesRows = db.recordsQueries.getInstancesInCategory(categoryId.toByteArray()).executeAsList()
+            .groupBy(
+                { InstanceHeader(Uuid.fromByteArray(it.instanceId), Uuid.fromByteArray(it.recordId)) }
+            ) { FieldRow(it.fieldName, it.intValue.toInt()) }
+            .map {
+                InstanceRow(it.key, it.value)
+            }
+        getInstanceFromQuery(instancesRows)
     }
 }
