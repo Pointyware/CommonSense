@@ -20,10 +20,10 @@ class GetSelectedCategoryUseCase(
         return recordsRepository.getCategory(categoryId).map { category ->
             val subcategories = recordsRepository.getSubcategories(category.id)
                 .onFailure { return Result.failure(it) }.getOrNull() ?: emptyList()
-            val concepts = recordsRepository.getInstances(category.id)
+            val instances = recordsRepository.getInstances(category.id)
                 .onFailure { return Result.failure(it) }.getOrNull() ?: emptyList()
             conceptEditorController.subject = category
-            CategoryInfo(category.id, category, subcategories, concepts)
+            CategoryInfo(category.id, category, subcategories, instances)
         }
     }
 }
