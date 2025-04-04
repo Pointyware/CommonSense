@@ -104,4 +104,11 @@ android {
     defaultConfig {
         minSdk = 21
     }
+    buildFeatures {
+        compose = true
+    }
+}
+
+dependencies {
+    debugImplementation(libs.androidx.composeTooling)
 }
