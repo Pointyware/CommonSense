@@ -32,3 +32,24 @@ fun IntField(
         keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number)
     )
 }
+
+/**
+ * Presents a simple input field that allows a user to modify the value of a field with type [Int].
+ */
+@Composable
+fun IntField(
+    value: Int,
+    modifier: Modifier = Modifier,
+    onValueChange: (Int) -> Unit
+) {
+    TextField(
+        value = value.toString(),
+        onValueChange = {
+            it.toIntOrNull()?.let { newValue ->
+                onValueChange(newValue)
+            }
+        },
+        modifier = modifier,
+        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number)
+    )
+}
