@@ -7,6 +7,7 @@ package org.pointyware.commonsense.feature.ontology.data
 import kotlinx.coroutines.test.runTest
 import org.koin.core.context.startKoin
 import org.koin.core.context.stopKoin
+import org.koin.dsl.module
 import org.koin.mp.KoinPlatform.getKoin
 import org.pointyware.commonsense.core.entities.Type
 import org.pointyware.commonsense.core.entities.Value
@@ -32,10 +33,18 @@ class RecordsSqlDataSourceUnitTest {
     @BeforeTest
     fun setUp() {
         startKoin {
-            modules(ontologyLocalPlatformModule())
+            modules(
+                ontologyLocalPlatformModule(),
+                module {
+                    single<Persistence> {
+                        // Use in-memory persistence for testing
+                        Persistence.InMemory
+                    }
+                }
+            )
         }
         val koin = getKoin()
-        unitUnderTest = RecordsSqlDataSource(koin.get(), persistence = Persistence.InMemory)
+        unitUnderTest = RecordsSqlDataSource(koin.get())
     }
 
     @AfterTest
