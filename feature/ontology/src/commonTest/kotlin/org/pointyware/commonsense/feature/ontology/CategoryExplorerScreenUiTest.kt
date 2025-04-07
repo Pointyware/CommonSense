@@ -58,7 +58,8 @@ class CategoryExplorerScreenUiTest {
     fun setUp() {
         setupKoin()
         loadKoinModules(module {
-            single<RecordsDataSource> { RecordsSqlDataSource(get(), persistence = Persistence.InMemory) }
+            single<Persistence> { Persistence.InMemory }
+            single<RecordsDataSource> { RecordsSqlDataSource(get()) }
         })
         val koin = getKoin()
         viewModel = koin.get()
