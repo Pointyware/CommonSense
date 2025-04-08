@@ -180,7 +180,7 @@ INSERT INTO instances (recordId, uuid, categoryId)
 VALUES (
   (SELECT id FROM records WHERE uuid = :recordId),
   :instanceId,
-  (SELECT id FROM category WHERE uuid = :categoryId)
+  (SELECT creationId FROM category WHERE uuid = :categoryId)
 );
 
 -- Set an Instance Value
