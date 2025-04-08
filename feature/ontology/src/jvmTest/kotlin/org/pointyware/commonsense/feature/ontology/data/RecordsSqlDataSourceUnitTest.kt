@@ -11,6 +11,7 @@ import org.koin.dsl.module
 import org.koin.mp.KoinPlatform.getKoin
 import org.pointyware.commonsense.core.entities.Type
 import org.pointyware.commonsense.core.entities.Value
+import org.pointyware.commonsense.feature.ontology.di.ontologyLocalModule
 import org.pointyware.commonsense.feature.ontology.di.ontologyLocalPlatformModule
 import org.pointyware.commonsense.feature.ontology.local.Persistence
 import kotlin.test.AfterTest
@@ -34,6 +35,7 @@ class RecordsSqlDataSourceUnitTest {
     fun setUp() {
         startKoin {
             modules(
+                ontologyLocalModule(),
                 ontologyLocalPlatformModule(),
                 module {
                     single<Persistence> {
