@@ -27,4 +27,8 @@ jobs:
       - name: "Generate Documentation"
         run: ./gradlew dokkaHtmlMultiModule -Pgithub.user=${{ secrets.BUILD_USER }} -Pgithub.token=${{ secrets.BUILD_TOKEN }}
 
-#      - run: upload documentation to GitHub pages site
+      - name: Upload Dokka Docs
+        uses: actions/upload-artifact@v4
+        with:
+          path: "build/dokka/htmlMultiModule/"
+          name: commonsense-dokka-docs
